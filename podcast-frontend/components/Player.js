@@ -96,17 +96,16 @@ function Player() {
     return (
         <div className="flex  justify-between text-xs md:text-base px-2 md:px-8">
             <audio id={"audioplayer"} ref={audioPlayer} src={url} preload="metadata" loop={true} ></audio>
-            <div className="flex  items-center justify-evenly">
-                    <FastRewind className="playbtn" onClick={backThirty} />
-                    <div onClick={togglePlayPause} className="cursor-pointer">
-                        {isPlaying ? <PauseCircleFilled className="w-10 h-10 playbtn  text-green-500" /> : <PlayCircleFilled className="w-10 h-10 playbtn  text-green-500" />}
-                    </div>
 
-                    <FastForward className="playbtn" onClick={forwardThirty} />
+
+            <div className="flex items-center space-x-4">
+                <img className="hidden md:inline h-10 w-10" src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-25-55%20Wix%20Logo%20Maker.png?alt=media&token=ea3eec4e-3896-4361-b25c-877a47cbdd1c" alt="logo" />
+                <div >
+                    <h3>Podcast Name</h3>
+                    <p>Podcast Artist</p>
                 </div>
-
-           
-            <div className="flex-1 flex items-center mx-10">
+            </div>
+            <div className="flex-1 flex items-center mx-3">
 
                 {!isNaN(duration) ? (<div className="mx-1">{calculateTime(currentTime)}</div>) : null}
 
@@ -119,13 +118,14 @@ function Player() {
             </div>
 
             <div className="flex items-center space-x-3 md:space-x-4 justify-end pr-5">
-            <div className="flex items-center space-x-4">
-                <img className="hidden md:inline h-10 w-10" src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-25-55%20Wix%20Logo%20Maker.png?alt=media&token=ea3eec4e-3896-4361-b25c-877a47cbdd1c" alt="logo" />
-                <div >
-                    <h3>Podcast Name</h3>
-                    <p>Podcast Artist</p>
+                <div className="flex  items-center justify-evenly">
+                    <FastRewind className="playbtn" onClick={backThirty} />
+                    <div onClick={togglePlayPause} className="cursor-pointer">
+                        {isPlaying ? <PauseCircleFilled className="w-10 h-10 playbtn  text-green-500" /> : <PlayCircleFilled className="w-10 h-10 playbtn  text-green-500" />}
+                    </div>
+
+                    <FastForward className="playbtn" onClick={forwardThirty} />
                 </div>
-            </div>
             </div>
         </div>
     )

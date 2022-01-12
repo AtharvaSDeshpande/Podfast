@@ -16,7 +16,7 @@ export default function Home() {
         <Feed/>
       </main>
 
-      <footer className="items-center   w-full  p-3 border-neutral-900 border-b  bg-gradient-to-b from-black to-gray-900 text-white">
+      <footer className="items-center   w-full  p-3 border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
         <Player/>
       </footer>
     </div>
