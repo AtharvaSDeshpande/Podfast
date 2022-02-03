@@ -90,7 +90,7 @@ function Player() {
     }
 
     const [vol, setVol] = useState(50);
-    const audio = document.getElementById('audioPlayer');
+    // const audio = document?.getElementById('audioPlayer');
 
     const url = "https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Podcast1.wav?alt=media&token=2e628242-28a8-4366-a07d-b06779d3f3f3"
     return (
