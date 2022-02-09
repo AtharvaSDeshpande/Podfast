@@ -1,9 +1,22 @@
+
 import Head from 'next/head'
+import { useEffect } from 'react'
 import Feed from '../components/Feed'
+import { isSignedIn } from '../components/functions'
 import Header from '../components/Header'
 import Player from '../components/Player'
+import { useStateValue } from '../redux/StateProvider'
+import { useRouter } from "next/router";
+import Welcome from '../components/Welcome'
 
 export default function Home() {
+  const [{user}, dispatch] = useStateValue();
+  if (!isSignedIn(user)) {
+    return <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
+      <Welcome/>
+    </div>
+    
+  }
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
       <Head>

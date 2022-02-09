@@ -1,12 +1,16 @@
 import { SessionProvider } from 'next-auth/react'
+import reducer, { initialState } from '../redux/reducer'
+import { StateProvider } from '../redux/StateProvider'
 import '../styles/globals.css'
-import {  RecoilRoot,  atom,  selector,  useRecoilState,  useRecoilValue,} from 'recoil';
-function MyApp({ Component, pageProps: {session, ...pageProps} }) {
-  return <SessionProvider session = {session}>
-    <RecoilRoot>
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+  return <SessionProvider session={session}>
+    
+    <StateProvider initialState={initialState} reducer={reducer}>
       <Component {...pageProps} />
-    </RecoilRoot>
-    </SessionProvider> 
+    </StateProvider>
+
+
+  </SessionProvider>
 }
 
 export default MyApp

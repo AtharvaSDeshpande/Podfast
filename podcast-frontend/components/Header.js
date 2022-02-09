@@ -8,9 +8,6 @@ import { AddCircleOutline, BookmarkBorderOutlined, Fireplace, Home, Menu, Search
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 function Header() {
 
-    // const { data: session } = useSession();
-    const [open, setOpen] = useRecoilState(modalState)
-    // console.log(session);
     return (
         <div className="shadow-sm border-neutral-800 border-b bg-gradient-to-t from-black to-gray-900  sticky top-0 z-50 w-full  py-3 ">
             <div className='flex justify-between  max-w-6xl mx-5 xl:mx-auto'>
