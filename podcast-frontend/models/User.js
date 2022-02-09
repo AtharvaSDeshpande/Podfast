@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const { v1: uuidv1 } = require('uuid');
 
+
 const UserSchema = new mongoose.Schema({
+   
     email: {
         type: String,
         required: [true, 'Please enter email'],
         unique: true,
-        trim: true
+        
     },
     name:{
         type: String,
@@ -62,4 +64,4 @@ UserSchema.methods = {
     }
 }
 
-module.exports = mongoose.models.User || mongoose.model('user', UserSchema)
+module.exports = mongoose.models.User || mongoose.model('User', UserSchema)

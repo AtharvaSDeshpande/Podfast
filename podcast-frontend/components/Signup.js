@@ -12,7 +12,7 @@ function Signup() {
     const [success, setSuccess] = useState(null)
     const createAccount = async (values) => {
         try {
-            const res = await axios('http://localhost:3000/api/user/create', {
+            const res = await axios('http://localhost:3000/api/user/auth', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -32,7 +32,7 @@ function Signup() {
 
         initialValues: {
             name: '',
-            email: '',
+            emzail: '',
             password: '',
             confirmPassword: '',
             age: '',
