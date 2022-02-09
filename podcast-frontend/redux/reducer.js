@@ -9,6 +9,7 @@ const reducer = (state,action) => {
     switch(action.type)
     {
         case actionTypes.SET_USER:
+            console.log(action.user)
             return  {
                             ...state,
                             user: action.user,          //  Change the user to what we dispatched

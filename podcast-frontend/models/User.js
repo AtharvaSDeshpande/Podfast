@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    color: {
+        type: String,
+        default: "red",
+    },
     isCreator:{
         type: Boolean,
         default: false

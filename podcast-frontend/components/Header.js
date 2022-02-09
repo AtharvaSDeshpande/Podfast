@@ -1,13 +1,20 @@
 import Image from "next/image";
 
-// import { signIn, signOut, useSession } from "next-auth/react";
-import { useRecoilState } from "recoil";
-import { modalState } from "../atoms/modalAtom"
-import { Tooltip } from "@material-ui/core";
-import { AddCircleOutline, BookmarkBorderOutlined, Fireplace, Home, Menu, Search, SendSharp, Whatshot } from "@material-ui/icons";
+import { Avatar, Tooltip } from "@material-ui/core";
+import { AddCircleOutline, BookmarkBorderOutlined, Fireplace, Home, Menu, NotListedLocationOutlined, Search, SendSharp, Whatshot } from "@material-ui/icons";
+import { useStateValue } from "../redux/StateProvider";
+import { actionTypes } from "../redux/reducer";
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 function Header() {
+    
+    const [{user},dispatch] = useStateValue();
+    const signOut = () => {
+        dispatch({
+            type: actionTypes.SET_USER,
+            user: NotListedLocationOutlined
+        })
 
+    }
     return (
         <div className="shadow-sm border-neutral-800 border-b bg-gradient-to-t from-black to-gray-900  sticky top-0 z-50 w-full  py-3 ">
             <div className='flex justify-between  max-w-6xl mx-5 xl:mx-auto'>
@@ -74,13 +81,12 @@ function Header() {
                         </div>
 
                     </Tooltip>
-                    <img
-                        src="https://firebasestorage.googleapis.com/v0/b/aces-website-9fc34.appspot.com/o/Desert.jpg?alt=media&token=f01e4845-bf54-43fa-938b-607f72ea1013"
+                    <Avatar
                         alt=""
-                        className="h-10 w-10 rounded-full cursor-pointer"
-                    // onClick = {signOut}
+                        className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}]`}
+                        onClick = {signOut}
 
-                    />
+                    >{user.name[0]}</Avatar>
                     {/* </>
                     ) : (
                             <button className="bg-blue-700 p-2 rounded-md text-white">Sign In</button>

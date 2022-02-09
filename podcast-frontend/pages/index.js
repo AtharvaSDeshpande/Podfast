@@ -13,6 +13,11 @@ export default function Home() {
   const [{user}, dispatch] = useStateValue();
   if (!isSignedIn(user)) {
     return <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
+      <Head>
+        <title>PodFast</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
       <Welcome/>
     </div>
     

@@ -3,12 +3,16 @@ import { useState } from 'react';
 import Link from 'next/link'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
+import { Router, useRouter } from 'next/router'
+import { useStateValue } from '../redux/StateProvider';
+import { actionTypes } from '../redux/reducer';
 const axios = require('axios').default;
 
 function Signin() {
+    const router = useRouter()
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
+    const [{user},dispatch] = useStateValue();
     const login = async (values) => {
         try {
             console.log(values)
@@ -21,7 +25,13 @@ function Signin() {
 
             })
             console.log(res);
+            dispatch({
+                type: actionTypes.SET_USER,
+                user: res.data.user
+            })
+            router.push("/");
             setSuccess(true);
+
         } catch (error) {
             
 
