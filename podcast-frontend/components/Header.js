@@ -86,7 +86,7 @@ function Header() {
                         className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}]`}
                         onClick = {signOut}
 
-                    >{user.name[0]}</Avatar>
+                    >{user?.name[0]}</Avatar>
                     {/* </>
                     ) : (
                             <button className="bg-blue-700 p-2 rounded-md text-white">Sign In</button>
