@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .navButton{
+        @apply hidden h-6 md:inline-flex cursor-pointer hover:scale-125 transition-all duration-150 ease-out text-white;
+    }
+    .btn{
+        @apply h-7 hover:scale-125 transition-all duration-150 ease-out cursor-pointer text-white m-2; 
+    }
+    .playbtn{
+        @apply h-5 w-5 md:h-7 md:w-7 hover:scale-125 transition-all duration-150 ease-out cursor-pointer text-white m-2; 
+    }
+}
