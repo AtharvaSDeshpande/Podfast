@@ -6,12 +6,12 @@ import { useStateValue } from "../redux/StateProvider";
 import { actionTypes } from "../redux/reducer";
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 function Header() {
-    
-    const [{user},dispatch] = useStateValue();
+
+    const [{ user }, dispatch] = useStateValue();
     const signOut = () => {
         dispatch({
             type: actionTypes.SET_USER,
-            user: NotListedLocationOutlined
+            user: null
         })
 
     }
@@ -81,12 +81,15 @@ function Header() {
                         </div>
 
                     </Tooltip>
-                    <Avatar
-                        alt=""
-                        className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}]`}
-                        onClick = {signOut}
+                    {user ? (
+                        <Avatar
+                            alt=""
+                            className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}]`}
+                            onClick={signOut}
 
-                    >{user?.name[0]}</Avatar>
+                        >{user != null ? user.name[0] : null}</Avatar>
+
+                    ) : null}
                     {/* </>
                     ) : (
                             <button className="bg-blue-700 p-2 rounded-md text-white">Sign In</button>
