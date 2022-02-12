@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { Router, useRouter } from 'next/router'
 import { useStateValue } from '../redux/StateProvider';
 import { actionTypes } from '../redux/reducer';
+import { setCookies } from 'cookies-next';
 const axios = require('axios').default;
 
 function Signin() {
@@ -29,8 +30,11 @@ function Signin() {
                 type: actionTypes.SET_USER,
                 user: res.data.user
             })
-            router.push("/");
             setSuccess(true);
+            setCookies("user",res.data.user,{maxAge: 36000000,sameSite: true});
+
+            router.push("/");
+            
 
         } catch (error) {
             

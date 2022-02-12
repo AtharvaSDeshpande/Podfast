@@ -1,9 +1,9 @@
-import Image from "next/image";
-
 import { Avatar, Tooltip } from "@material-ui/core";
-import { AddCircleOutline, BookmarkBorderOutlined, Fireplace, Home, Menu, NotListedLocationOutlined, Search, SendSharp, Whatshot } from "@material-ui/icons";
+import { AddCircleOutline, BookmarkBorderOutlined, Dashboard, Fireplace, Home, Menu as MenuIcon, NotListedLocationOutlined, Search, SendSharp, Whatshot } from "@material-ui/icons";
 import { useStateValue } from "../redux/StateProvider";
 import { actionTypes } from "../redux/reducer";
+import { removeCookies } from "cookies-next";
+import Link from "next/link";
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 function Header() {
 
@@ -13,6 +13,7 @@ function Header() {
             type: actionTypes.SET_USER,
             user: null
         })
+        removeCookies("user")
 
     }
     return (
@@ -29,24 +30,19 @@ function Header() {
                         className="object-contain "
                     />
                 </div>
-                {/* Middle */}
-                {/* <div className="max-w-xs">
-                    <div className="mt-1 relative p-3 rounded-md">
-                        <div className="absolute inset-y-0 flex items-center pointer-events-none">
-                            <SearchIcon className='h-5 w-5 text-gray-500 ml-1' />
-                        </div>
-                        <input type="text" className="bg-neutral-700 block w-full text-white pl-10 sm:text-sm border-gray-200 rounded-md focus:ring-white focus:border-white" placeholder="Search" />
-                    </div>
-                </div> */}
+               
 
                 {/* Right */}
                 <div className="flex items-center justify-end space-x-4" >
+                    <Link href = "/">
                     <Tooltip title="Home">
                         <div className="navButton">
                             <Home />
                         </div>
 
                     </Tooltip>
+                    </Link>
+                    
                     <Tooltip title="Explore">
                         <div className="navButton">
                             <Search />
@@ -75,9 +71,18 @@ function Header() {
                         <div className="navButton"><BookmarkBorderOutlined /></div>
 
                     </Tooltip>
+                    {user?.isCreator ? (
+
+                        <Link href="/dashboard"><Tooltip title="Dashboard">
+                            <div className="navButton"><Dashboard /></div>
+                        </Tooltip></Link>
+
+                    ) : null}
+
+
                     <Tooltip title="Menu" >
                         <div className=" h-6 md:hidden text-white cursor-pointer hover:scale-125 transition-all duration-150 ease-out">
-                            <Menu />
+                            <MenuIcon />
                         </div>
 
                     </Tooltip>
@@ -87,7 +92,7 @@ function Header() {
                             className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}]`}
                             onClick={signOut}
 
-                        >{user != null ? user.name[0] : null}</Avatar>
+                        >{user != null ? user?.name[0] : null}</Avatar>
 
                     ) : null}
                     {/* </>

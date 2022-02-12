@@ -1,7 +1,21 @@
 import Head from 'next/head'
+import { Router, useRouter } from 'next/router';
+import { isSignedIn, loginUser } from '../components/functions'
 import Signin from '../components/Signin'
+import { useStateValue } from '../redux/StateProvider';
 
 export default function Login() {
+  const [{ user }, dispatch] = useStateValue();
+  const router = useRouter();
+  if (user == null)
+  {
+    loginUser();
+  }
+  
+  if (isSignedIn(user))
+  {
+    router.push("/");
+  }
     return (
       <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
         <Head>
