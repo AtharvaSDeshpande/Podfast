@@ -1,7 +1,7 @@
 import { Tooltip } from "@material-ui/core";
 import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, Send } from "@material-ui/icons";
 import { useState } from "react";
-function Post({ id, username, img, userImg, caption }) {
+function Post({ id, username, img, userImg, caption: summary }) {
     const [isPlaying, setIsPlaying] = useState(false);
     return (
         <div className="bg-gradient-to-b from-black to-gray-900 text-white m-3  my-7 border rounded-sm p-3">
@@ -25,7 +25,7 @@ function Post({ id, username, img, userImg, caption }) {
 
                     <div className="ml-5 h-20 flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
                         <p className="font-bold ">PODCAST TITLE</p>
-                        <p className="  ">{caption}</p>
+                        <p className="  ">{summary}</p>
                     </div>
 
                 </div>
@@ -50,7 +50,7 @@ function Post({ id, username, img, userImg, caption }) {
                 </div>
                 <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
                     <span className="font-bold mr-1">{username}</span>
-                    <p>{caption}</p>
+                    <p>{summary}</p>
                 </div>
 
                 <form className="flex items-center p-4">
