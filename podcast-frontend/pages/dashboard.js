@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Header from '../components/Dashboard/Header';
+import Main from '../components/Dashboard/Main';
 import { isCreator, isSignedIn, loginUser } from '../components/functions';
 
 import Welcome from '../components/Welcome';
@@ -8,7 +9,8 @@ import { useStateValue } from '../redux/StateProvider'
 
 const Dashboard =  () => {
 
-    const [{ user }, dispatch] = useStateValue();
+    const [{ user,dashboardpage }, dispatch] = useStateValue();
+    // alert(dashboardpage)
     if (user == null) {
         loginUser();
     }
@@ -30,12 +32,13 @@ const Dashboard =  () => {
         )
     return (
 
-        <div className="">
+        <div className="min-h-full  bg-gradient-to-r from-[#160129] to-[#02108b] h-screen">
             <Head>
                 <title>Create Account</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header/>
+            <Main/>
             
         </div>
     )
