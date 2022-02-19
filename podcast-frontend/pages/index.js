@@ -28,7 +28,7 @@ export default function Home() {
       </Head>
       <Header />
 
-      <main className="flex-1  w-full  bg-black overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+      <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#02108b] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
         <Feed />
       </main>
 

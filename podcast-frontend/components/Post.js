@@ -4,7 +4,7 @@ import { useState } from "react";
 function Post({ id, username, img, userImg, caption: summary }) {
     const [isPlaying, setIsPlaying] = useState(false);
     return (
-        <div className="bg-gradient-to-b from-black to-gray-900 text-white m-3  my-7 border rounded-sm p-3">
+        <div className="bg-gradient-to-r from-black to-[#72006c] text-white m-3  my-7 border rounded-sm p-3">
             <div className="flex flex-col items-center p-5 md:flex-row">
                 <img src={userImg} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div>

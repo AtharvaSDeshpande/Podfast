@@ -78,7 +78,7 @@ function Signup() {
 
     });
 
-    return <div className='border h-auto bg-gradient-to-b from-black to-gray-900 w-[400px] flex flex-col' onMouseMove={() => {
+    return <div className='border h-auto bg-gradient-to-b from-black to-[#4e2452] w-[400px] flex flex-col' onMouseMove={() => {
         setError(null)
         setSuccess(null)
     }}>
