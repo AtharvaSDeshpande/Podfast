@@ -17,7 +17,7 @@ function Signin() {
     const login = async (values) => {
         try {
             console.log(values)
-            const res = await axios('http://localhost:3000/api/user/signin', {
+            const res = await axios('../api/user/signin', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

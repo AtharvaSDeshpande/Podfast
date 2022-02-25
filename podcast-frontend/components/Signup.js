@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/link'
+import ''
 
 const axios = require('axios').default;
 
@@ -12,7 +13,7 @@ function Signup() {
     const [success, setSuccess] = useState(null)
     const createAccount = async (values) => {
         try {
-            const res = await axios('http://localhost:3000/api/user/auth', {
+            const res = await axios('../api/user/auth', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
