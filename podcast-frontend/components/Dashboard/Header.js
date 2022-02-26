@@ -20,13 +20,12 @@ function Header() {
         <nav id="header" className="bg-gray-900  w-full   shadow">
             <div className="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">
                 <div className="w-1/2 pl-2 md:pl-0">
-                    <Link href="/">
+                    <Link href="/" >
 
-                        <a className="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold align-middle" href="#">
-                            <div className='flex align-baseline'>
-                                <ArrowBack className="fas fa-moon text-blue-400 mr-1" />
-
-                                Back to Podfast Home
+                        <a className="text-gray-100 text-base xl:text-xl no-underline hover:no-underline font-bold  flex ml-3 align-center" href="#">
+                            <div className='flex items-center'>
+                                <ArrowBack className="text-blue-400 " />
+                                <p>Back to Podfast Home</p>
                             </div>
                         </a>
 
@@ -34,7 +33,7 @@ function Header() {
                 </div>
                 <div className="w-1/2 pr-0">
                     <div className="flex relative float-right">
-                        <div className="relative text-sm text-gray-100">
+                        <div className="relative text-sm text-gray-100 mr-5">
                             <Avatar>{user?.name[0]}</Avatar>
 
                         </div>
