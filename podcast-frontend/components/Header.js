@@ -1,11 +1,53 @@
 import { Avatar, Tooltip } from "@material-ui/core";
-import { AddCircleOutline, BookmarkBorderOutlined, Dashboard, Fireplace, Home, Menu as MenuIcon, NotListedLocationOutlined, Search, SendSharp, Whatshot } from "@material-ui/icons";
+import { AddCircleOutline, BookmarkBorderOutlined, Dashboard, ExitToApp, Fireplace, Home, Menu as MenuIcon, NotListedLocationOutlined, Search, SendSharp, Whatshot } from "@material-ui/icons";
 import { useStateValue } from "../redux/StateProvider";
 import { actionTypes } from "../redux/reducer";
 import { removeCookies } from "cookies-next";
 import Link from "next/link";
+import { useState } from "react";
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
+
+
+import { withStyles } from '@material-ui/core/styles';
+// import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import InboxIcon from '@material-ui/icons/MoveToInbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
+import SendIcon from '@material-ui/icons/Send';
+import { useRouter } from "next/router";
+
+const StyledMenu = withStyles({
+    paper: {
+        border: '1px solid #d3d4d5',
+        margin: "1px"
+    },
+})((props) => (
+    <Menu
+        elevation={0}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+        }}
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+        }}
+        {...props}
+    />
+));
+
+const StyledMenuItem = withStyles((theme) => ({
+    root: {
+        
+    },
+}))(MenuItem);
+
 function Header() {
+    const router = useRouter()
 
     const [{ user }, dispatch] = useStateValue();
     const signOut = () => {
@@ -15,6 +57,20 @@ function Header() {
         })
         removeCookies("user")
 
+    }
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const navigate = (path) => {
+        handleClose();
+        router.push(path);
     }
     return (
         <div className="shadow-sm border-neutral-800 border-b bg-gradient-to-t from-black to-gray-900  sticky top-0 z-50 w-full  py-3 ">
@@ -30,19 +86,19 @@ function Header() {
                         className="object-contain "
                     />
                 </div>
-               
+
 
                 {/* Right */}
                 <div className="flex items-center justify-end space-x-4" >
-                    <Link href = "/">
-                    <Tooltip title="Home">
-                        <div className="navButton">
-                            <Home />
-                        </div>
+                    <Link href="/">
+                        <Tooltip title="Home">
+                            <div className="navButton">
+                                <Home />
+                            </div>
 
-                    </Tooltip>
+                        </Tooltip>
                     </Link>
-                    
+
                     <Tooltip title="Explore">
                         <div className="navButton">
                             <Search />
@@ -82,14 +138,14 @@ function Header() {
 
                     <Tooltip title="Menu" >
                         <div className=" h-6 md:hidden text-white cursor-pointer hover:scale-125 transition-all duration-150 ease-out">
-                            <MenuIcon />
+                            <MenuIcon onClick={handleClick} />
                         </div>
 
                     </Tooltip>
                     {user ? (
                         <Avatar
                             alt=""
-                            className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}]`}
+                            className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}] hidden md:flex`}
                             onClick={signOut}
 
                         >{user != null ? user?.name[0] : null}</Avatar>
@@ -107,6 +163,58 @@ function Header() {
             </div>
 
 
+            <StyledMenu
+                id="customized-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <StyledMenuItem onClick = {()=>navigate("/")}>
+                    <ListItemIcon>
+                        <Home fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </StyledMenuItem>
+                <StyledMenuItem onClick = {()=>navigate("/search")}>
+                    <ListItemIcon>
+                        <Search fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Search" />
+                </StyledMenuItem>
+                <StyledMenuItem onClick = {()=>navigate("/")}>
+                    <ListItemIcon>
+                        <SendSharp fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Direct" />
+                </StyledMenuItem>
+                <StyledMenuItem onClick = {()=>navigate("/")}>
+                    <ListItemIcon>
+                        <Whatshot fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Trending" />
+                </StyledMenuItem>
+                <StyledMenuItem onClick = {()=>navigate("/")}>
+                    <ListItemIcon>
+                        <BookmarkBorderOutlined fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Saved" />
+                </StyledMenuItem>
+                {user?.isCreator ? (
+                    <StyledMenuItem onClick = {()=>navigate("/dashboard")}>
+                        <ListItemIcon>
+                            <Dashboard fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText primary="Dashboard" />
+                    </StyledMenuItem>
+                ) : null}
+                <StyledMenuItem onClick={signOut}>
+                    <ListItemIcon>
+                        <ExitToApp fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Signout" />
+                </StyledMenuItem>
+            </StyledMenu>
         </div>
     )
 }
