@@ -32,9 +32,9 @@ const Dashboard =  () => {
         )
     return (
 
-        <div className="min-h-full  bg-gradient-to-r from-[#160129] to-[#02108b] h-screen">
+        <div className="min-h-full  bg-gradient-to-r from-[#160129] to-[#02108b] ">
             <Head>
-                <title>Create Account</title>
+                <title>Dashboard</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Header/>

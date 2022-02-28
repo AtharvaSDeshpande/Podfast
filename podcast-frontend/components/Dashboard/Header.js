@@ -40,12 +40,12 @@ function Header() {
 
                     </div>
                 </div>
-                <div className="w-full flex-grow  lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 bg-gray-900 z-20 text-white" id="nav-content">
+                <div className="w-full items-center flex flex-wrap justify-evenly bg-gray-900 text-white" id="nav-content">
                     {/* <Paper square className={classes.root}> */}
                     <Tabs
                         value={value}
                         onChange={handleChange}
-                        variant="fullWidth"
+                        
                         indicatorColor="secondary"
                         textColor="secondary"
                         aria-label="icon label tabs example"
