@@ -1,20 +1,41 @@
-import { Tooltip } from "@material-ui/core";
+import { Avatar, Tooltip } from "@material-ui/core";
 import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, Send } from "@material-ui/icons";
 import { useState } from "react";
-function Post({ id, username, img, userImg, caption: summary }) {
+import { actionTypes } from "../redux/reducer";
+import { useStateValue } from "../redux/StateProvider";
+function Post({ id, username, name,title,img, userImg, caption: summary, link, summlink }) {
     const [isPlaying, setIsPlaying] = useState(false);
+    const [{ }, dispatch] = useStateValue();
     return (
         <div className="bg-gradient-to-r from-black to-[#72006c] text-white m-3  my-7 border rounded-sm p-3">
             <div className="flex flex-col items-center p-5 md:flex-row">
-                <img src={userImg} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
+                <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div>
                     <div className="flex items-center p-5">
-                        <img src={userImg} className="rounded-full h-12 w-12 object-contain border  mr-3" alt="" />
+                        <Tooltip title = {name}>
+                        <Avatar
+                            alt=""
+                            className={`h-10 w-10  uppercase bg-[#ff006a] m-2`}
+                        >{username[0]}</Avatar>
+                        
+                        </Tooltip>
                         <p className="flex-1 font-bold ">{username}</p>
-                        <Tooltip title="Play Summary"><PlayArrow className="w-9 h-9 cursor-pointer text-green-500" /></Tooltip>
+                        <Tooltip title="Play Summary">
+                            <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
+                                setIsPlaying(true)
+                                dispatch({
+                                    type: actionTypes.SET_URL,
+                                    url: summlink
+                                })
+                            }} />
+                        </Tooltip>
                         <Tooltip title="Play Podcast">
                             < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
                                 setIsPlaying(true)
+                                dispatch({
+                                    type: actionTypes.SET_URL,
+                                    url: link
+                                })
                             }} />
                         </Tooltip>
 
@@ -24,7 +45,7 @@ function Post({ id, username, img, userImg, caption: summary }) {
 
 
                     <div className="ml-5 h-20 flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-                        <p className="font-bold ">PODCAST TITLE</p>
+                        <p className="font-bold ">{title}</p>
                         <p className="  ">{summary}</p>
                     </div>
 
@@ -40,7 +61,7 @@ function Post({ id, username, img, userImg, caption: summary }) {
                         <FavoriteBorderOutlined className="btn" />
                         <Comment className="btn" />
                         <Send className="btn -rotate-90" />
-                        
+
 
                     </div>
                     <BookmarkBorderOutlined className="btn" />

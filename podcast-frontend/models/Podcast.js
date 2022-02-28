@@ -9,12 +9,16 @@ const PodcastSchema = new mongoose.Schema({
     /*User name of creator */
     creatorID: {
         type: mongoose.Types.ObjectId,
-        ref: "User",
+        ref: "users",
         required: true,
     },
     creatorNames: {
         type: Array,
         required: true,
+    },
+    tags: {
+        type: Array,
+        default: null,
     },
     img: {
         type: String,

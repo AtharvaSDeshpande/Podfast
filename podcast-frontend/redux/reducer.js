@@ -1,11 +1,13 @@
 export const initialState = {
     user: null,
     dashboardpage: 0,
+    url: null
 };
 
 export const actionTypes = {
     SET_USER: "SET_USER",
     SET_DASHBOARDPAGE: "SET_DASHBOARDPAGE",
+    SET_URL: "SET_URL",
 }
 
 const reducer = (state,action) => {
@@ -23,7 +25,11 @@ const reducer = (state,action) => {
                 ...state,
                 dashboardpage: action.dashboardpage,          //  Change the user to what we dispatched
         };
-        
+        case actionTypes.SET_URL:
+            return {
+                ...state,
+                url: action.url
+            }
         
         default:
             return state;

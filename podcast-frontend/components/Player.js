@@ -10,6 +10,7 @@ import {
 
 
 } from "@material-ui/icons";
+import { useStateValue } from "../redux/StateProvider";
 
 function Player() {
     // state
@@ -91,9 +92,19 @@ function Player() {
 
     const [vol, setVol] = useState(50);
     // const audio = document?.getElementById('audioPlayer');
-
-    const url = "https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Podcast1.wav?alt=media&token=2e628242-28a8-4366-a07d-b06779d3f3f3"
+    const [{url},dispatch] = useStateValue();
+    useEffect(()=>{
+        if (url)
+        {
+            setIsPlaying(true);
+            audioPlayer?.current?.play();
+            animationRef?.current = requestAnimationFrame(whilePlaying)
+        }
+    },[url])
+    // const url = "https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Podcast1.wav?alt=media&token=2e628242-28a8-4366-a07d-b06779d3f3f3"
+    if (url)
     return (
+
         <div className="flex  justify-between text-xs md:text-base px-2 md:px-8">
             <audio id={"audioplayer"} ref={audioPlayer} src={url} preload="metadata" loop={true} ></audio>
 
@@ -129,6 +140,7 @@ function Player() {
             </div>
         </div>
     )
+    return null
 }
 
 export default Player
