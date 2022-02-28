@@ -107,7 +107,7 @@ function Posts() {
     }
     useEffect(() => {
         getData()
-    }, [,posts])
+    }, [])
     const l = "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
 
     return (

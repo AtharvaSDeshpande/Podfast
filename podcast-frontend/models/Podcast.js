@@ -9,7 +9,7 @@ const PodcastSchema = new mongoose.Schema({
     /*User name of creator */
     creatorID: {
         type: mongoose.Types.ObjectId,
-        ref: "users",
+        ref: "User",
         required: true,
     },
     creatorNames: {

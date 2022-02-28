@@ -15,7 +15,10 @@ export default async (req, res) => {
 
                 const podcast = await Podcast.find().populate({path: "creatorID"}).exec((err,op)=>{
                     if (err)
-                    res.status(400).json({ success: false, message: error })
+                    {
+                        console.log(err);
+                        res.status(400).json({ success: false, message: err })
+                    }
                     else
                     res.status(200).json({ success: true,
                         data: op});
