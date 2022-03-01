@@ -1,7 +1,7 @@
 export const initialState = {
     user: null,
     dashboardpage: 0,
-    url: null
+    podcast: {title: "",creators: "", url: null}
 };
 
 export const actionTypes = {
@@ -28,7 +28,7 @@ const reducer = (state,action) => {
         case actionTypes.SET_URL:
             return {
                 ...state,
-                url: action.url
+                podcast: action.podcast
             }
         
         default:

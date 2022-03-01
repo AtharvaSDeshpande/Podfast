@@ -3,7 +3,7 @@ import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, Fa
 import { useState } from "react";
 import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
-function Post({ id, username, name,title,img, userImg, caption: summary, link, summlink }) {
+function Post({ id, username, name,title,img, userImg, caption: summary, link, summlink,creators }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ }, dispatch] = useStateValue();
     return (
@@ -22,10 +22,10 @@ function Post({ id, username, name,title,img, userImg, caption: summary, link, s
                         <p className="flex-1 font-bold ">{username}</p>
                         <Tooltip title="Play Summary">
                             <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
-                                setIsPlaying(true)
+                                
                                 dispatch({
                                     type: actionTypes.SET_URL,
-                                    url: summlink
+                                    podcast: {title: title,creators: creators,url:summlink}
                                 })
                             }} />
                         </Tooltip>
@@ -34,7 +34,8 @@ function Post({ id, username, name,title,img, userImg, caption: summary, link, s
                                 setIsPlaying(true)
                                 dispatch({
                                     type: actionTypes.SET_URL,
-                                    url: link
+                                    podcast: {title: title,creators: creators,url:link}
+
                                 })
                             }} />
                         </Tooltip>

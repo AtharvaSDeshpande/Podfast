@@ -113,7 +113,7 @@ function Posts() {
     return (
         <div>
             {posts?.map((podcast) => (
-                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name = {podcast.creatorID.name}  caption={l} link={podcast.url} summlink={podcast.summaryUrl} title = {podcast.title}/>
+                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name = {podcast.creatorID.name}  caption={l} link={podcast.url} summlink={podcast.summaryUrl} title = {podcast.title} creators = {podcast.creatorNames.join(", ")}/>
             ))}
 
         </div>
