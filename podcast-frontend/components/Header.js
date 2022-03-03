@@ -75,17 +75,17 @@ function Header() {
     return (
         <div className="shadow-sm border-neutral-800 border-b bg-gradient-to-t from-black to-gray-900  sticky top-0 z-50 w-full  py-3 ">
             <div className='flex justify-between  max-w-6xl mx-5 xl:mx-auto'>
-                <div className="cursor-pointer relative hidden md:inline-grid w-24 place-items-center ">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-23-10%20Wix%20Logo%20Maker.png?alt=media&token=7e38466a-34e7-4a00-b67f-3c207ba09613"
+                <div className="cursor-pointer relative inline-grid w-24 place-items-center ">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/PODFAST%20LOGO%20Transperency%20-%200.gif?alt=media&token=fe98c4fa-7a6b-47fb-a1c0-69a6486681ba"
 
                         className="object-contain "
                     />
                 </div>
-                <div className=" cursor-pointer relative inline-grid flex-shrink-0 md:hidden w-10 place-items-center">
+                {/* <div className=" cursor-pointer relative inline-grid flex-shrink-0 md:hidden w-10 place-items-center">
                     <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-25-55%20Wix%20Logo%20Maker.png?alt=media&token=ea3eec4e-3896-4361-b25c-877a47cbdd1c"
                         className="object-contain "
                     />
-                </div>
+                </div> */}
 
 
                 {/* Right */}
@@ -98,17 +98,18 @@ function Header() {
 
                         </Tooltip>
                     </Link>
+                    <Link href="/explore">
+                        <Tooltip title="Explore">
+                            <div className="navButton">
+                                <Search />
+                            </div>
 
-                    <Tooltip title="Explore">
-                        <div className="navButton">
-                            <Search />
-                        </div>
-
-                    </Tooltip>
+                        </Tooltip>
+                    </Link>
 
                     {/* {session ? (
                         <> */}
-                    <div className="relative navButton">
+                    {/* <div className="relative navButton">
                         <Tooltip title="Direct">
                             <div className="navButton -rotate-90">
                                 <SendSharp />
@@ -117,16 +118,20 @@ function Header() {
                         </Tooltip>
 
                         <div className="absolute -top-2 -right-1 text-xs w-5 h-5 bg-red-500 rounded-full flex items-center justify-center animate-pulse text-white">3</div>
-                    </div>
+                    </div> */}
 
                     {/* <AddCircleOutline className="navButton" onClick={() => { setOpen(true) }} /> */}
-                    <Tooltip title="Trending">
-                        <div className="navButton"><Whatshot /></div>
-                    </Tooltip>
+                    <Link href="/trending">
+                        <Tooltip title="Trending">
+                            <div className="navButton"><Whatshot /></div>
+                        </Tooltip>
+                    </Link>
+                    <Link href = "/saved">
                     <Tooltip title="Saved">
                         <div className="navButton"><BookmarkBorderOutlined /></div>
 
                     </Tooltip>
+                    </Link>
                     {user?.isCreator ? (
 
                         <Link href="/dashboard"><Tooltip title="Dashboard">
@@ -135,13 +140,14 @@ function Header() {
 
                     ) : null}
 
-
+                
                     <Tooltip title="Menu" >
                         <div className=" h-6 md:hidden text-white cursor-pointer hover:scale-125 transition-all duration-150 ease-out">
                             <MenuIcon onClick={handleClick} />
                         </div>
 
                     </Tooltip>
+
                     {user ? (
                         <Avatar
                             alt=""
@@ -176,25 +182,25 @@ function Header() {
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </StyledMenuItem>
-                <StyledMenuItem onClick = {()=>navigate("/search")}>
+                <StyledMenuItem onClick = {()=>navigate("/explore")}>
                     <ListItemIcon>
                         <Search fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Search" />
                 </StyledMenuItem>
-                <StyledMenuItem onClick = {()=>navigate("/")}>
+                {/* <StyledMenuItem onClick = {()=>navigate("/")}>
                     <ListItemIcon>
                         <SendSharp fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Direct" />
-                </StyledMenuItem>
-                <StyledMenuItem onClick = {()=>navigate("/")}>
+                </StyledMenuItem> */}
+                <StyledMenuItem onClick = {()=>navigate("/trending")}>
                     <ListItemIcon>
                         <Whatshot fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Trending" />
                 </StyledMenuItem>
-                <StyledMenuItem onClick = {()=>navigate("/")}>
+                <StyledMenuItem onClick = {()=>navigate("/saved")}>
                     <ListItemIcon>
                         <BookmarkBorderOutlined fontSize="small" />
                     </ListItemIcon>

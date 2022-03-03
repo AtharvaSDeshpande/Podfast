@@ -16,7 +16,7 @@ function Welcome() {
                         <div className="flex flex-col w-full md:w-3/5 justify-center items-start text-center md:text-left">
                               {/* <p className="uppercase tracking-loose w-full">What business are you?</p> */}
                               <h1 className="my-4 text-5xl font-bold leading-tight text-center">
-                                    Spotyfing the world of Podcast to Podfast
+                                    Spotyfying the world of Podcast to Podfast
                               </h1>
 
                               <div className="text-white flex-1 grid place-content-center items-center  w-full">
@@ -30,7 +30,7 @@ function Welcome() {
                         </div>
                         {/*Right Col*/}
                         <div className="w-full md:w-2/5  my-10 text-center">
-                              <img className="w-full md:w-full my-5  z-50" src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/hero.png?alt=media&token=1b255caf-2f5f-4405-a471-23253ad5e465" />
+                              <img className="w-full md:w-full my-5  object-contain h-[300px]  z-50" src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/000-Podcast-Cover-Art-Featured-removebg-preview.png?alt=media&token=8b32ef23-beae-48ad-8127-0716cf7c187c" />
                         </div>
                   </div>
             </div>

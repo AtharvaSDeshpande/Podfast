@@ -1,5 +1,6 @@
 import React from 'react'
 import { useStateValue } from '../../redux/StateProvider';
+import Posts from './Posts';
 import Upload from './Upload';
 
 function Main() {
@@ -9,7 +10,7 @@ function Main() {
             return <div>HOME</div>
         
         case 1:
-            return <div>PODCASTS</div>
+            return <Posts/>
         case 2:
             return <Upload/>
         case 3:

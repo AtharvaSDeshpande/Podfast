@@ -40,6 +40,11 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: null,
     },
+    saved: {
+        type: [mongoose.Types.ObjectId],
+        default: null,
+        ref: "Podcast"
+    }
 
 },{timestamps: true})
 UserSchema.virtual("password")

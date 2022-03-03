@@ -2,8 +2,8 @@ import { Avatar, Tooltip } from "@material-ui/core";
 import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, Send } from "@material-ui/icons";
 import axios from "axios";
 import { useState } from "react";
-import { actionTypes } from "../redux/reducer";
-import { useStateValue } from "../redux/StateProvider";
+import { actionTypes } from "../../redux/reducer";
+import { useStateValue } from "../../redux/StateProvider";
 function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user }, dispatch] = useStateValue();
@@ -41,7 +41,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
     return (
-        <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3">
+        <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3 w-[500px]">
             <div className="flex flex-col items-center p-5 md:flex-row">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div>
@@ -65,7 +65,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                         </Tooltip>
                         <Tooltip title="Play Podcast">
                             < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
-                                setIsPlaying(true)
+                                // setIsPlaying(true)
                                 dispatch({
                                     type: actionTypes.SET_URL,
                                     podcast: { title: title, creators: creators, url: link }
@@ -89,34 +89,33 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
             </div>
 
-            {isPlaying ? (<>
 
-                <div className="flex justify-between px-4 pt-4">
-                    <div className="flex space-x-4">
-                        <FavoriteBorderOutlined className="btn" />
-                        <Comment className="btn" />
-                        <Send className="btn -rotate-90" />
+            <div className="flex justify-between px-4 pt-4">
+                <div className="flex space-x-4">
+                    <FavoriteBorderOutlined className="btn" />
+                    <Comment className="btn" />
+                    <Send className="btn -rotate-90" />
 
 
-                    </div>
-                    <BookmarkBorderOutlined className="btn"  />
                 </div>
-                <div className="mx-5 mt-1 font-bold cursor-pointer">
-                    2 Likes
-                </div>
-                <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
-                    <span className="font-bold mr-1">{username}</span>
-                    <p>{summary}</p>
-                </div>
+                <BookmarkBorderOutlined className="btn" />
+            </div>
+            <div className="mx-5 mt-1 font-bold cursor-pointer">
+                2 Likes
+            </div>
+            <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
+                <span className="font-bold mr-1">{username}</span>
+                <p>{summary}</p>
+            </div>
 
-                <form className="flex items-center p-4">
-                    <InsertEmoticon className="h-7" />
-                    <input type="text"
-                        placeholder="Add a comment..."
-                        className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center" />
-                    <button className="font-semibold text-blue-600">Post</button>
-                </form>
-            </>) : null}
+            <form className="flex items-center p-4">
+                <InsertEmoticon className="h-7" />
+                <input type="text"
+                    placeholder="Add a comment..."
+                    className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center" />
+                <button className="font-semibold text-blue-600">Post</button>
+            </form>
+
 
 
             {/* TODO: Comments */}

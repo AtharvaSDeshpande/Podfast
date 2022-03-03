@@ -14,6 +14,10 @@ function Header() {
             type: actionTypes.SET_DASHBOARDPAGE,
             dashboardpage: newValue
         })
+        dispatch({
+            type: actionTypes.SET_URL,
+            podcast: {title: "",creators: "", url: null},
+        })
         setValue(newValue);
     };
     return (

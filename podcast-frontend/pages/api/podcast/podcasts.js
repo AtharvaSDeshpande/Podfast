@@ -13,7 +13,7 @@ export default async (req, res) => {
         case 'GET':
             try {
 
-                const podcast = await Podcast.find().populate({path: "creatorID"}).exec((err,op)=>{
+                const podcast = await Podcast.find().sort({createdAt: "desc"}).populate({path: "creatorID"}).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);

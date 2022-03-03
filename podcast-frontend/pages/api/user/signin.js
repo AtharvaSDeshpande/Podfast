@@ -33,6 +33,7 @@ export default async (req, res) => {
 
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET);
                 // res.cookie("token", token, { expire: new Date() + 9999 });
+                
                 res.status(200).json({ token, user: user });
             });
             break;
