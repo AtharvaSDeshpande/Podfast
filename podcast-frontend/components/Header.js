@@ -3,7 +3,7 @@ import { AddCircleOutline, BookmarkBorderOutlined, Dashboard, ExitToApp, Firepla
 import { useStateValue } from "../redux/StateProvider";
 import { actionTypes } from "../redux/reducer";
 import { removeCookies } from "cookies-next";
-import Link from "next/link";
+
 import { useState } from "react";
 // import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 
@@ -70,7 +70,14 @@ function Header() {
 
     const navigate = (path) => {
         handleClose();
+        handlePlayer();
         router.push(path);
+    }
+    const handlePlayer = () => {
+        dispatch({
+            type: actionTypes.SET_URL,
+            podcast: {title: "",creators: "", url: null},
+          })
     }
     return (
         <div className="shadow-sm border-neutral-800 border-b bg-gradient-to-t from-black to-gray-900  sticky top-0 z-50 w-full  py-3 ">
@@ -79,6 +86,7 @@ function Header() {
                     <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/PODFAST%20LOGO%20Transperency%20-%200.gif?alt=media&token=fe98c4fa-7a6b-47fb-a1c0-69a6486681ba"
 
                         className="object-contain "
+                        onClick = {()=>navigate("/")}
                     />
                 </div>
                 {/* <div className=" cursor-pointer relative inline-grid flex-shrink-0 md:hidden w-10 place-items-center">
@@ -90,22 +98,22 @@ function Header() {
 
                 {/* Right */}
                 <div className="flex items-center justify-end space-x-4" >
-                    <Link href="/">
+                    <div  onClick = {()=>navigate("/")}>
                         <Tooltip title="Home">
                             <div className="navButton">
                                 <Home />
                             </div>
 
                         </Tooltip>
-                    </Link>
-                    <Link href="/explore">
+                    </div>
+                    <div onClick = {()=>navigate("/explore")} >
                         <Tooltip title="Explore">
                             <div className="navButton">
                                 <Search />
                             </div>
 
                         </Tooltip>
-                    </Link>
+                    </div>
 
                     {/* {session ? (
                         <> */}
@@ -121,22 +129,23 @@ function Header() {
                     </div> */}
 
                     {/* <AddCircleOutline className="navButton" onClick={() => { setOpen(true) }} /> */}
-                    <Link href="/trending">
+                    <div onClick = {()=>navigate("/trending")}>
                         <Tooltip title="Trending">
                             <div className="navButton"><Whatshot /></div>
                         </Tooltip>
-                    </Link>
-                    <Link href = "/saved">
+                    </div>
+                    <div onClick = {()=>navigate("/saved")} >
                     <Tooltip title="Saved">
                         <div className="navButton"><BookmarkBorderOutlined /></div>
 
                     </Tooltip>
-                    </Link>
+                    </div>
                     {user?.isCreator ? (
 
-                        <Link href="/dashboard"><Tooltip title="Dashboard">
+                        <div onClick = {()=>navigate("/dashboard")} >
+                            <Tooltip title="Dashboard">
                             <div className="navButton"><Dashboard /></div>
-                        </Tooltip></Link>
+                        </Tooltip></div>
 
                     ) : null}
 

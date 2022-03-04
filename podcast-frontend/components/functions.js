@@ -26,7 +26,7 @@ export const isCreator = (user) => {
 } 
 
 export const loginUser= () => {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ }, dispatch] = useStateValue();
     
     useEffect(() => {
         if (getCookie("user")) {
@@ -40,4 +40,15 @@ export const loginUser= () => {
     
       }, [])
     
+}
+
+export const resetUrl = () => {
+  const [{ }, dispatch] = useStateValue();
+  useEffect(()=>{
+    dispatch({
+      type: actionTypes.SET_URL,
+      podcast: {title: "",creators: "", url: null},
+    })
+  })
+  
 }

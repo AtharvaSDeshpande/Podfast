@@ -11,7 +11,7 @@ export default function Create() {
 
 
     return (
-      <div className="items-center justify-center min-h-full  bg-gradient-to-r from-[#160129] to-[#02108b] h-screen pt-3 overflow-y-scroll ">
+      <div className="items-center justify-center min-h-full  bg-gradient-to-r from-[#160129] to-[#131316] h-screen pt-3 overflow-y-scroll ">
         <Head>
           <title>Create Account</title>
           <link rel="icon" href="/favicon.ico" />

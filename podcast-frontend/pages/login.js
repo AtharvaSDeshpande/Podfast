@@ -17,7 +17,7 @@ export default function Login() {
     router.push("/");
   }
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen  bg-gradient-to-r from-[#160129] to-[#02108b] h-screen overflow-y-scroll scrollbar-hide">
+      <div className="flex flex-col items-center justify-center min-h-screen  bg-gradient-to-r from-[#160129] to-[#131316] h-screen overflow-y-scroll scrollbar-hide">
         <Head>
           <title>Login</title>
           <link rel="icon" href="/favicon.ico" />

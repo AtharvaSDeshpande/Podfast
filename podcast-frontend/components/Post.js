@@ -41,7 +41,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
     return (
-        <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3">
+        <div className=" bg-[#1f1e1e] text-white m-3  my-7 border rounded-sm p-3">
             <div className="flex flex-col items-center p-5 md:flex-row">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div>

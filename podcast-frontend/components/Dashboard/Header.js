@@ -1,7 +1,7 @@
 import { Avatar, Tabs, Tab } from '@material-ui/core';
 import { ArrowBack, Audiotrack, Home, Person, Publish, TrendingUp } from '@material-ui/icons';
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { actionTypes } from '../../redux/reducer';
 import { useStateValue } from '../../redux/StateProvider';
 
@@ -20,6 +20,12 @@ function Header() {
         })
         setValue(newValue);
     };
+    useEffect(()=>{
+        dispatch({
+            type: actionTypes.SET_DASHBOARDPAGE,
+            dashboardpage: 0
+        })
+    },[])
     return (
         <nav id="header" className="bg-gray-900  w-full   shadow">
             <div className="w-full container mx-auto flex flex-wrap items-center mt-0 pt-3 pb-3 md:pb-0">

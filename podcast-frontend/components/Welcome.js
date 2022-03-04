@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 function Welcome() {
-      return <div className="leading-normal tracking-normal text-white gradient height-full bg-gradient-to-r from-[#160129] to-[#02108b]">
+      return <div className="leading-normal tracking-normal text-white gradient height-full bg-gradient-to-r from-[#160129] to-[#131316]">
             <Head>
                   <title>PodFast</title>
                   <link rel="icon" href="/favicon.ico" />

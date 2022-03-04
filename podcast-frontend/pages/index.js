@@ -20,19 +20,20 @@ export default function Home() {
   
   if (!isSignedIn(user))
     return (<Welcome />)
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
+
+    return (
+    <div className="flex flex-col items-center justify-center min-h-screen   h-screen overflow-y-scroll scrollbar-hide">
       <Head>
         <title>PodFast</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
 
-      <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#02108b] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+      <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
         <Feed />
       </main>
 
-      <footer className="items-center   w-full  p-3 border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
+      <footer className="items-center   w-full   border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
         <Player />
       </footer>
     </div>
