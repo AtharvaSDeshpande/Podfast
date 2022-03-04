@@ -1,7 +1,7 @@
 import { Mongoose } from "mongoose";
-import dbConnect from "../../db/dbconnect";
-import User from "../../models/User";
-import Podcast from "../../models/Podcast";
+import dbConnect from "../../../db/dbconnect";
+// import User from "../../models/User";
+import Podcast from "../../../models/Podcast";
 
 dbConnect();
 

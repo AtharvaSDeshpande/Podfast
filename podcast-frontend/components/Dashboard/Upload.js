@@ -60,7 +60,7 @@ function Upload() {
             setError(null)
             setSuccess(null)
             const finalValues = {
-                title: values.title,
+                title: values.title.toLowerCase(),
                 creatorID: values.creatorID,
                 creatorNames: values.creators.split(","),
                 img: values?.img,

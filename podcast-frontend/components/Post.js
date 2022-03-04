@@ -80,7 +80,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
                     <div className="ml-5 h-20 flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-                        <p className="font-bold ">{title}</p>
+                        <p className="font-bold capitalize">{title}</p>
                         <p className="  ">{summary}</p>
                     </div>
 

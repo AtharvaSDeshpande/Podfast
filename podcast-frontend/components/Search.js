@@ -27,18 +27,30 @@ function Search() {
 
   const getSearchPodcasts = async () => {
     try {
-
-      const res = await axios('../api/search', {
+      
+      const res = await axios('../api/podcast/search', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        data: { title: search  }
+        data: { title: search.toLowerCase()  }
 
       })
       const podcasts = res.data.data;
       console.log(podcasts)
       setSearchPodcasts(podcasts)
+
+      const userres = await axios('../api/user/search', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: { title: search.toLowerCase()  }
+
+      })
+      const users = userres.data.data;
+      console.log(users)
+      setSearchAuthors(users)
     } catch (error) {
       console.log(error)
     }
