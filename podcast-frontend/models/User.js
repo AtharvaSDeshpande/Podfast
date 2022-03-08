@@ -41,9 +41,18 @@ const UserSchema = new mongoose.Schema({
         default: null,
     },
     saved: {
-        type: [mongoose.Types.ObjectId],
+        type: Array,
         default: null,
         ref: "Podcast"
+    },
+    subscribers: {
+        type: Array,
+        default: null,
+    },
+    subscriptions: {
+        type: Array,
+        
+        default: null,
     }
 
 },{timestamps: true})
