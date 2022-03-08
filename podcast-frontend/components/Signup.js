@@ -12,6 +12,7 @@ function Signup() {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
     const createAccount = async (values) => {
+        values.name = values.name.toLowerCase();
         try {
             const res = await axios('../api/user/auth', {
                 method: "POST",
