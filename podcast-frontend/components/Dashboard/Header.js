@@ -44,7 +44,7 @@ function Header() {
                 <div className="w-1/2 pr-0">
                     <div className="flex relative float-right">
                         <div className="relative text-sm text-gray-100 mr-5">
-                            <Avatar>{user?.name[0]}</Avatar>
+                            <Avatar className = "capitalize">{user?.name[0]}</Avatar>
 
                         </div>
 
@@ -64,8 +64,6 @@ function Header() {
                         <Tab icon={<Home />} label="HOME" className='text-white' />
                         <Tab icon={<Audiotrack />} className='text-white' label="PODCASTS" />
                         <Tab icon={<Publish />} className='text-white' label="UPLOAD" />
-
-                        <Tab icon={<Person />} className='text-white' label="PROFILE" />
                         <Tab icon={<TrendingUp />} className='text-white' label="GROWTH" />
 
                     </Tabs>

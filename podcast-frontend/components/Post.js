@@ -46,7 +46,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div>
                     <div className="flex items-center p-5">
-                        <Tooltip title={name}>
+                        <Tooltip className="capitalize" title={name}>
                             <Avatar
                                 alt=""
                                 className={`h-10 w-10  uppercase bg-[#ff006a] m-2`}
