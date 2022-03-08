@@ -17,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
+import PermIdentityIcon from '@material-ui/icons/PermIdentity';
 import { useRouter } from "next/router";
 
 const StyledMenu = withStyles({
@@ -161,7 +162,7 @@ function Header() {
                         <Avatar
                             alt=""
                             className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}] hidden md:flex`}
-                            onClick={signOut}
+                            onClick={()=>{navigate("/profile")}}
 
                         >{user != null ? user?.name[0] : null}</Avatar>
 
@@ -214,6 +215,12 @@ function Header() {
                         <BookmarkBorderOutlined fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Saved" />
+                </StyledMenuItem>
+                <StyledMenuItem onClick = {()=>navigate("/profile")}>
+                    <ListItemIcon>
+                        <PermIdentityIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
                 </StyledMenuItem>
                 {user?.isCreator ? (
                     <StyledMenuItem onClick = {()=>navigate("/dashboard")}>
