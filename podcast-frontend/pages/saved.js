@@ -11,7 +11,7 @@ import Welcome from '../components/Welcome'
 import { getCookie } from 'cookies-next'
 import { actionTypes } from '../redux/reducer'
 
-export default function Explore() {
+export default function saved() {
   const [{ user }, dispatch] = useStateValue();
   if (user == null)
   {
@@ -24,7 +24,7 @@ export default function Explore() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
       <Head>
-        <title>Explore</title>
+        <title>Saved</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
