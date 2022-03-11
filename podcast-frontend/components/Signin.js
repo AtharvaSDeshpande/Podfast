@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { Router, useRouter } from 'next/router'
 import { useStateValue } from '../redux/StateProvider';
 import { actionTypes } from '../redux/reducer';
+import { setCookies } from 'cookies-next';
 const axios = require('axios').default;
 
 function Signin() {
@@ -16,7 +17,7 @@ function Signin() {
     const login = async (values) => {
         try {
             console.log(values)
-            const res = await axios('http://localhost:3000/api/user/signin', {
+            const res = await axios('../api/user/signin', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -29,8 +30,11 @@ function Signin() {
                 type: actionTypes.SET_USER,
                 user: res.data.user
             })
-            router.push("/");
             setSuccess(true);
+            setCookies("user",res.data.user,{maxAge: 36000000,sameSite: true});
+
+            router.push("/");
+            
 
         } catch (error) {
             
@@ -75,18 +79,18 @@ function Signin() {
 
     });
 
-    return <div className='border h-auto bg-gradient-to-b from-black to-gray-900 w-[400px] flex flex-col' onClick={() => {
+    return <div className='border h-auto bg-gradient-to-b from-black to-[#013374] w-[400px] flex flex-col' onClick={() => {
         setError(null)
         setSuccess(null)
     }}>
         <Link href={"/"}>
-            <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-23-10%20Wix%20Logo%20Maker.png?alt=media&token=7e38466a-34e7-4a00-b67f-3c207ba09613"
+            <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/PODFAST%20LOGO%20Transperency%20-%200.gif?alt=media&token=fe98c4fa-7a6b-47fb-a1c0-69a6486681ba"
                 className='object-contain m-3'
             />
         </Link>
         <div className='m-3' >
             <h1 className='text-white text-4xl  mb-0 font-bold text-center'>Login</h1>
-            <p className='text-white mt-0 text-center mb-3'>Or    <Link href="/createaccount"><a className="text-red-800">Create Account</a></Link></p>
+            <p className='text-white mt-0 text-center mb-3'>Or    <Link href="/createaccount"><a className="text-[#5d6cfa]">Create Account</a></Link></p>
         </div>
         <form className='flex flex-col p-4' onSubmit={formik.handleSubmit}>
             <label className='ml-2 text-white'>Email:</label>
@@ -107,7 +111,7 @@ function Signin() {
 
             {error == null ? null : (<p className="text-base text-red-700  text-center">{error}</p>)}
             {success == null ? null : (<p className="text-base text-green-500  text-center">Successfully Logged in</p>)}
-            <Button type="submit" className='m-2 mt-5' variant='contained' color='secondary'>Login</Button>
+            <Button type="submit" className='m-2 mt-5' variant='contained' color='primary'>Login</Button>
         </form>
 
     </div>;

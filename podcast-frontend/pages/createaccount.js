@@ -11,15 +11,15 @@ export default function Create() {
 
 
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll ">
+      <div className="items-center justify-center min-h-full  bg-gradient-to-r from-[#160129] to-[#131316] h-screen pt-3 overflow-y-scroll ">
         <Head>
           <title>Create Account</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
         
-        <main className="w-full bg-black overflow-y-scroll scrollbar-thin scrollbar-thumb-black ">
+        <main className="w-full mt-15">
           <div className='grid place-content-center min-h-full my-5'>
-            <Signup className="w-[400px]"/>
+            <Signup className="w-[400px] mt-10"/>
           </div>
           
         </main>
