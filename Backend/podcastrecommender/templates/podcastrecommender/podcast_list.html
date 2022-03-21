@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <meta charset="UTF-8">
+        <title>Personal Podcast Recommendations</title>
+    </head>
+    <!--Navigation bar-->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                      <a class="navbar-brand" href="#">Podcast Recommendations</a>
+            </div>
+        </div>
+    </nav>
+
+    <body>
+    <!--Render podcast list as card columns here -->
+    Podcasts to be shown here!
+    <div class="container">
+        <div class="card-columns">
+            <!--For each podcast in the Podcast list, add a podcast card-->
+            {% for podcast in podcast_list %}
+            <div class="col-auto mb-3">
+                <div class="card">
+                    <!--podcast Poster image-->
+                    <img class="card-img-left" 
+                         src="{{podcast.image}}" 
+                         width="320" height="480">
+                    <div class="card-body bg-light">
+                        <!--podcast title-->
+                        <h5 class="card-title">{{podcast.title_x}}</h5>
+                        <!--podcast description-->
+                        <p class="card-text">{{podcast.description_x}}</p>
+                        <!--podcast genres-->
+                        <p class="card-text">Genres: <b>{{podcast.categories}}</b></p>
+                        <!--podcast audio length-->
+                        <p class="card-text">Audio Length: <b>{{podcast.audio_length}}</b></p>
+                        <!--podcast author-->
+                        <p class="card-text">Author : <b>{{podcast.author}}</b></p>
+                        <!--podcast release date-->
+                        <p class="card-text"> Publication date : <b>{{podcast.pub_date}}</b></p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    </body>
+
+</html>
