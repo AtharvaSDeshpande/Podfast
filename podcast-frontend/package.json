@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.11.2",
     "@tailwindcss/forms": "^0.4.0",
     "axios": "^0.25.0",
+    "cookies-next": "^2.0.4",
     "formik": "^2.2.9",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.1",

@@ -1,7 +1,7 @@
 
 import Head from 'next/head'
 import { useEffect } from 'react'
-import Feed from '../components/Feed'
+import Search from '../components/Search'
 import { isSignedIn, loginUser } from '../components/functions'
 import Header from '../components/Header'
 import Player from '../components/Player'
@@ -11,8 +11,9 @@ import Welcome from '../components/Welcome'
 import { getCookie } from 'cookies-next'
 import { actionTypes } from '../redux/reducer'
 
-export default function Home() {
+export default function Explore() {
   const [{ user }, dispatch] = useStateValue();
+  
   if (user == null)
   {
     loginUser();
@@ -20,17 +21,16 @@ export default function Home() {
   
   if (!isSignedIn(user))
     return (<Welcome />)
-
-    return (
-    <div className="flex flex-col items-center justify-center min-h-screen   h-screen overflow-y-scroll scrollbar-hide">
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen  bg-neutral-900 h-screen overflow-y-scroll scrollbar-hide">
       <Head>
-        <title>PodFast</title>
+        <title>Explore</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
 
       <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-        <Feed />
+        <Search />
       </main>
 
       <footer className="items-center   w-full   border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">

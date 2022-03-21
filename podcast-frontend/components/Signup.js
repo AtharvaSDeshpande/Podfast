@@ -5,14 +5,16 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Router from 'next/link'
 
+
 const axios = require('axios').default;
 
 function Signup() {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
     const createAccount = async (values) => {
+        values.name = values.name.toLowerCase();
         try {
-            const res = await axios('http://localhost:3000/api/user/auth', {
+            const res = await axios('../api/user/auth', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -32,7 +34,7 @@ function Signup() {
 
         initialValues: {
             name: '',
-            emzail: '',
+            email: '',
             password: '',
             confirmPassword: '',
             age: '',
@@ -78,18 +80,18 @@ function Signup() {
 
     });
 
-    return <div className='border h-auto bg-gradient-to-b from-black to-gray-900 w-[400px] flex flex-col' onMouseMove={() => {
+    return <div className='border h-auto bg-gradient-to-b from-black to-[#013374] w-[400px] flex flex-col' onMouseMove={() => {
         setError(null)
         setSuccess(null)
     }}>
         <Link href={"/"}>
-            <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-23-10%20Wix%20Logo%20Maker.png?alt=media&token=7e38466a-34e7-4a00-b67f-3c207ba09613"
+            <img src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/PODFAST%20LOGO%20Transperency%20-%200.gif?alt=media&token=fe98c4fa-7a6b-47fb-a1c0-69a6486681ba"
                 className='object-contain m-3'
             />
         </Link>
         <div className='m-3' >
             <h1 className='text-white text-4xl  mb-0 font-bold text-center'>Create Account</h1>
-            <p className='text-white mt-0 text-center mb-3'>Or    <Link href="/login"><a className="text-red-800">Login</a></Link></p>
+            <p className='text-white mt-0 text-center mb-3'>Or    <Link href="/login"><a className="text-[#5d6cfa]">Login</a></Link></p>
         </div>
         <form className='flex flex-col p-4' onSubmit={formik.handleSubmit}>
             <label className='ml-2 text-white'>Name:</label>
@@ -135,7 +137,7 @@ function Signup() {
             {formik.touched.confirmPassword && formik.errors.confirmPassword ? (<p className="text-sm text-red-700 mr-2 text-right">{formik.errors.confirmPassword}</p>) : null}
             {error == null ? null : (<p className="text-base text-red-700  text-center">{error}</p>)}
             {success == null ? null : (<p className="text-base text-green-500  text-center">Successfully created new account</p>)}
-            <Button type="submit" className='m-2 mt-5' variant='contained' color='secondary'>Create Account</Button>
+            <Button type="submit" className='m-2 mt-5' variant='contained' color='primary'>Create Account</Button>
         </form>
 
     </div>;
