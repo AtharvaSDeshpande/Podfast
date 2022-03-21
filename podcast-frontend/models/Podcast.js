@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+import CommentSchema from "../models/Comment";
+import like from "./LikeSchema";
 
 const PodcastSchema = new mongoose.Schema({
     
@@ -10,10 +12,6 @@ const PodcastSchema = new mongoose.Schema({
     creatorID: {
         type: mongoose.Types.ObjectId,
         ref: "User",
-        required: true,
-    },
-    creatorNames: {
-        type: Array,
         required: true,
     },
     tags: {
@@ -36,22 +34,23 @@ const PodcastSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    likes: {
-        type: Array,
-        default: null,
-    },
-    views: {
-        type: Array,
-        default: null,
-    },
-    comments: {
-        type: Array,
-        default: null,
-    },
-    saves: {
-        type: Number,
+    likes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"likes",
         default: 0,
-    },
+    }],
+    views: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"View"
+    }],
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment"
+      }],
+    saves: [{
+        type: mongoose.Schema.Types.ObjectId,
+        default: 0,
+    }],
     isOnline: {
         type: Boolean,
         default: false,

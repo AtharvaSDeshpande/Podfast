@@ -41,8 +41,6 @@ function Profile() {
        
 
   } catch (error) {
-      
-
       console.log("An unexpected error has occured");
   }
 
