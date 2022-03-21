@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react"
+import { actionTypes } from "../redux/reducer";
+import { useStateValue } from "../redux/StateProvider";
 import Post from "./Post"
 const axios = require('axios').default;
 
@@ -82,8 +84,8 @@ const axios = require('axios').default;
 
 
 function Posts() {
-    const [posts,setPosts] = useState();
-
+    // const [posts,setPosts] = useState();
+    const [{podcasts},dispatch] = useStateValue();
     const getData = async () => {
         try {
 
@@ -96,7 +98,12 @@ function Posts() {
 
             })
             const podcasts = res.data.data;
-            setPosts(podcasts)
+            
+            dispatch({
+                type: actionTypes.SET_PODCASTS,
+                podcasts: podcasts
+            })
+            // console.log(posts)
             
 
         } catch (error) {
@@ -112,8 +119,8 @@ function Posts() {
 
     return (
         <div>
-            {posts?.map((podcast) => (
-                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name = {podcast.creatorID.name}  caption={l} link={podcast.url} summlink={podcast.summaryUrl} title = {podcast.title} creators = {podcast.creatorNames.join(", ")}/>
+            {podcasts?.map((podcast) => (
+                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name = {podcast.creatorID.name}  caption={l} link={podcast.url} summlink={podcast.summaryUrl} title = {podcast.title} creators = {podcast.creatorNames.join(", ")} likes = {podcast.likes}/>
             ))}
 
         </div>

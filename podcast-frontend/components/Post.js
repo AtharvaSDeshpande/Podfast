@@ -4,9 +4,32 @@ import axios from "axios";
 import { useState } from "react";
 import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators,likes }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user }, dispatch] = useStateValue();
+    console.log(likes);
+    const a = []
+    
+    const [isLiked,setIsLiked] = useState((likes?.findIndex(like => like.userID === user._id ) != -1))
+    // alert (isLiked)
+ 
+    const handleLike = async() => {
+        try{
+            const res = await axios('../api/podcast/updatelike', {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: { podcastID: id,userID: user._id }
+                
+            })
+            if (res.data.message == "liked") setIsLiked(true)
+            else setIsLiked(false);
+        }catch(err)
+        {
+            console.log(err)
+        }
+    }
     /*
     const saveToDB = async () => {
 
@@ -96,7 +119,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                 <div className="flex justify-between px-4 pt-4">
                     <div className="flex space-x-4">
-                        <FavoriteBorderOutlined className="btn" />
+                        {isLiked?(<Favorite className="btn text-[#f3027a]" onClick = {handleLike}/>):(<FavoriteBorderOutlined className="btn" onClick = {handleLike}/>)}
                         <Comment className="btn" />
                         <Send className="btn -rotate-90" />
 
@@ -105,7 +128,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     <BookmarkBorderOutlined className="btn"  />
                 </div>
                 <div className="mx-5 mt-1 font-bold cursor-pointer">
-                    2 Likes
+                    {likes?.length} Likes
                 </div>
                 <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
                     <span className="font-bold mr-1">{username}</span>

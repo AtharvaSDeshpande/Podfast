@@ -5,22 +5,19 @@ import Podcast from "../../../models/Podcast";
 import LikeSchema from "../../../models/LikeSchema";
 
 var ObjectId = require('mongoose').Types.ObjectId;
-let podcast,tags;
+let podcast, tags;
 
 dbConnect();
 
 //function to increase like
-async function incLike(podcastID)
-{
+async function incLike(podcastID) {
     // else increase the like of the podcast
-    await Podcast.findByIdAndUpdate(podcastID,{ $inc: { likes: 1 }}).exec( async (err,doc)=>{
+    await Podcast.findByIdAndUpdate(podcastID, { $inc: { likes: 1 } }).exec(async (err, doc) => {
         console.log("inside increment")
-        if(err)
-        {
-            res.status(400).send("Not able to update likes. Please try after some time\n"+ JSON.stringify(err));
+        if (err) {
+            res.status(400).send("Not able to update likes. Please try after some time\n" + JSON.stringify(err));
         }
-        else
-        {               
+        else {
             podcast = new Podcast(doc);
             //console.log(podcast);
             tags = podcast.tags;
@@ -31,20 +28,17 @@ async function incLike(podcastID)
 }
 
 //function to decrease like
-async function decLike(podcastID,userID)
-{
+async function decLike(podcastID, userID) {
     // else increase the like of the podcast
-    await Podcast.findByIdAndUpdate(podcastID,{ $inc: { likes: -1 }}).exec( async (err,doc)=>{
+    await Podcast.findByIdAndUpdate(podcastID, { $inc: { likes: -1 } }).exec(async (err, doc) => {
         console.log("inside decrement")
-        if(err)
-        {
+        if (err) {
             console.log(err);
             //res.status(400).send("Not able to update likes. Please try after some time\n"+ JSON.stringify(err));
         }
-        else
-        {               
+        else {
             //delete the document from userlikeschema also
-            UserLikeSchema.deleteOne({podcastID: podcastID,userID: userID}).exec((err,doc)=>{
+            UserLikeSchema.deleteOne({ podcastID: podcastID, userID: userID }).exec((err, doc) => {
                 console.log(doc);
             })
             console.log("deleted and decremented");
@@ -65,59 +59,70 @@ export default async (req, res) => {
                 var userID = (req.body.userID);
 
                 console.log(podcastID);
-                let likeObject = new LikeSchema(req.body);
+                console.log(userID);
+
                 
-                LikeSchema.find({podcastID: podcastID, userID: userID}).exec( async (err,doc) =>{
-                    console.log(doc+" "+doc.length);
-                    let likeID = doc._id;
+
+                LikeSchema.find({ podcastID: podcastID, userID: userID }).exec(async (err, doc) => {
+                    
+                   
+
+                    
                     //check if user already saved, if yes unsave and update
-                    if(doc.length == 1)
-                    {
+                    if (doc.length == 1) {
+                        let likeID = doc[0]._id;
+                        console.log("likeid = " + likeID)
                         console.log("already liked");
                         //unsave(doc._id,userID);
-                        Podcast.findByIdAndUpdate(podcastID,{ $pull: { "likes": likeID }}).exec( async (err,doc)=>{
+                        Podcast.findByIdAndUpdate(podcastID, { $pull: { "likes": likeID } }).exec(async (err, doc) => {
                             console.log("inside dislike")
-                            if(err)
-                            {
+                            if (err) {
                                 console.log(err);
                             }
-                            else
-                            {    console.log(doc);
+                            else {
+                                console.log(doc);
                                 console.log("deleted ");
                             }
                         });
-                        LikeSchema.deleteOne({podcastID: podcastID, userID: userID});
-                        res.status(400).json({success:false,message:"dislike"});
-                        res.end();
-                    }
-                    else
-                    {
-                        //push into podcast like array
-                        await Podcast.findByIdAndUpdate(podcastID,{$push:{likes:likeObject._id}}).exec((err,doc)=>{
-                            if(err)
+                        LikeSchema.deleteOne(likeID).exec((err,res)=>{
+                            if (err)
                             {
-                                res.status(400).json({success:true,message:err});
-                                res.end();
+                                console.log(err)
                             }
                             else
                             {
+                                console.log("deleted from likes collection")
+                            }
+                        });
+                        res.status(400).json({ success: false, message: "dislike" });
+                        res.end();
+                    }
+                    else {
+                        let likeObject = new LikeSchema(req.body);
+                        //push into podcast like array
+                        await Podcast.findByIdAndUpdate(podcastID, { $push: { likes: likeObject._id } }).exec((err, doc) => {
+                            if (err) {
+                                res.status(400).json({ success: true, message: err });
+                                res.end();
+                            }
+                            else {
                                 LikeSchema.create(likeObject);
-                                res.status(200).json({success:true,message:"liked"});
+                                res.status(200).json({ success: true, message: "liked" });
                                 res.end();
                             }
                         });
                     }
-                    
-                }); 
+
+                });
             }
             // try {
 
             //     var podcastID = new ObjectId(req.body.podcastID);
             //     var userID = new ObjectId(req.body.userID);
-                
+
             //     console.log(podcastID+"hi")
 
-                
+
             //     UserLikeSchema.find({podcastID: podcastID, userID: userID}).exec( async (err,doc) =>{
             //         console.log(doc+" "+doc.length);
             //         let likeID = doc._id;
@@ -125,7 +130,7 @@ export default async (req, res) => {
             //         if(doc.length == 1)
             //         {
             //             console.log("already liked");
-                        
+
             //             //remove from podcast like array
             //             await Podcast.findByIdAndUpdate(podcastID,{$pull:{"likes":likeID}}).exec((err,doc)=>{
             //                 if(err)
@@ -145,7 +150,7 @@ export default async (req, res) => {
             //         else
             //         {
             //             let likeObject = new UserLikeSchema(req.body);
-                        
+
             //             //push into podcast like array
             //             await Podcast.findByIdAndUpdate(podcastID,{$push:{likes:likeObject._id}}).exec((err,doc)=>{
             //                 if(err)
@@ -181,11 +186,11 @@ export default async (req, res) => {
             //     }); 
             // }
             catch (error) {
-                console.log("catch "+error);
+                console.log("catch " + error);
                 res.status(400).send({ success: false, message: error })
             }
             break;
-        
+
         default:
 
 
