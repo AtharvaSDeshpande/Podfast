@@ -11,7 +11,7 @@ import Welcome from '../components/Welcome'
 import { getCookie } from 'cookies-next'
 import { actionTypes } from '../redux/reducer'
 
-export default function Explore() {
+export default function Explore({posts1}) {
   const [{ user }, dispatch] = useStateValue();
   
   if (user == null)
@@ -30,7 +30,7 @@ export default function Explore() {
       <Header />
 
       <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-        <Search />
+        <Search recommendedPodcast = {posts1}/>
       </main>
 
       <footer className="items-center   w-full   border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
@@ -42,3 +42,13 @@ export default function Explore() {
 
 console.log("6IoJbs4HD0uj7JiE")
 
+export async function getStaticProps(){
+  const res = await fetch("http://127.0.0.1:8000/podcastrecommender/api/");
+  const posts1 = await res.json();
+  console.log(posts1);
+  return{
+    props:{
+      posts1
+    }
+  };
+}
