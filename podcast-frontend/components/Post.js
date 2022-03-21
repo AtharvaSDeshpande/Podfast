@@ -54,15 +54,18 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                         </Tooltip>
                         <p className="flex-1 font-bold ">{username}</p>
-                        <Tooltip title="Play Summary">
-                            <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
+                       {summlink != null?(
+                           <Tooltip title="Play Summary">
+                           <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
 
-                                dispatch({
-                                    type: actionTypes.SET_URL,
-                                    podcast: { title: title, creators: creators, url: summlink }
-                                })
-                            }} />
-                        </Tooltip>
+                               dispatch({
+                                   type: actionTypes.SET_URL,
+                                   podcast: { title: title, creators: creators, url: summlink }
+                               })
+                           }} />
+                       </Tooltip>
+                       ):null}
+                        
                         <Tooltip title="Play Podcast">
                             < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
                                 setIsPlaying(true)
