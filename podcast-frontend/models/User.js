@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
     saved: [{
         type: mongoose.Schema.Types.ObjectId,
         default: [],
-        ref: "Save"
+        ref: "SaveSchema"
     }],
     subscribers: {
         type: Array,

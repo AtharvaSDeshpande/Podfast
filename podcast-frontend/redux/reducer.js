@@ -1,13 +1,17 @@
 export const initialState = {
     user: null,
     dashboardpage: 0,
-    podcast: {title: "",creators: "", url: null}
+    podcast: {title: "",creators: "", url: null},
+    podcasts: [],
+    savedpodcasts: [],
 };
 
 export const actionTypes = {
     SET_USER: "SET_USER",
     SET_DASHBOARDPAGE: "SET_DASHBOARDPAGE",
     SET_URL: "SET_URL",
+    SET_PODCASTS:"SET_PODCASTS",
+    SET_SAVEDPODCASTS: "SET_SAVEDPODCASTS" 
 }
 
 const reducer = (state,action) => {
@@ -29,6 +33,18 @@ const reducer = (state,action) => {
             return {
                 ...state,
                 podcast: action.podcast
+            }
+        case actionTypes.SET_PODCASTS:
+            // console.log(action.podcasts)
+            return {
+                ...state,
+                podcasts: action.podcasts
+            }
+        case actionTypes.SET_SAVEDPODCASTS:
+            console.log(action.savedpodcasts)
+            return{
+                ...state,
+                savedpodcasts: action.savedpodcasts
             }
         
         default:

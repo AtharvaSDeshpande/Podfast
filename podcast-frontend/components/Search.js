@@ -4,7 +4,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import Post from './Post';
 
-function Search() {
+function Search({recommendedPodcast}) {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState(false);
   const handleSearch = (e) => {
@@ -138,8 +138,8 @@ function Search() {
         </div>}
       </div> : <div className='mt-5 col-span-2'>
         <p className='text-white '>Recommendations for you</p>
-        {recommendedPodcasts.map(podcast => (
-          <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={l} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+        {recommendedPodcast.map(podcast => (
+          <Post id={podcast.uuid} img={podcast.image} username={"ana"} name={podcast.author} caption={podcast.description_x} link={podcast.audio} summlink={null} title={podcast.title_x} creators={"mul creators"} />
 
         ))}
       </div>}

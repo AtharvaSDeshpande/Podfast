@@ -1,8 +1,6 @@
-import { Mongoose } from "mongoose";
 import View from "../../../models/ViewSchema"
 import Podcast from "../../../models/Podcast";
 import dbConnect from "../../../db/dbconnect";
-var ObjectId = require('mongoose').Types.ObjectId;
 
 //connecting to database
 dbConnect();
