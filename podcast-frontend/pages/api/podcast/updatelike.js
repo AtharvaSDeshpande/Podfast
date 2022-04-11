@@ -1,13 +1,80 @@
-import { SystemUpdate } from "@material-ui/icons";
 import { Mongoose } from "mongoose";
 import dbConnect from "../../../db/dbconnect";
 import Podcast from "../../../models/Podcast";
 import LikeSchema from "../../../models/LikeSchema";
 
-var ObjectId = require('mongoose').Types.ObjectId;
-let podcast, tags;
-
 dbConnect();
+
+export default async (req, res) => {
+    const { method } = req
+    switch (method) {
+        case 'PUT':
+            try {
+                var podcastID = (req.body.podcastID);
+                var userID = (req.body.userID);
+                console.log(podcastID);
+                console.log(userID);
+                LikeSchema.find({ podcastID: podcastID, userID: userID }).exec(async (err, doc) => {
+                    //check if user already saved, if yes unsave and update
+                    if (doc.length == 1) {
+                        let likeID = doc[0]._id;
+                        console.log(doc)
+                        console.log("likeid = " + likeID)
+                        console.log("already liked");
+                        //unsave(doc._id,userID);
+                        var podcast;
+                        Podcast.findByIdAndUpdate(podcastID, { $pull: { "likes": likeID } }).populate({path: "likes"}).exec(async (err, doc) => {
+                            console.log("inside dislike ,  removed likeID = " + likeID)
+                            if (err) {
+                                console.log(err);
+                            }
+                            else {
+                                console.log(doc);
+                                console.log("deleted ");
+                            }
+                            podcast = doc
+                            console.log(podcast);
+                        });
+                        LikeSchema.findByIdAndDelete(likeID).exec((err, res) => {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+                                console.log("deleted from likes collection")
+                            }
+                        });
+                        res.status(200).json({ success: true, data: podcast });
+                        res.end();
+                    }
+                    else {
+                        let likeObject = new LikeSchema(req.body);
+                        //push into podcast like array
+                        await Podcast.findByIdAndUpdate(podcastID, { $push: { likes: likeObject._id } }).populate({path: "likes"}).exec((err, doc) => {
+                            if (err) {
+                                res.status(400).json({ success: true, message: err });
+                                res.end();
+                            }
+                            else {
+                                LikeSchema.create(likeObject);
+                                res.status(200).json({ success: true, data: doc});
+                                res.end();
+                            }
+                        });
+                    }
+
+                });
+            }
+            catch (error) {
+                console.log("catch " + error);
+                res.status(400).send({ success: false, message: error })
+            }
+            break;
+        default:
+    }
+}
+
+
+/*
 
 //function to increase like
 async function incLike(podcastID) {
@@ -48,74 +115,12 @@ async function decLike(podcastID, userID) {
 }
 
 
-export default async (req, res) => {
-    const { method } = req
+*/
 
-    switch (method) {
-        case 'PUT':
-            try {
 
-                var podcastID = (req.body.podcastID);
-                var userID = (req.body.userID);
+/*
 
-                console.log(podcastID);
-                console.log(userID);
-
-                
-
-                LikeSchema.find({ podcastID: podcastID, userID: userID }).exec(async (err, doc) => {
-                    
-                   
-
-                    
-                    //check if user already saved, if yes unsave and update
-                    if (doc.length == 1) {
-                        let likeID = doc[0]._id;
-                        console.log("likeid = " + likeID)
-                        console.log("already liked");
-                        //unsave(doc._id,userID);
-                        Podcast.findByIdAndUpdate(podcastID, { $pull: { "likes": likeID } }).exec(async (err, doc) => {
-                            console.log("inside dislike")
-                            if (err) {
-                                console.log(err);
-                            }
-                            else {
-                                console.log(doc);
-                                console.log("deleted ");
-                            }
-                        });
-                        LikeSchema.deleteOne(likeID).exec((err,res)=>{
-                            if (err)
-                            {
-                                console.log(err)
-                            }
-                            else
-                            {
-                                console.log("deleted from likes collection")
-                            }
-                        });
-                        res.status(400).json({ success: false, message: "dislike" });
-                        res.end();
-                    }
-                    else {
-                        let likeObject = new LikeSchema(req.body);
-                        //push into podcast like array
-                        await Podcast.findByIdAndUpdate(podcastID, { $push: { likes: likeObject._id } }).exec((err, doc) => {
-                            if (err) {
-                                res.status(400).json({ success: true, message: err });
-                                res.end();
-                            }
-                            else {
-                                LikeSchema.create(likeObject);
-                                res.status(200).json({ success: true, message: "liked" });
-                                res.end();
-                            }
-                        });
-                    }
-
-                });
-            }
-            // try {
+// try {
 
             //     var podcastID = new ObjectId(req.body.podcastID);
             //     var userID = new ObjectId(req.body.userID);
@@ -185,16 +190,5 @@ export default async (req, res) => {
             //         }
             //     }); 
             // }
-            catch (error) {
-                console.log("catch " + error);
-                res.status(400).send({ success: false, message: error })
-            }
-            break;
 
-        default:
-
-
-
-
-    }
-}
+*/

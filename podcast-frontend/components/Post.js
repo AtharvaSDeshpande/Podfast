@@ -1,75 +1,116 @@
 import { Avatar, Tooltip } from "@material-ui/core";
 import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, Send } from "@material-ui/icons";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators,likes }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes }) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [{ user }, dispatch] = useStateValue();
-    console.log(likes);
+    const [{ user, savedpodcasts }, dispatch] = useStateValue();
     const a = []
-    
-    const [isLiked,setIsLiked] = useState((likes?.findIndex(like => like.userID === user._id ) != -1))
+
+    const [isLiked, setIsLiked] = useState((likes?.findIndex(like => like.userID === user._id) != -1))
+    const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID === id);
+
+    const [isSaved, setIsSaved] = useState(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
+
+    useEffect(() => {
+        const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID === id);
+
+        // console.log(getsavedPodcasts);
+        setIsSaved(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
+
+    }, [savedpodcasts])
+    // alert(isSaved)
+    const [likeIsDisabled, setLikeIsDisabled] = useState(false);
+    const [saveIsDisabled, setSaveIsDisabled] = useState(false);
+
     // alert (isLiked)
- 
-    const handleLike = async() => {
-        try{
+
+    const handleSave = async (e) => {
+        console.log(e);
+        // e.
+        setSaveIsDisabled(true);
+        try {
+            const res = await axios('../api/user/updateSave', {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: { podcastID: id, userID: user._id }
+
+            })
+            const save = isSaved;
+            setIsSaved(!save);
+            try {
+                const res = await axios("../api/user/save/" + user._id, {
+                    method: "GET",
+                })
+                console.log(res.data.data)
+                dispatch({
+                    type: actionTypes.SET_SAVEDPODCASTS,
+                    savedpodcasts: res.data.data,
+                })
+            }
+            catch (err) {
+                console.log(err)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+        setSaveIsDisabled(false);
+    }
+    const handleLike = async () => {
+        setLikeIsDisabled(true);
+        try {
             const res = await axios('../api/podcast/updatelike', {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                data: { podcastID: id,userID: user._id }
-                
+                data: { podcastID: id, userID: user._id }
+
             })
-            if (res.data.message == "liked") setIsLiked(true)
-            else setIsLiked(false);
-        }catch(err)
-        {
+            // const likes = res?.data?.data?.likes
+            // console.log(likes);
+            try {
+
+                const res = await axios('../api/podcast/podcasts', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+
+                })
+                const podcasts = res.data.data;
+                const like = !isLiked;
+                setIsLiked(like);
+                dispatch({
+                    type: actionTypes.SET_PODCASTS,
+                    podcasts: podcasts
+                })
+                // console.log(posts)
+
+
+            } catch (error) {
+
+
+                console.log(error)
+            }
+        } catch (err) {
             console.log(err)
         }
+        setLikeIsDisabled(false);
     }
-    /*
-    const saveToDB = async () => {
-
-        var i = user.saved.indexOf(id);
-        if (i == -1) {
-            user.saved.push(id);
-        }
-        else {
-            user.saved.splice(i, 1);
-        }
-        try {
-
-            const res = await axios('../api/user/savePodcast', {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                data: { email: user.email,saved: user.saved }
-
-            })
-
-
-        } catch (error) {
-
-
-            console.log(error)
-        }
-    }
-    */
-
-
-
-
     return (
-        <div className=" bg-[#1f1e1e] text-white m-3  my-7 border rounded-sm p-3">
-            <div className="flex flex-col items-center p-5 md:flex-row">
+        <div className=" bg-[#1f1e1e] text-white m-3  my-7 border rounded-sm p-3 w-full">
+            <div className="flex flex-col items-center p-5 md:flex-row w-full">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
-                <div>
-                    <div className="flex items-center p-5">
-                        <Tooltip className="capitalize" title={name}>
+                <div className="w-full">
+                    <div className=" flex justify-between items-center p-5">
+                        <Tooltip className=" capitalize" title={name}>
                             <Avatar
                                 alt=""
                                 className={`h-10 w-10  uppercase bg-[#ff006a] m-2`}
@@ -77,29 +118,30 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                         </Tooltip>
                         <p className="flex-1 font-bold ">{username}</p>
-                       {summlink != null?(
-                           <Tooltip title="Play Summary">
-                           <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
+                        <div>
+                            {summlink != null ? (
+                                <Tooltip title="Play Summary">
+                                    <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
 
-                               dispatch({
-                                   type: actionTypes.SET_URL,
-                                   podcast: { title: title, creators: creators, url: summlink }
-                               })
-                           }} />
-                       </Tooltip>
-                       ):null}
-                        
-                        <Tooltip title="Play Podcast">
-                            < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
-                                setIsPlaying(true)
-                                dispatch({
-                                    type: actionTypes.SET_URL,
-                                    podcast: { title: title, creators: creators, url: link }
+                                        dispatch({
+                                            type: actionTypes.SET_URL,
+                                            podcast: { title: title, creators: creators, url: summlink }
+                                        })
+                                    }} />
+                                </Tooltip>
+                            ) : null}
 
-                                })
-                            }} />
-                        </Tooltip>
+                            <Tooltip title="Play Podcast">
+                                < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
+                                    setIsPlaying(true)
+                                    dispatch({
+                                        type: actionTypes.SET_URL,
+                                        podcast: { title: title, creators: creators, url: link }
 
+                                    })
+                                }} />
+                            </Tooltip>
+                        </div>
                     </div>
 
 
@@ -119,13 +161,18 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                 <div className="flex justify-between px-4 pt-4">
                     <div className="flex space-x-4">
-                        {isLiked?(<Favorite className="btn text-[#f3027a]" onClick = {handleLike}/>):(<FavoriteBorderOutlined className="btn" onClick = {handleLike}/>)}
+                        <button onClick={handleLike} disabled={likeIsDisabled}>
+                            {isLiked ? (<Favorite className="btn text-[#f3027a]" />) : (<FavoriteBorderOutlined className="btn" />)}
+                        </button>
                         <Comment className="btn" />
                         <Send className="btn -rotate-90" />
 
 
                     </div>
-                    <BookmarkBorderOutlined className="btn"  />
+                    <button onClick={handleSave} disabled={saveIsDisabled}>
+                        {isSaved ? (<Bookmark className="btn" />) : (<BookmarkBorderOutlined className="btn" />)}
+
+                    </button>
                 </div>
                 <div className="mx-5 mt-1 font-bold cursor-pointer">
                     {likes?.length} Likes

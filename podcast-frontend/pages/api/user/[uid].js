@@ -1,47 +1,48 @@
-import { Mongoose } from "mongoose";
-import dbConnect from "../../../db/dbconnect";
-import UserLikeSchema from "../../../models/UserLike";
-const jwt = require("jsonwebtoken");
+// import { Mongoose } from "mongoose";
+// import dbConnect from "../../../db/dbconnect";
+// import LikeSchema from "../../../models/LikeSchema";
 
-var ObjectId = require('mongoose').Types.ObjectId;
+// const jwt = require("jsonwebtoken");
 
-//connecting to database
-dbConnect();
+// var ObjectId = require('mongoose').Types.ObjectId;
 
-export default async (req, res) => {
-    const { method } = req
+// //connecting to database
+// dbConnect();
 
-    switch (method) {
-        case 'GET':
-            try {
+// export default async (req, res) => {
+//     const { method } = req
 
-                console.log(req.query.uid)
-                var userID = new ObjectId(req.query.uid);
-                console.log(userID);
+//     switch (method) {
+//         case 'GET':
+//             try {
 
-                const podcast = await UserLikeSchema.find({userID: userID}).exec((err,doc)=>{
-                    if (err)
-                    {
-                        console.log(err);
-                        res.status(400).json({ success: false, message: err })
-                    }
-                    else
-                    res.status(200).json({ success: true,data: doc});
-                    console.log(doc);
-                });
+//                 console.log(req.query.uid)
+//                 var userID = new ObjectId(req.query.uid);
+//                 console.log(userID);
+
+//                 const podcast = await UserLikeSchema.find({userID: userID}).exec((err,doc)=>{
+//                     if (err)
+//                     {
+//                         console.log(err);
+//                         res.status(400).json({ success: false, message: err })
+//                     }
+//                     else
+//                     res.status(200).json({ success: true,data: doc});
+//                     console.log(doc);
+//                 });
                 
                 
-            }
-            catch (error) {
-                console.log("catch: "+ error);
-                res.status(400).json({ success: false, message: error })
-            }
-            break;
+//             }
+//             catch (error) {
+//                 console.log("catch: "+ error);
+//                 res.status(400).json({ success: false, message: error })
+//             }
+//             break;
         
-        default:
+//         default:
 
 
 
 
-    }
-}
+//     }
+// }

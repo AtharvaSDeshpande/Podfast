@@ -85,7 +85,7 @@ const axios = require('axios').default;
 
 function Posts() {
     // const [posts,setPosts] = useState();
-    const [{podcasts},dispatch] = useStateValue();
+    const [{user,podcasts},dispatch] = useStateValue();
     const getData = async () => {
         try {
 
@@ -111,11 +111,25 @@ function Posts() {
 
             console.log(error)
         }
+        try {
+            const res = await axios("../api/user/save/" + user._id,{
+                method: "GET",
+            })
+            console.log(res.data.data)
+            dispatch({
+                type: actionTypes.SET_SAVEDPODCASTS,
+                savedpodcasts:  res.data.data,
+            })
+        }catch (error) {
+
+
+            console.log(error)
+        }
     }
     useEffect(() => {
         getData()
     }, [])
-    const l = "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
+    const l ="gujigbiuo" // "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
 
     return (
         <div>
