@@ -16,7 +16,7 @@ function Signin() {
     const [{user},dispatch] = useStateValue();
     const login = async (values) => {
         try {
-            console.log(values)
+            // console.log(values)
             const res = await axios('../api/user/signin', {
                 method: "POST",
                 headers: {
@@ -25,7 +25,7 @@ function Signin() {
                 data: JSON.stringify(values)
 
             })
-            console.log(res);
+            // console.log(res);
             dispatch({
                 type: actionTypes.SET_USER,
                 user: res.data.user

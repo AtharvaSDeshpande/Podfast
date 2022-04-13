@@ -6,7 +6,7 @@ import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
 function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes }) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [{ user, savedpodcasts }, dispatch] = useStateValue();
+    const [{ user, savedpodcasts,podcast }, dispatch] = useStateValue();
     const a = []
 
     const [isLiked, setIsLiked] = useState((likes?.findIndex(like => like.userID === user._id) != -1))
@@ -14,12 +14,15 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
     const [isSaved, setIsSaved] = useState(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
 
-    useEffect(() => {
-        const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID === id);
-
+    const updateSaveState = () =>{
+        const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID._id === id);
+        // alert(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1)        )
         // console.log(getsavedPodcasts);
         setIsSaved(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
 
+    }
+    useEffect(() => {
+        updateSaveState()
     }, [savedpodcasts])
     // alert(isSaved)
     const [likeIsDisabled, setLikeIsDisabled] = useState(false);
@@ -28,7 +31,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     // alert (isLiked)
 
     const handleSave = async (e) => {
-        console.log(e);
+        // console.log(e);
         // e.
         setSaveIsDisabled(true);
         try {
@@ -40,17 +43,19 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 data: { podcastID: id, userID: user._id }
 
             })
-            const save = isSaved;
-            setIsSaved(!save);
+            
+            
             try {
-                const res = await axios("../api/user/save/" + user._id, {
+                const res = await axios("../api/podcast/getSavedPodcasts/" + user._id, {
                     method: "GET",
                 })
-                console.log(res.data.data)
+                // console.log(res.data.data)
                 dispatch({
                     type: actionTypes.SET_SAVEDPODCASTS,
                     savedpodcasts: res.data.data,
                 })
+                updateSaveState();
+                
             }
             catch (err) {
                 console.log(err)
@@ -125,7 +130,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                                         dispatch({
                                             type: actionTypes.SET_URL,
-                                            podcast: { title: title, creators: creators, url: summlink }
+                                            podcast: { id: id, title: title, creators: creators, url: summlink }
                                         })
                                     }} />
                                 </Tooltip>
@@ -136,7 +141,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                                     setIsPlaying(true)
                                     dispatch({
                                         type: actionTypes.SET_URL,
-                                        podcast: { title: title, creators: creators, url: link }
+                                        podcast: { id: id, title: title, creators: creators, url: link }
 
                                     })
                                 }} />
@@ -157,7 +162,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
             </div>
 
-            {isPlaying ? (<>
+            {podcast.id === id ? (<>
 
                 <div className="flex justify-between px-4 pt-4">
                     <div className="flex space-x-4">

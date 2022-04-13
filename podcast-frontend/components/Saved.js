@@ -6,8 +6,8 @@ import Post from './Post';
 
 function Saved() {
   
-  const [{user},dispatch] = useStateValue();
-  const [savedPodcasts,setSavedPodcasts] = useState([]);
+  const [{user,savedpodcasts},dispatch] = useStateValue();
+  const [saved,setSavedPodcasts] = useState([]);
 
   const getSaved = async()=>{
     const res = await axios("../api/podcast/getSavedPodcasts/" + user._id,{
@@ -15,11 +15,16 @@ function Saved() {
     })
     console.log(res.data.data)
      setSavedPodcasts(res.data.data)
-    
+     dispatch({
+      type: actionTypes.SET_SAVEDPODCASTS,
+      savedpodcasts: res.data.data,
+    })
   }
 
   useEffect(()=>{
         getSaved();
+        
+        console.log(savedpodcasts)
    },[])
 
   const l = "ilhnilil"
@@ -28,7 +33,7 @@ function Saved() {
     <section className='md:col-span-2'>   {/* Section */}
         {/* Posts */}
         <div>
-            {savedPodcasts?.map((podcast) => (
+            {savedpodcasts?.map((podcast) => (
                 <Post id={podcast.podcastID._id} 
                       img= {podcast.podcastID.img} 
                       username= {podcast.podcastID?.creatorID?.email?.split("@")[0]} 

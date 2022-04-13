@@ -112,7 +112,7 @@ function Posts() {
             console.log(error)
         }
         try {
-            const res = await axios("../api/user/save/" + user._id,{
+            const res = await axios("../api/podcast/getSavedPodcasts/" + user._id,{
                 method: "GET",
             })
             console.log(res.data.data)
