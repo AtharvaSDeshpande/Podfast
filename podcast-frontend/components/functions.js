@@ -31,7 +31,7 @@ export const loginUser= () => {
     useEffect(() => {
         if (getCookie("user")) {
           const u = JSON.parse(getCookie("user"))
-          console.log(u);
+          // console.log(u);
           dispatch({
             type: actionTypes.SET_USER,
             user: u

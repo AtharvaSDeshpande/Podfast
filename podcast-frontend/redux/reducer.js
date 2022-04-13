@@ -1,7 +1,7 @@
 export const initialState = {
     user: null,
     dashboardpage: 0,
-    podcast: {title: "",creators: "", url: null},
+    podcast: {id: "", title: "",creators: "", url: null},
     podcasts: [],
     savedpodcasts: [],
 };

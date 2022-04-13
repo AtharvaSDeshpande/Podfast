@@ -40,5 +40,5 @@ export default function Home() {
   )
 }
 
-console.log("6IoJbs4HD0uj7JiE")
+// console.log("6IoJbs4HD0uj7JiE")
 
