@@ -16,23 +16,11 @@ const LikeSchema = new mongoose.Schema({
         type: Array,
         default: null,
     },
-    updated_at: {
-        type: Date, 
-        default: Date.now
-    }
+    
 
-});
-
-//create index
-LikeSchema.index({podcastID:1,userID:1});
-
-// Sets the updates_at parameter equal to the current time
-LikeSchema.pre('save', function(next){
-    let now = new Date();
-    this.updated_at = now;
-    next();
-});
+},{timestamps: true});
 
 
 
-module.exports = mongoose.models.likes || mongoose.model('likes', LikeSchema);
+
+module.exports = mongoose.models.Like || mongoose.model('Like', LikeSchema);

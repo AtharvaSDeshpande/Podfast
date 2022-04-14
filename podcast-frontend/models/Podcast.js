@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-import CommentSchema from "../models/Comment";
-import like from "./LikeSchema";
+const like = require("./LikeSchema");
+// import like from "./LikeSchema";
 
 const PodcastSchema = new mongoose.Schema({
     
@@ -34,11 +34,11 @@ const PodcastSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    likes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref:"likes",
-        default: 0,
-    }],
+    likes: {
+        type: Array,
+        ref: "Like",
+        
+    },
     views: [{
         type: mongoose.Schema.Types.ObjectId,
         ref:"View"
