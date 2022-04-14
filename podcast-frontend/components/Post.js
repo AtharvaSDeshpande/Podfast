@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts,podcast }, dispatch] = useStateValue();
     const a = []
@@ -213,7 +213,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     </button>
                 </div>
                 <div className="mx-5 mt-1 font-bold cursor-pointer">
-                    {likes?.length} Likes
+                {views?.length} Views and {likes?.length} Likes
                 </div>
                 <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
                     <span className="font-bold mr-1">{username}</span>
