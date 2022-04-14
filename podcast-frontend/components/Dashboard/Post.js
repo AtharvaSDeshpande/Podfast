@@ -1,45 +1,74 @@
-import { Avatar, Tooltip } from "@material-ui/core";
-import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, Send } from "@material-ui/icons";
+import { Avatar, Button, Tooltip } from "@material-ui/core";
+import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, SaveSharp, Send } from "@material-ui/icons";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { actionTypes } from "../../redux/reducer";
 import { useStateValue } from "../../redux/StateProvider";
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, isArchived }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user }, dispatch] = useStateValue();
-    /*
-    const saveToDB = async () => {
+    const [saves, setSaves] = useState([]);
 
-        var i = user.saved.indexOf(id);
-        if (i == -1) {
-            user.saved.push(id);
-        }
-        else {
-            user.saved.splice(i, 1);
-        }
+    const savedCount = async () => {
+        const res = await axios("../api/podcast/getSavedPodcasts/" + id, {
+            method: "GET"
+        })
+        setSaves(res.data.data);
+    }
+    useEffect(() => {
+        savedCount();
+    }, [])
+
+    const archive = async () => {
+        await axios('../api/podcast/archivePodcast', {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            data: { podcastID: id, action: !isArchived },
+        })
         try {
-
-            const res = await axios('../api/user/savePodcast', {
-                method: "PUT",
+            const res = await axios('../api/podcast/myPodcasts', {
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                data: { email: user.email,saved: user.saved }
+                data: { id: user._id },
+            })
+            const podcasts = res.data.data;
+            console.log(podcasts)
+            dispatch(
+                {
+                    type: actionTypes.SET_UPLOADEDPODCASTS,
+                    uploadedpodcasts: podcasts
+                }
+            )
+        }
+        catch (err) {
+            console.log(err);
+        }
+        try {
+            const res = await axios('../api/podcast/getArchivedPodcasts', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: { id: user._id },
 
             })
-
-
+            const podcasts = res.data.data;
+            dispatch(
+                {
+                    type: actionTypes.SET_ARCHIVEDPODCASTS,
+                    archivedpodcasts: podcasts
+                }
+            )
         } catch (error) {
 
-
-            console.log(error)
         }
+
+
     }
-    */
-
-
-
-
     return (
         <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3 w-[500px]">
             <div className="flex flex-col items-center p-5 md:flex-row">
@@ -54,15 +83,15 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                         </Tooltip>
                         <p className="flex-1 font-bold ">{username}</p>
-                        {summlink != null?(<Tooltip title="Play Summary">
-                           <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
-                               dispatch({
-                                   type: actionTypes.SET_URL,
-                                   podcast: { title: title, creators: creators, url: summlink }
-                               })
-                           }} />
-                       </Tooltip>):null}
-                      
+                        {summlink != null ? (<Tooltip title="Play Summary">
+                            <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
+                                dispatch({
+                                    type: actionTypes.SET_URL,
+                                    podcast: { title: title, creators: creators, url: summlink }
+                                })
+                            }} />
+                        </Tooltip>) : null}
+
                         <Tooltip title="Play Podcast">
                             < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
                                 // setIsPlaying(true)
@@ -94,31 +123,26 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 <div className="flex space-x-4">
                     <FavoriteBorderOutlined className="btn" />
                     <Comment className="btn" />
-                    <Send className="btn -rotate-90" />
 
 
                 </div>
                 <BookmarkBorderOutlined className="btn" />
             </div>
-            <div className="mx-5 mt-1 font-bold cursor-pointer">
-                2 Likes
+            <div className="mx-5 mt-1 font-bold  flex justify-between text-neutral-500">
+                <p>
+                    {views?.length} Views and {likes?.length} Likes
+                </p>
+                <p>
+                    {saves.length} Saves
+                </p>
             </div>
-            <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
-                <span className="font-bold mr-1">{username}</span>
-                <p>{summary}</p>
+
+            <div className="flex">
+                <Button type="submit" variant="contained" color="secondary" className="m-1 w-full">Update</Button>
+                <Button type="submit" variant="contained" color="secondary" className="m-1 w-full" onClick={archive}>{isArchived ? (<p>Restore</p>) : (<p>Archive</p>)}</Button>
+                <Button type="submit" variant="contained" color="secondary" className="m-1 w-full">Delete</Button>
+
             </div>
-
-            <form className="flex items-center p-4">
-                <InsertEmoticon className="h-7" />
-                <input type="text"
-                    placeholder="Add a comment..."
-                    className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center" />
-                <button className="font-semibold text-blue-600">Post</button>
-            </form>
-
-
-
-            {/* TODO: Comments */}
 
 
 

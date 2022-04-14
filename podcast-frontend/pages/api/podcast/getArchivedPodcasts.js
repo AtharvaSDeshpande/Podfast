@@ -10,10 +10,10 @@ export default async (req, res) => {
     const { method } = req
 
     switch (method) {
-        case 'GET':
+        case 'POST':
             try {
-
-                const podcast = await Podcast.find({isArchived: false,isDeleted: false}).sort({createdAt: "desc"}).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
+                console.log(req.body.id)
+                const podcast = await Podcast.find({creatorID: req.body.id, isArchived: true}).sort({createdAt: "desc"}).populate({path: "creatorID"}).populate({path:"likes" }).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);
@@ -22,10 +22,9 @@ export default async (req, res) => {
                     else
                     res.status(200).json({ success: true,
                         data: op});
+                    // console.log(op);
                     
                 });
-
-                console.log(podcast);
                 
                 
             }
