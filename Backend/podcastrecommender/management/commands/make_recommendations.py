@@ -40,7 +40,8 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         THRESHOLD = 0.8
         # Get all watched and unwatched podcasts
-        watched_podcasts = Podcast.objects.filter(watched=True)
+        watched_podcasts = Podcast.objects.filter(watched=True)   #take from array of that user
+        print (watched_podcasts)
         unwatched_podcasts = Podcast.objects.filter(watched=False)
         # Start to generate recommendations in unwatched podcasts
         for unwatched_podcast in unwatched_podcasts:
