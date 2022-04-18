@@ -13,7 +13,7 @@ export default async (req, res) => {
         case 'POST':
             try {
                 console.log(req.body.id)
-                const podcast = await Podcast.find({creatorID: req.body.id}).sort({createdAt: "desc"}).populate({path: "creatorID"}).exec((err,op)=>{
+                const podcast = await Podcast.find({creatorID: req.body.id,isArchived: false}).sort({createdAt: "desc"}).populate({path: "creatorID"}).populate({path:"likes" }).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);

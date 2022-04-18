@@ -7,14 +7,16 @@ import Post from './Post';
 function Saved() {
   
   const [{user,savedpodcasts},dispatch] = useStateValue();
-  const [saved,setSavedPodcasts] = useState([]);
+  // const [saved,setSavedPodcasts] = useState([]);
 
   const getSaved = async()=>{
     const res = await axios("../api/podcast/getSavedPodcasts/" + user._id,{
       method: "GET",
     })
     console.log(res.data.data)
-     setSavedPodcasts(res.data.data)
+    //  setSavedPodcasts(res.data.data)
+    
+
      dispatch({
       type: actionTypes.SET_SAVEDPODCASTS,
       savedpodcasts: res.data.data,
@@ -44,6 +46,7 @@ function Saved() {
                       title = {podcast.podcastID.title} 
                       creators = {podcast.podcastID.creatorNames.join(", ")} 
                       likes = {podcast.podcastID.likes}
+                      views = {podcast.podcastID.views}
                 />
             ))}
 

@@ -1,5 +1,5 @@
 import { Avatar, Tabs, Tab } from '@material-ui/core';
-import { ArrowBack, Audiotrack, Home, Person, Publish, TrendingUp } from '@material-ui/icons';
+import { Archive, ArrowBack, Audiotrack, Home, Person, Publish, TrendingUp } from '@material-ui/icons';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import { actionTypes } from '../../redux/reducer';
@@ -61,10 +61,10 @@ function Header() {
                         aria-label="icon label tabs example"
 
                     >
-                        <Tab icon={<Home />} label="HOME" className='text-white' />
-                        <Tab icon={<Audiotrack />} className='text-white' label="PODCASTS" />
+                        <Tab icon={<Audiotrack />} label="PODCASTS" className='text-white' />
                         <Tab icon={<Publish />} className='text-white' label="UPLOAD" />
                         <Tab icon={<TrendingUp />} className='text-white' label="GROWTH" />
+                        <Tab icon={<Archive />} className='text-white' label="ARCHIVED" />
 
                     </Tabs>
                     {/* </Paper> */}

@@ -7,12 +7,12 @@ import Post from "./Post";
 const axios = require('axios').default;
 
 
-function Posts() {
-    const [{user,uploadedpodcasts},dispatch] = useStateValue();
+function Archived() {
+    const [{user,archivedpodcasts},dispatch] = useStateValue();
     const getData = async () => {
         try {
 
-            const res = await axios('../api/podcast/myPodcasts', {
+            const res = await axios('../api/podcast/getArchivedPodcasts', {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -26,8 +26,8 @@ function Posts() {
             console.log(podcasts)
             dispatch(
                 {
-                    type: actionTypes.SET_UPLOADEDPODCASTS,
-                    uploadedpodcasts: podcasts
+                    type: actionTypes.SET_ARCHIVEDPODCASTS,
+                    archivedpodcasts: podcasts
                 }
             )
             
@@ -46,7 +46,7 @@ function Posts() {
     return (
         <div>
             <div className="flex flex-wrap justify-evenly">
-                {uploadedpodcasts?.map((podcast) => (
+                {archivedpodcasts?.map((podcast) => (
                 <Post 
                 id={podcast._id} 
                 img={podcast.img} 
@@ -69,4 +69,4 @@ function Posts() {
     )
 }
 
-export default Posts
+export default Archived
