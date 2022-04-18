@@ -2,6 +2,7 @@ import { Button } from '@material-ui/core';
 import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
+// import Signupusers from './ManualAdd';
 function Welcome() {
       return <div className="leading-normal tracking-normal text-white gradient height-full bg-gradient-to-r from-[#160129] to-[#131316]">
             <Head>
@@ -10,7 +11,7 @@ function Welcome() {
             </Head>
 
             <div className="pt-24">
-                  
+                  {/* <Signupusers/> */}
                   <div className="container px-5  flex flex-wrap flex-col md:flex-row items-center">
                         {/*Left Col*/}
                         <div className="flex flex-col w-full md:w-3/5 justify-center items-start text-center md:text-left">

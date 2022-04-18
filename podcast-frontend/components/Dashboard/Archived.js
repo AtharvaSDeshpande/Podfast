@@ -45,6 +45,12 @@ function Archived() {
 
     return (
         <div>
+            <div className="text-white text-center m-5">
+                {archivedpodcasts?.length == 0?(<p>
+                   No results found!!! Archived Podcasts are shown here 
+                </p>):(null)}
+
+            </div>
             <div className="flex flex-wrap justify-evenly">
                 {archivedpodcasts?.map((podcast) => (
                 <Post 
@@ -63,7 +69,7 @@ function Archived() {
             ))}
             </div>
             
-        <footer className="items-center   w-full  p-3 border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
+        <footer className="items-center   w-full  p-3 border-neutral-900 border-b  text-white">
             <Player />
         </footer>
         </div>

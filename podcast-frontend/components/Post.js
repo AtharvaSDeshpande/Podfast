@@ -115,7 +115,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         setIsPlaying(true)
         dispatch({
             type: actionTypes.SET_URL,
-            podcast: { id: id, title: title, creators: creators, url: link }
+            podcast: { id: id, title: title, creators: creators, url: link, img: img }
 
         })
         try {
@@ -204,7 +204,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                                         dispatch({
                                             type: actionTypes.SET_URL,
-                                            podcast: { id: id, title: title, creators: creators, url: summlink }
+                                            podcast: { id: id, title: title, creators: creators, url: summlink, img: img }
                                         })
                                     }} />
                                 </Tooltip>
