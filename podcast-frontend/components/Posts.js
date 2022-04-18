@@ -129,12 +129,12 @@ function Posts() {
     useEffect(() => {
         getData()
     }, [])
-    const l ="gujigbiuo" // "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
+    // const l ="gujigbiuo" // "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
 
     return (
         <div>
             {podcasts?.map((podcast) => (
-                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name = {podcast.creatorID.name}  caption={l} link={podcast.url} summlink={podcast.summaryUrl} title = {podcast.title} creators = {podcast.creatorNames.join(", ")} likes = {podcast.likes} views = {podcast.views}/>
+                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name = {podcast.creatorID.name}  caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title = {podcast.title} creators = {podcast.creatorNames.join(", ")} likes = {podcast.likes} views = {podcast.views}/>
             ))}
 
         </div>

@@ -52,7 +52,8 @@ function Archived() {
                 img={podcast.img} 
                 username={podcast.creatorID.email.split("@")[0]} 
                 name = {podcast.creatorID.name}  
-                caption={l} link={podcast.url} 
+                caption={podcast?.description}
+                link={podcast.url} 
                 summlink={podcast.summaryUrl} 
                 title = {podcast.title} 
                 creators = {podcast.creatorNames.join(", ")} 
