@@ -1,5 +1,65 @@
+import sys
+sys.path.append("/home/shruti/cWork/college/BE PROJECT/Git2/Podfast/Backend/podcastrecommender")
+
 from django.core.management import BaseCommand
 from ...models import Podcast
+from djongo import models
+from utils import *
+
+id1 = ""
+
+def getID(id):
+    global id1
+    id1 = id
+
+
+database = demo()
+collection_name = database["views"]
+# details = collection_name.find({userID : id1})
+details = collection_name.find({},
+     {'userID' : id1},
+    # { 'podcastID' : 1 , '_id' : 0}
+    )
+# Print on the terminal
+for r in details:
+    print(r)
+
+
+
+
+
+def rec():
+    print ("haaaaaaaaaaaaaaaaaaaha" + id1)
+    THRESHOLD = 0.8
+    # Get all watched and unwatched podcasts
+    watched_podcasts = Podcast.objects.filter(watched=True)   #take from array of that user
+    # print("check")
+    # print (watched_podcasts)
+    # demo = Views1.objects.all()
+    # print (demo)
+    unwatched_podcasts = Podcast.objects.filter(watched=False)
+    # Start to generate recommendations in unwatched podcasts
+    for unwatched_podcast in unwatched_podcasts:
+        max_similarity = 0
+        will_recommend = False
+        # For each watched podcast
+        for watched_podcast in watched_podcasts:
+            # Calculate the similarity between watched_podcast and all unwatched podcasts
+            similarity = similarity_between_podcasts(unwatched_podcast, watched_podcast)
+            if similarity >= max_similarity:
+                max_similarity = similarity
+            # early stop if the unwatched_podcast is similar enough
+            if max_similarity >= THRESHOLD:
+                break
+        # If unwatched_podcast is similar enough to watched podcasts
+        # Then recommend it
+        if max_similarity > THRESHOLD:
+            will_recommend = True
+            print(f"Find a podcast recommendation: {unwatched_podcast.title_x}")
+
+        unwatched_podcast.recommended = will_recommend
+        unwatched_podcast.save()
+
 
 
 # Check if genres are valid
@@ -40,7 +100,10 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         THRESHOLD = 0.8
         # Get all watched and unwatched podcasts
-        watched_podcasts = Podcast.objects.filter(watched=True)
+        watched_podcasts = Podcast.objects.filter(watched=True)   #take from array of that user
+        print (watched_podcasts)
+        # demo = Views1.objects.all()
+        # print (demo)
         unwatched_podcasts = Podcast.objects.filter(watched=False)
         # Start to generate recommendations in unwatched podcasts
         for unwatched_podcast in unwatched_podcasts:
@@ -66,3 +129,7 @@ class Command(BaseCommand):
 
 
 # python manage.py make_recommendations
+
+
+
+
