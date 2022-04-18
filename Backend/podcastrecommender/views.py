@@ -1,3 +1,7 @@
+# import sys
+# sys.path.append("/home/shruti/cWork/college/BE PROJECT/Git2/Podfast/Backend/podcastrecommender/management")
+from .management.commands.make_recommendations import *
+
 from django.shortcuts import render
 from . import views
 from .models import Podcast
@@ -29,7 +33,13 @@ def generate_podcasts_context():
     context['podcast_list'] = podcasts
     return podcasts
 
-
+def DemoView(request,id):
+    print ("hello"+ id)
+    getID(id)
+    rec()
+    return render(request,'podcastrecommender/temp.html', {'msg' : id})
+    
+    
 
 # Create your views here.
 #new view to transfer data
