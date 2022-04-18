@@ -1,7 +1,7 @@
 import { Mongoose } from "mongoose";
 import dbConnect from "../../../db/dbconnect";
-// import User from "../../models/User";
 import Podcast from "../../../models/Podcast";
+import User from "../../../models/User";
 
 dbConnect();
 
@@ -12,8 +12,8 @@ export default async (req, res) => {
     switch (method) {
         case 'POST':
             try {
-               
-                const podcast = await Podcast.find({title: {$regex: '.*' + req.body.title + '.*'} }).sort({title: "asc",createdAt: "desc"}).populate({path: "creatorID"}).exec((err,op)=>{
+                console.log(req.body.id)
+                const podcast = await Podcast.find({creatorID: req.body.id, isArchived: true}).sort({createdAt: "desc"}).populate({path: "creatorID"}).populate({path:"likes" }).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);
@@ -22,7 +22,7 @@ export default async (req, res) => {
                     else
                     res.status(200).json({ success: true,
                         data: op});
-                    
+                    // console.log(op);
                     
                 });
                 

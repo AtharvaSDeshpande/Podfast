@@ -11,20 +11,20 @@ export default async (req, res) => {
 
         case 'GET':
             // const router = useRouter()
-            const uid = req.query.uid
-            console.log(uid);
+            const pid = req.query.pid
+            console.log(pid);
             
-            SaveSchema.find({ userID: uid }).populate({ path: "podcastID",isArchived: {$ne: true},populate:{path: "creatorID"}}).exec((err, op) => {
+            SaveSchema.find({ podcastID: pid }).exec((err, op) => {
                 if (err) {
                     console.log(err)
                     res.status(400).json({ success: false, message: JSON.stringify(err) });
 
                 }
                 else {
-                   const saved = op.filter(podcast => podcast.podcastID.isArchived == false);
+                   
                     res.status(200).json({
                         success: true,
-                        data: saved
+                        data: op
                     });
                 }
                             
@@ -35,9 +35,6 @@ export default async (req, res) => {
             })
             break
         default:
-
-
-
     }
 
 }

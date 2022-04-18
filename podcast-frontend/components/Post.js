@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts,podcast }, dispatch] = useStateValue();
     const a = []
@@ -109,8 +109,48 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         }
         setLikeIsDisabled(false);
     }
+    const playPodcast = async () => {
+        setIsPlaying(true)
+        dispatch({
+            type: actionTypes.SET_URL,
+            podcast: { id: id, title: title, creators: creators, url: link }
+
+        })
+        try {
+            const res = await axios('../api/podcast/updateview', {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: { podcastID: id, userID: user._id }
+
+            })
+            // const likes = res?.data?.data?.likes
+            // console.log(likes);
+            try {
+
+                const res = await axios('../api/podcast/podcasts', {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+
+                })
+                const podcasts = res.data.data;
+                dispatch({
+                    type: actionTypes.SET_PODCASTS,
+                    podcasts: podcasts
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
     return (
-        <div className=" bg-[#1f1e1e] text-white m-3  my-7 border rounded-sm p-3 w-full">
+        <div className=" bg-[#1f1e1e] text-white my-7 border rounded-sm p-3  m-10 md:m-3">
             <div className="flex flex-col items-center p-5 md:flex-row w-full">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div className="w-full">
@@ -137,14 +177,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                             ) : null}
 
                             <Tooltip title="Play Podcast">
-                                < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
-                                    setIsPlaying(true)
-                                    dispatch({
-                                        type: actionTypes.SET_URL,
-                                        podcast: { id: id, title: title, creators: creators, url: link }
-
-                                    })
-                                }} />
+                                < PlayCircleFilled className="w-9 h-9 cursor-pointer text-green-500" onClick={playPodcast} />
                             </Tooltip>
                         </div>
                     </div>
@@ -180,7 +213,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     </button>
                 </div>
                 <div className="mx-5 mt-1 font-bold cursor-pointer">
-                    {likes?.length} Likes
+                {views?.length} Views and {likes?.length} Likes
                 </div>
                 <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
                     <span className="font-bold mr-1">{username}</span>

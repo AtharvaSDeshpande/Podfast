@@ -4,6 +4,8 @@ export const initialState = {
     podcast: {id: "", title: "",creators: "", url: null},
     podcasts: [],
     savedpodcasts: [],
+    uploadedpodcasts: [],
+    archivedpodcasts: []
 };
 
 export const actionTypes = {
@@ -11,7 +13,9 @@ export const actionTypes = {
     SET_DASHBOARDPAGE: "SET_DASHBOARDPAGE",
     SET_URL: "SET_URL",
     SET_PODCASTS:"SET_PODCASTS",
-    SET_SAVEDPODCASTS: "SET_SAVEDPODCASTS" 
+    SET_UPLOADEDPODCASTS: "SET_UPLOADEDPODCASTS",
+    SET_SAVEDPODCASTS: "SET_SAVEDPODCASTS" ,
+    SET_ARCHIVEDPODCASTS: "SET_ARCHIVEDPODCASTS"
 }
 
 const reducer = (state,action) => {
@@ -45,6 +49,16 @@ const reducer = (state,action) => {
             return{
                 ...state,
                 savedpodcasts: action.savedpodcasts
+            }
+        case actionTypes.SET_UPLOADEDPODCASTS:
+            return {
+                ...state,
+                uploadedpodcasts: action.uploadedpodcasts
+            }
+        case actionTypes.SET_ARCHIVEDPODCASTS:
+            return {
+                ...state,
+                archivedpodcasts: action.archivedpodcasts
             }
         
         default:
