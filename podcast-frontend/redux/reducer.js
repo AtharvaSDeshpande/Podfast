@@ -1,6 +1,7 @@
 export const initialState = {
     user: null,
     dashboardpage: 0,
+    skip: 0,
     podcast: {id: "", title: "",creators: "", url: null, img: null},
     podcasts: [],
     savedpodcasts: [],
@@ -11,6 +12,7 @@ export const initialState = {
 export const actionTypes = {
     SET_USER: "SET_USER",
     SET_DASHBOARDPAGE: "SET_DASHBOARDPAGE",
+    SET_SKIP: "SET_SKIP",
     SET_URL: "SET_URL",
     SET_PODCASTS:"SET_PODCASTS",
     SET_UPLOADEDPODCASTS: "SET_UPLOADEDPODCASTS",
@@ -33,6 +35,13 @@ const reducer = (state,action) => {
                 ...state,
                 dashboardpage: action.dashboardpage,          //  Change the user to what we dispatched
         };
+        case actionTypes.SET_SKIP:
+            return {
+                ...state,
+                skip: action.skip
+            };
+
+
         case actionTypes.SET_URL:
             return {
                 ...state,

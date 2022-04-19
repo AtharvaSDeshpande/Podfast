@@ -159,12 +159,14 @@ function Header() {
                     </Tooltip>
 
                     {user ? (
+                        <Tooltip title = "Profile">
                         <Avatar
                             alt=""
                             className={`h-10 w-10  cursor-pointer uppercase bg-[${user?.color}] hidden md:flex`}
+                            style = {{backgroundColor: `${user?.color}`}}
                             onClick={()=>{navigate("/profile")}}
 
-                        >{user != null ? user?.name[0] : null}</Avatar>
+                        >{user != null ? user?.name[0] : null}</Avatar></Tooltip>
 
                     ) : null}
                     {/* </>

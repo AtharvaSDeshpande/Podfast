@@ -6,7 +6,7 @@ import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
     const a = []
@@ -184,7 +184,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     }
 
     return (
-        <div className=" bg-[#1f1e1e] text-white my-7 border rounded-sm p-3  m-10 md:m-3">
+        <div className=" bg-[#1f1e1e] text-white my-7 border-2 rounded-md p-3  m-10 md:m-3">
             <div className="flex flex-col items-center p-5 md:flex-row w-full">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div className="w-full">
@@ -192,7 +192,9 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                         <Tooltip className=" capitalize" title={name}>
                             <Avatar
                                 alt=""
-                                className={`h-10 w-10  uppercase bg-[#ff006a] m-2`}
+
+                                className={`h-10 w-10  uppercase  m-2`}
+                                style = {{backgroundColor: `${creatorColor}`}}
                             >{username[0]}</Avatar>
 
                         </Tooltip>
@@ -250,8 +252,8 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     {views?.length} Views and {likes?.length} Likes
                 </div>
                 <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
-                    <span className="font-bold mr-1">{username}</span>
-                    <p>{summary}</p>
+                    {/* <span className="font-bold mr-1">{username}</span> */}
+                    {/* <p>{summary}</p> */}
                 </div>
 
                 <form className="flex items-center p-4">

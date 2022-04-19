@@ -53,6 +53,15 @@ export const resetUrl = () => {
   })
   
 }
+export const setSkip = (val) => {
+  const [{ }, dispatch] = useStateValue();
+  useEffect(()=>{
+    dispatch({
+      type: actionTypes.SET_SKIP,
+      skip: val
+    })
+  })
+}
 
 export const rand = () => {
   return Math.round(Math.random() * 20) - 10;

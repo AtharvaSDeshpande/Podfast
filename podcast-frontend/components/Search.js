@@ -2,6 +2,7 @@ import { DialogContentText, Divider, Tabs, Tab } from '@material-ui/core'
 import { Close, SearchSharp } from '@material-ui/icons'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import Creator from './Creator';
 import Post from './Post';
 
 function Search({recommendedPodcast}) {
@@ -133,7 +134,9 @@ function Search({recommendedPodcast}) {
 
           ))}</>)}
         </div> : <div>
-        
+        {searchAuthors.map(creator => (
+          <Creator id = {creator._id} name={creator.name} email = {creator.email} color = {creator?.color}/>
+        ))}
 
         </div>}
       </div> : <div className='mt-5 col-span-2'>

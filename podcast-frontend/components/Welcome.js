@@ -4,6 +4,10 @@ import Link from 'next/link';
 import React from 'react';
 // import Signupusers from './ManualAdd';
 function Welcome() {
+          
+
+      
+
       return <div className="leading-normal tracking-normal text-white gradient height-full bg-gradient-to-r from-[#160129] to-[#131316]">
             <Head>
                   <title>PodFast</title>
