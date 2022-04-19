@@ -11,7 +11,6 @@ import json
 from json import dumps
 import requests
 from django.http import HttpResponse
-# from rest_framework.response import Response
 
 
 def generate_podcasts_context():

@@ -12,7 +12,7 @@ import { getCookie } from 'cookies-next'
 import reducer, { actionTypes,initialState } from '../redux/reducer'
 import { Button } from '@material-ui/core'
 import axios from 'axios';
-import parse from "urlencoded-body-parser";
+//import parse from "urlencoded-body-parser";
 
 export default function Explore({props1}) {
   const [{ user }, dispatch] = useStateValue();
