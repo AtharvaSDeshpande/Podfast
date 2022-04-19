@@ -4,9 +4,11 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views }) {
+import { makeStyles } from '@material-ui/core/styles';
+import Modal from '@material-ui/core/Modal';
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor }) {
     const [isPlaying, setIsPlaying] = useState(false);
-    const [{ user, savedpodcasts,podcast }, dispatch] = useStateValue();
+    const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
     const a = []
 
     const [isLiked, setIsLiked] = useState((likes?.findIndex(like => like.userID === user._id) != -1))
@@ -14,7 +16,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
     const [isSaved, setIsSaved] = useState(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
 
-    const updateSaveState = () =>{
+    const updateSaveState = () => {
         const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID._id === id);
         // alert(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1)        )
         // console.log(getsavedPodcasts);
@@ -43,8 +45,8 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 data: { podcastID: id, userID: user._id }
 
             })
-            
-            
+
+
             try {
                 const res = await axios("../api/podcast/getSavedPodcasts/" + user._id, {
                     method: "GET",
@@ -55,7 +57,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     savedpodcasts: res.data.data,
                 })
                 updateSaveState();
-                
+
             }
             catch (err) {
                 console.log(err)
@@ -113,7 +115,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         setIsPlaying(true)
         dispatch({
             type: actionTypes.SET_URL,
-            podcast: { id: id, title: title, creators: creators, url: link }
+            podcast: { id: id, title: title, creators: creators, url: link, img: img }
 
         })
         try {
@@ -149,8 +151,40 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             console.log(err)
         }
     }
+    const getModalStyle = () => {
+        const top = 50;
+        const left = 50;
+
+        return {
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-${top}%, -${left}%)`,
+        };
+    }
+    const useStyles = makeStyles((theme) => ({
+        paper: {
+            position: 'absolute',
+            width: '50%',
+            backgroundColor: theme.palette.background.paper,
+            border: '2px solid #000',
+            boxShadow: theme.shadows[5],
+
+        },
+
+
+    }));
+    const [modalStyle] = useState(getModalStyle);
+    const classes = useStyles();
+    const [commentsModalOpen, setCommentsModalOpen] = useState(false);
+    const handleCommentsModalOpen = () => {
+        setCommentsModalOpen(true);
+    }
+    const handleCommentsModalClose = () => {
+        setCommentsModalOpen(false);
+    }
+
     return (
-        <div className=" bg-[#1f1e1e] text-white my-7 border rounded-sm p-3  m-10 md:m-3">
+        <div className=" bg-[#1f1e1e] text-white my-7 border-2 rounded-md p-3  m-10 md:m-3">
             <div className="flex flex-col items-center p-5 md:flex-row w-full">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div className="w-full">
@@ -158,7 +192,9 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                         <Tooltip className=" capitalize" title={name}>
                             <Avatar
                                 alt=""
-                                className={`h-10 w-10  uppercase bg-[#ff006a] m-2`}
+
+                                className={`h-10 w-10  uppercase  m-2`}
+                                style = {{backgroundColor: `${creatorColor}`}}
                             >{username[0]}</Avatar>
 
                         </Tooltip>
@@ -170,7 +206,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                                         dispatch({
                                             type: actionTypes.SET_URL,
-                                            podcast: { id: id, title: title, creators: creators, url: summlink }
+                                            podcast: { id: id, title: title, creators: creators, url: summlink, img: img }
                                         })
                                     }} />
                                 </Tooltip>
@@ -202,7 +238,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                         <button onClick={handleLike} disabled={likeIsDisabled}>
                             {isLiked ? (<Favorite className="btn text-[#f3027a]" />) : (<FavoriteBorderOutlined className="btn" />)}
                         </button>
-                        <Comment className="btn" />
+                        <Comment className="btn" onClick={handleCommentsModalOpen} />
                         <Send className="btn -rotate-90" />
 
 
@@ -213,24 +249,33 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     </button>
                 </div>
                 <div className="mx-5 mt-1 font-bold cursor-pointer">
-                {views?.length} Views and {likes?.length} Likes
+                    {views?.length} Views and {likes?.length} Likes
                 </div>
                 <div className="mx-5 mt-1 break-word overflow-hidden overflow-ellipsis ">
-                    <span className="font-bold mr-1">{username}</span>
-                    <p>{summary}</p>
+                    {/* <span className="font-bold mr-1">{username}</span> */}
+                    {/* <p>{summary}</p> */}
                 </div>
 
                 <form className="flex items-center p-4">
                     <InsertEmoticon className="h-7" />
                     <input type="text"
                         placeholder="Add a comment..."
-                        className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center" />
+                        className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
                     <button className="font-semibold text-blue-600">Post</button>
                 </form>
             </>) : null}
 
 
             {/* TODO: Comments */}
+            <Modal
+                open={commentsModalOpen}
+                onClose={handleCommentsModalClose}
+            >
+                <div style={modalStyle} className={`${classes.paper} border-0 p-1`}>
+                    <p className="font-bold">Comments</p>
+                    <hr />
+                </div>
+            </Modal>
 
 
 

@@ -110,7 +110,7 @@ function Player() {
 
 
             <div className="flex items-center space-x-4">
-                <img className="hidden md:inline h-10 w-10" src="https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-25-55%20Wix%20Logo%20Maker.png?alt=media&token=ea3eec4e-3896-4361-b25c-877a47cbdd1c" alt="logo" />
+                <img className="hidden md:inline h-10 w-10" src={podcast?.img?podcast.img:"https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Screenshot%202022-01-05%20at%2023-25-55%20Wix%20Logo%20Maker.png?alt=media&token=ea3eec4e-3896-4361-b25c-877a47cbdd1c"} alt="logo" />
                 <div className="w-[80px] relative flex flex-col overflow-x-hidden">
                     <div className="w-fit animate-marquee whitespace-nowrap">
                         <span className="overflow-ellipsis">{podcast.title}</span>

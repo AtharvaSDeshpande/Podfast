@@ -10,10 +10,10 @@ export default async (req, res) => {
     const { method } = req
 
     switch (method) {
-        case 'GET':
+        case 'POST':
             try {
 
-                const podcast = await Podcast.find({isArchived: false,isDeleted: false}).sort({createdAt: "desc"}).limit(20).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
+                const podcast = await Podcast.find({isArchived: false,isDeleted: false,_id: {$in: req.body.ids}}).sort({createdAt: "desc"}).limit(20).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);

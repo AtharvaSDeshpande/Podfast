@@ -2,9 +2,13 @@ import { DialogContentText, Divider, Tabs, Tab } from '@material-ui/core'
 import { Close, SearchSharp } from '@material-ui/icons'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { actionTypes } from '../redux/reducer';
+import { useStateValue } from '../redux/StateProvider';
+import Creator from './Creator';
 import Post from './Post';
 
-function Search({recommendedPodcast}) {
+function Search({}) {
+  const [{user,recommendedpodcasts},dispatch] = useStateValue()
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState(false);
   const handleSearch = (e) => {
@@ -23,7 +27,6 @@ function Search({recommendedPodcast}) {
 
   const [searchPodcasts, setSearchPodcasts] = useState([]);
   const [searchAuthors, setSearchAuthors] = useState([]);
-  const [recommendedPodcasts, setRecommendedPodcasts] = useState([]);
 
   const getSearchPodcasts = async () => {
     try {
@@ -58,28 +61,29 @@ function Search({recommendedPodcast}) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  const getRecommended = async () => {
 
-    try {
-
-      const res = await axios('../api/podcast/podcasts', {
-        method: "GET",
-        headers: {
+  
+  useEffect(async() => {
+    let url = 'http://localhost:8000/'+user?._id;
+    const djangores = await axios.get(url)
+    console.log(djangores.data)
+    const ids = djangores.data.map(pod=>{
+      return pod.id
+    })
+    console.log(ids)
+    const res  = await axios("../api/podcast/getRecomendedPodcasts/",{
+      method: "POST",
+      headers: {
           "Content-Type": "application/json"
-        },
-
-
-      })
-      const podcasts = res.data.data;
-      setRecommendedPodcasts(podcasts)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  useEffect(() => {
-    getRecommended();
+      },
+      data: {ids: ids}
+    })
+    console.log(res.data.data)
+    dispatch({
+      type: actionTypes.SET_RECOMMENDEPODCASTS,
+      recommendedpodcasts: res.data.data
+    })
   }, [])
-  const l = "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
 
   return (
     <div className='md:mx-auto grid grid-cols-1 md:grid-cols-2 md:max-w-3xl xl:grid-cols-3 xl:max-w-6xl  py-3 mx-2'>
@@ -129,19 +133,25 @@ function Search({recommendedPodcast}) {
             
           </>):(<>
           {searchPodcasts.map(podcast => (
-            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={l} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
 
           ))}</>)}
         </div> : <div>
-        
+        {searchAuthors.map(creator => (
+          <Creator id = {creator._id} name={creator.name} email = {creator.email} color = {creator?.color}/>
+        ))}
 
         </div>}
       </div> : <div className='mt-5 col-span-2'>
         <p className='text-white '>Recommendations for you</p>
-        {recommendedPodcast.map(podcast => (
+        {/* {recommendedPodcast.map(podcast => (
           <Post id={podcast.uuid} img={podcast.image} username={"ana"} name={podcast.author} caption={podcast.description_x} link={podcast.audio} summlink={null} title={podcast.title_x} creators={"mul creators"} />
 
-        ))}
+        ))} */}
+        {recommendedpodcasts.map(podcast => (
+            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+
+          ))}
       </div>}
     </div>
   )

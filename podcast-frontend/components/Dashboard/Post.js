@@ -70,7 +70,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
     }
     return (
-        <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3 w-[500px]">
+        <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3 w-[50%]">
             <div className="flex flex-col items-center p-5 md:flex-row">
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div>
@@ -87,7 +87,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                             <PlayArrow className="w-9 h-9 cursor-pointer text-green-500" onClick={() => {
                                 dispatch({
                                     type: actionTypes.SET_URL,
-                                    podcast: { title: title, creators: creators, url: summlink }
+                                    podcast: { title: title, creators: creators, url: summlink, img: img }
                                 })
                             }} />
                         </Tooltip>) : null}
@@ -97,7 +97,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                                 // setIsPlaying(true)
                                 dispatch({
                                     type: actionTypes.SET_URL,
-                                    podcast: { title: title, creators: creators, url: link }
+                                    podcast: { title: title, creators: creators, url: link, img: img }
 
                                 })
                             }} />
