@@ -77,7 +77,9 @@ function Search({recommendedPodcast}) {
     }
   }
   useEffect(() => {
-    getRecommended();
+    console.log("checkkkkkk")
+    console.log(recommendedPodcast)
+    //getRecommended();
   }, [])
   const l = "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem ut vero aspernatur cumque ipsa quam culpa ipsum sunt magni beatae totam sint cum labore ea, quis pariatur? Eum, porro harum?"
 
@@ -138,10 +140,10 @@ function Search({recommendedPodcast}) {
         </div>}
       </div> : <div className='mt-5 col-span-2'>
         <p className='text-white '>Recommendations for you</p>
-        {recommendedPodcast.map(podcast => (
+        {/* {recommendedPodcast.map(podcast => (
           <Post id={podcast.uuid} img={podcast.image} username={"ana"} name={podcast.author} caption={podcast.description_x} link={podcast.audio} summlink={null} title={podcast.title_x} creators={"mul creators"} />
 
-        ))}
+        ))} */}
       </div>}
     </div>
   )
