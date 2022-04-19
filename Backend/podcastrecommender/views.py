@@ -7,6 +7,11 @@ from . import views
 from .models import Podcast
 from rest_framework import generics
 from .serializers import PodSerializer
+import json
+from json import dumps
+import requests
+from django.http import HttpResponse
+# from rest_framework.response import Response
 
 
 def generate_podcasts_context():
@@ -34,21 +39,32 @@ def generate_podcasts_context():
     return podcasts
 
 def DemoView(request,id):
-    print ("hello"+ id)
-    getID(id)
-    rec()
-    return render(request,'podcastrecommender/temp.html', {'msg' : id})
+    # print ("hello"+ id)
+    result = {}
+    result = rec(id)
+    data = request.GET
+    response = json.dumps(result)
+    print (response)
     
-    
+    return HttpResponse(response)
+
+    # return render (request, "http://localhost:3000/explore", {
+    #     'data_response': result
+    # })
+# def get(self, request, *args, **kwargs):
+#   data = request.GET
+#   return self._handle_request(data, requests.post)
+
+# def _handle_request(self, data, make_request):
+#   data = {"hello": "world"}
+#   response = make_request("http://localhost:3000", data=data)
+#   return HttpResponse(response)
 
 # Create your views here.
-#new view to transfer data
+# new view to transfer data
 class PodcastRecommendationView(generics.ListAPIView):
-    #queryset = Podcast.objects.all()
     queryset = generate_podcasts_context()
     serializer_class = PodSerializer
-
-    #return render(request, 'podcastrecommender/podcast_list.html', context)
     
 
 

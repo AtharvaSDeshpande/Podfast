@@ -12,9 +12,9 @@ import { getCookie } from 'cookies-next'
 import reducer, { actionTypes,initialState } from '../redux/reducer'
 import { Button } from '@material-ui/core'
 import axios from 'axios';
+import parse from "urlencoded-body-parser";
 
-
-export default function Explore({posts1}) {
+export default function Explore({props1}) {
   const [{ user }, dispatch] = useStateValue();
   const handleSubmit = async(e) => {
     let url = 'http://localhost:8000/'+user?._id;
@@ -23,7 +23,8 @@ export default function Explore({posts1}) {
         'content-type': 'text/plain'
       }
     })
-    console.log(res)
+    console.log(res.data)
+    //console.log(props1.data)
         // .then(res => {
         //   //console.log(res.data);
         // })
@@ -57,10 +58,10 @@ export default function Explore({posts1}) {
       </Head>
       <Header />
 
-      <Button className = "bg-gradient-to-b from-[#160129] to-gray-900 text-white" onClick = {handleSubmit}></Button>
+      <Button className = "bg-[red]" onClick = {handleSubmit}></Button>
       
       <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-        <Search recommendedPodcast = {posts1}/>
+        <Search recommendedPodcast = {props1}/>
       </main>
 
       <footer className="items-center   w-full   border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
@@ -73,21 +74,27 @@ export default function Explore({posts1}) {
 
 console.log("6IoJbs4HD0uj7JiE")
 
-export async function getStaticProps(){
-    const res = await fetch('http://127.0.0.1:8000/podcastrecommender/api/', {
-      headers: {
-        'Content-Type': 'application/json',
-        'name' : 'Shruti',
-      },
-     // body: JSON.stringify("shruti"),
-    })
-    const posts1 = await res.json();
-    return{
-      props:{
-        posts1
-      }
-    };
-  }
+
+// export async function getServerSideProps(context) {
+//   const { req } = context;
+//   const props1 = await parse(req);
+//   return { props : {props1} };
+//};
+// export async function getStaticProps(){
+//     const res = await fetch('http://127.0.0.1:8000/podcastrecommender/api/', {
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'name' : 'Shruti',
+//       },
+//      // body: JSON.stringify("shruti"),
+//     })
+//     const posts1 = await res.json();
+//     return{
+//       props:{
+//         posts1
+//       }
+//     };
+//   }
 
 
 // export async function getStaticProps(){
