@@ -6,7 +6,8 @@ export const initialState = {
     podcasts: [],
     savedpodcasts: [],
     uploadedpodcasts: [],
-    archivedpodcasts: []
+    archivedpodcasts: [],
+    recommendedpodcasts: [],
 };
 
 export const actionTypes = {
@@ -17,7 +18,8 @@ export const actionTypes = {
     SET_PODCASTS:"SET_PODCASTS",
     SET_UPLOADEDPODCASTS: "SET_UPLOADEDPODCASTS",
     SET_SAVEDPODCASTS: "SET_SAVEDPODCASTS" ,
-    SET_ARCHIVEDPODCASTS: "SET_ARCHIVEDPODCASTS"
+    SET_ARCHIVEDPODCASTS: "SET_ARCHIVEDPODCASTS",
+    SET_RECOMMENDEPODCASTS: "SET_RECOMMENDEPODCASTS",
 }
 
 const reducer = (state,action) => {
@@ -68,6 +70,11 @@ const reducer = (state,action) => {
             return {
                 ...state,
                 archivedpodcasts: action.archivedpodcasts
+            }
+        case actionTypes.SET_RECOMMENDEPODCASTS:
+            return {
+                ...state,
+                recommendedpodcasts: action.recommendedpodcasts
             }
         
         default:

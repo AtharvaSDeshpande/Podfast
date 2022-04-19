@@ -2,12 +2,13 @@ import { DialogContentText, Divider, Tabs, Tab } from '@material-ui/core'
 import { Close, SearchSharp } from '@material-ui/icons'
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { actionTypes } from '../redux/reducer';
 import { useStateValue } from '../redux/StateProvider';
 import Creator from './Creator';
 import Post from './Post';
 
-function Search({recommendedPodcast}) {
-  const [{user},dispatch] = useStateValue()
+function Search({}) {
+  const [{user,recommendedpodcasts},dispatch] = useStateValue()
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState(false);
   const handleSearch = (e) => {
@@ -64,12 +65,24 @@ function Search({recommendedPodcast}) {
   
   useEffect(async() => {
     let url = 'http://localhost:8000/'+user?._id;
-    const res = await axios.get(url)
-    console.log(res.data)
-    const ids = res.data.map(pod=>{
+    const djangores = await axios.get(url)
+    console.log(djangores.data)
+    const ids = djangores.data.map(pod=>{
       return pod.id
     })
     console.log(ids)
+    const res  = await axios("../api/podcast/getRecomendedPodcasts/",{
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      data: {ids: ids}
+    })
+    console.log(res.data.data)
+    dispatch({
+      type: actionTypes.SET_RECOMMENDEPODCASTS,
+      recommendedpodcasts: res.data.data
+    })
   }, [])
 
   return (
@@ -135,6 +148,10 @@ function Search({recommendedPodcast}) {
           <Post id={podcast.uuid} img={podcast.image} username={"ana"} name={podcast.author} caption={podcast.description_x} link={podcast.audio} summlink={null} title={podcast.title_x} creators={"mul creators"} />
 
         ))} */}
+        {recommendedpodcasts.map(podcast => (
+            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+
+          ))}
       </div>}
     </div>
   )
