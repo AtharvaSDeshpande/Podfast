@@ -1,3 +1,5 @@
+# Only needed for adding data from csv to mongodb
+
 from django.db import models
 
 # Create your models here.
@@ -40,8 +42,3 @@ class Podcast(models.Model):
     #audio
     audio = models.CharField(max_length=1000, null=True)
 
-
-
-# class Users1(models.Model):
-#     #id 
-#     _id - models.
