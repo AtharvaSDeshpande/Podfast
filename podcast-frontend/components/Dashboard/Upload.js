@@ -22,9 +22,9 @@ function Upload() {
 
             })
             console.log(res);
-            
+            runBackendServer(res.data.id)
             setSuccess(true);
-        
+            
 
 
         } catch (error) {
@@ -37,6 +37,7 @@ function Upload() {
     const formik = useFormik({
 
         initialValues: {
+            _id : '',
             title: '',
             creatorID: user._id,
             creators: '',
@@ -60,12 +61,14 @@ function Upload() {
             setError(null)
             setSuccess(null)
             const finalValues = {
+                
                 title: values.title.toLowerCase(),
                 creatorID: values.creatorID,
                 creatorNames: values.creators.split(","),
                 img: values?.img,
                 url: values.url,
-                tags: values.tags.split(" ")
+                tags: values.tags.split(" "),
+                _id: ""
             }
             upload(finalValues);
             formik.resetForm({
@@ -85,7 +88,11 @@ function Upload() {
 
     });
 
-
+const runBackendServer = async(id) => {
+    let url = 'http://localhost:8000/podcastsummarizer/summary/'+id;
+    const djangores = await axios.get(url)
+    console.log(djangores.data)
+}
     return (
         <div className='text-white' onClick={() => {
             setError(null)
@@ -155,6 +162,8 @@ function Upload() {
 
 
             </form>
+            {/* <Button onClick = {check} type="submit" className='m-2 mt-5' variant='contained' color='secondary'>BACKEND</Button> */}
+
 
         </div>
     )
