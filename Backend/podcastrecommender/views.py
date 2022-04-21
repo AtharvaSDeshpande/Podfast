@@ -13,6 +13,13 @@ def DemoView(request,id):
     result = {}
     result = rec(id)
     data = request.GET
+    keys = result.keys()
+    print (keys)
+    result = []
+    for i in keys:
+        result.append({
+            "id": i
+        })
     response = json.dumps(result)
     print (response)
     

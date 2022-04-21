@@ -14,6 +14,10 @@ const PodcastSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
+    creatorNames: {
+        type: Array,
+        default: null,
+    },
     tags: {
         type: Array,
         default: null,
@@ -58,7 +62,21 @@ const PodcastSchema = new mongoose.Schema({
     isArchived: {
         type: Boolean,
         default: false,
-    }
+    },
+    description: {
+        type: String,
+        default: null
+    },
+    categories: {
+        type: String,
+        default : null
+
+    },
+    audio_length: {
+        type: Number,
+        default: 0
+    },
+
 
 },{timestamps: true});
 

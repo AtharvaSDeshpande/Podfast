@@ -1,21 +1,25 @@
 export const initialState = {
     user: null,
     dashboardpage: 0,
-    podcast: {id: "", title: "",creators: "", url: null},
+    skip: 0,
+    podcast: {id: "", title: "",creators: "", url: null, img: null},
     podcasts: [],
     savedpodcasts: [],
     uploadedpodcasts: [],
-    archivedpodcasts: []
+    archivedpodcasts: [],
+    recommendedpodcasts: [],
 };
 
 export const actionTypes = {
     SET_USER: "SET_USER",
     SET_DASHBOARDPAGE: "SET_DASHBOARDPAGE",
+    SET_SKIP: "SET_SKIP",
     SET_URL: "SET_URL",
     SET_PODCASTS:"SET_PODCASTS",
     SET_UPLOADEDPODCASTS: "SET_UPLOADEDPODCASTS",
     SET_SAVEDPODCASTS: "SET_SAVEDPODCASTS" ,
-    SET_ARCHIVEDPODCASTS: "SET_ARCHIVEDPODCASTS"
+    SET_ARCHIVEDPODCASTS: "SET_ARCHIVEDPODCASTS",
+    SET_RECOMMENDEPODCASTS: "SET_RECOMMENDEPODCASTS",
 }
 
 const reducer = (state,action) => {
@@ -33,6 +37,13 @@ const reducer = (state,action) => {
                 ...state,
                 dashboardpage: action.dashboardpage,          //  Change the user to what we dispatched
         };
+        case actionTypes.SET_SKIP:
+            return {
+                ...state,
+                skip: action.skip
+            };
+
+
         case actionTypes.SET_URL:
             return {
                 ...state,
@@ -59,6 +70,11 @@ const reducer = (state,action) => {
             return {
                 ...state,
                 archivedpodcasts: action.archivedpodcasts
+            }
+        case actionTypes.SET_RECOMMENDEPODCASTS:
+            return {
+                ...state,
+                recommendedpodcasts: action.recommendedpodcasts
             }
         
         default:

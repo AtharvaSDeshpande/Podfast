@@ -40,7 +40,7 @@ function Saved() {
                       img= {podcast.podcastID.img} 
                       username= {podcast.podcastID?.creatorID?.email?.split("@")[0]} 
                       name = {podcast.podcastID.creatorID.name}  
-                      caption={l} 
+                      caption={podcast?.description}
                       link={podcast.podcastID.url} 
                       summlink={podcast.podcastID.summaryUrl} 
                       title = {podcast.podcastID.title} 

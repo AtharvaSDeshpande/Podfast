@@ -45,6 +45,12 @@ function Posts() {
 
     return (
         <div>
+            <div className="text-white text-center m-5">
+                {uploadedpodcasts?.length == 0?(<p>
+                   No results found!!! Upload New podcasts from the upload tab 
+                </p>):(null)}
+
+            </div>
             <div className="flex flex-wrap justify-evenly">
                 {uploadedpodcasts?.map((podcast) => (
                 <Post 
@@ -52,7 +58,8 @@ function Posts() {
                 img={podcast.img} 
                 username={podcast.creatorID.email.split("@")[0]} 
                 name = {podcast.creatorID.name}  
-                caption={l} link={podcast.url} 
+                caption={podcast?.description}
+                link={podcast.url} 
                 summlink={podcast.summaryUrl} 
                 title = {podcast.title} 
                 creators = {podcast.creatorNames.join(", ")} 
@@ -62,7 +69,7 @@ function Posts() {
             ))}
             </div>
             
-        <footer className="items-center   w-full  p-3 border-neutral-900 border-b  bg-gradient-to-b from-[#160129] to-gray-900 text-white">
+        <footer className="items-center   w-full  p-3 border-neutral-900 border-b   text-white">
             <Player />
         </footer>
         </div>

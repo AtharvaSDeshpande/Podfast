@@ -12,24 +12,23 @@ import { getCookie } from 'cookies-next'
 import reducer, { actionTypes,initialState } from '../redux/reducer'
 import { Button } from '@material-ui/core'
 import axios from 'axios';
-//import parse from "urlencoded-body-parser";
 
 export default function Explore({props1}) {
   const [{ user }, dispatch] = useStateValue();
-  const handleSubmit = async(e) => {
-    let url = 'http://localhost:8000/'+user?._id;
-    const res = await axios.get(url, "Shruti", {
-      headers: {
-        'content-type': 'text/plain'
-      }
-    })
-    console.log(res.data)
-    //console.log(props1.data)
-        // .then(res => {
-        //   //console.log(res.data);
-        // })
-        // .catch(err => console.log(err))
-  };
+  // const handleSubmit = async(e) => {
+  //   let url = 'http://localhost:8000/'+user?._id;
+  //   const res = await axios.get(url, "Shruti", {
+  //     headers: {
+  //       'content-type': 'text/plain'
+  //     }
+  //   })
+  //   console.log(res.data)
+  //   //console.log(props1.data)
+  //       // .then(res => {
+  //       //   //console.log(res.data);
+  //       // })
+  //       // .catch(err => console.log(err))
+  // };
   
   if (user == null)
   {
@@ -58,7 +57,7 @@ export default function Explore({props1}) {
       </Head>
       <Header />
 
-      <Button className = "bg-[red]" onClick = {handleSubmit}></Button>
+      {/* <Button className = "bg-[red]" onClick = {handleSubmit}></Button> */}
       
       <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
         <Search recommendedPodcast = {props1}/>

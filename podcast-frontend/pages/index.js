@@ -1,27 +1,43 @@
 
 import Head from 'next/head'
-import { useEffect } from 'react'
+import React from 'react'
 import Feed from '../components/Feed'
-import { isSignedIn, loginUser } from '../components/functions'
+import { isSignedIn, loginUser, setSkip } from '../components/functions'
 import Header from '../components/Header'
 import Player from '../components/Player'
 import { useStateValue } from '../redux/StateProvider'
-import { useRouter } from "next/router";
 import Welcome from '../components/Welcome'
-import { getCookie } from 'cookies-next'
 import { actionTypes } from '../redux/reducer'
 
-export default function Home() {
-  const [{ user }, dispatch] = useStateValue();
-  if (user == null)
-  {
+export default function Home() {  
+  
+  const [{ user, podcasts }, dispatch] = useStateValue();
+
+  
+  if (user == null) {
     loginUser();
   }
-  
-  if (!isSignedIn(user))
-    return (<Welcome />)
 
-    return (
+  if (!isSignedIn(user)) {
+    return (<Welcome />)
+  }
+
+  
+  const handleScroll = (e) => {
+    const { offsetHeight, scrollTop, scrollHeight } = e.target
+    if (offsetHeight + scrollTop >= scrollHeight-5) {
+      // alert("ss")
+      
+        dispatch({
+          type: actionTypes.SET_SKIP,
+          skip: podcasts.length
+        })
+      
+    }
+  }
+
+  
+  return (
     <div className="flex flex-col items-center justify-center min-h-screen   h-screen overflow-y-scroll scrollbar-hide">
       <Head>
         <title>PodFast</title>
@@ -29,7 +45,7 @@ export default function Home() {
       </Head>
       <Header />
 
-      <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+      <main onScroll={handleScroll} className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
         <Feed />
       </main>
 

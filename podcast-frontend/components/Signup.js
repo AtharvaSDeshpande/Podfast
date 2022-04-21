@@ -30,6 +30,9 @@ function Signup() {
         }
 
     }
+    const colors = ["black","teal","red","green","blue","blueviolet","black"]
+    var index = Math.ceil(Math.random()*(colors.length)) - 1;
+      
     const formik = useFormik({
 
         initialValues: {
@@ -39,6 +42,7 @@ function Signup() {
             confirmPassword: '',
             age: '',
             salt: '',
+            color: colors[index],
 
         },
 
@@ -72,6 +76,7 @@ function Signup() {
                     confirmPassword: '',
                     age: '',
                     salt: '',
+                    color: colors[Math.ceil(Math.random()*(colors.length)) - 1]
 
                 }
             })
