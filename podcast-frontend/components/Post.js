@@ -15,6 +15,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID === id);
 
     const [isSaved, setIsSaved] = useState(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
+    const [commentInput,setCommentInput] = useState("");
 
     const updateSaveState = () => {
         const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID._id === id);
@@ -173,14 +174,43 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
     }));
+
+    const loadComments = async()=>{
+        //console.log(id);
+        const res = await axios("../api/podcast/comments/" + id, {
+            method: "GET",
+        })
+        setComments(res.data.data.comments);
+        console.log(res.data.data.comments);
+    }
     const [modalStyle] = useState(getModalStyle);
     const classes = useStyles();
     const [commentsModalOpen, setCommentsModalOpen] = useState(false);
+    const [commentsData,setComments] = useState([]);
     const handleCommentsModalOpen = () => {
-        setCommentsModalOpen(true);
+        loadComments().then(()=>{
+            setCommentsModalOpen(true);
+        });
+        
+               
     }
     const handleCommentsModalClose = () => {
         setCommentsModalOpen(false);
+    }
+
+    const postComment =async () =>{
+        console.log(commentInput);
+        const res = await axios("../api/podcast/comments/" + id, {
+            method: "PUT",
+            params:{
+                userID:user._id,
+                comment:commentInput,
+                timestamp:new Date().toISOString()
+            }
+        })
+
+        console.log(res.data);
+
     }
 
     return (
@@ -256,13 +286,15 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     {/* <p>{summary}</p> */}
                 </div>
 
-                <form className="flex items-center p-4">
+                <div className="flex items-center p-4">
                     <InsertEmoticon className="h-7" />
                     <input type="text"
                         placeholder="Add a comment..."
+                        value={commentInput}
+                        onChange={(e)=>{setCommentInput(e.target.value)}}
                         className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
-                    <button className="font-semibold text-blue-600">Post</button>
-                </form>
+                    <button onClick={postComment} className="font-semibold text-blue-600">Post</button>
+                </div>
             </>) : null}
 
 
@@ -273,6 +305,13 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             >
                 <div style={modalStyle} className={`${classes.paper} border-0 p-1`}>
                     <p className="font-bold">Comments</p>
+                    <div>
+                        {commentsData?.map((comment)=>(
+                            <p className="px-4 mt-4 truncate">
+                            <span className="font-semibold mr-1 text-sm">{comment.userID.name}</span>{comment.comment}
+                            </p>
+                        ))}
+                    </div>
                     <hr />
                 </div>
             </Modal>
