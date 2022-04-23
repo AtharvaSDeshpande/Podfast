@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('podcastrecommender.urls')),
     path('podcastsummarizer/', include('podcastsummary.urls')),
 
+    path('growth-predict/',include('growth_predict.urls'))
 ]

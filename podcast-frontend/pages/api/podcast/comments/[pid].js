@@ -2,12 +2,18 @@ import { Mongoose } from "mongoose";
 import dbConnect from "../../../../db/dbconnect";
 import Podcast from "../../../../models/Podcast";
 import Comment from "../../../../models/Comment";
+import axios from 'axios';
 var ObjectId = require('mongoose').Types.ObjectId;
 
 //connecting to database
 dbConnect();
-async function insertComment(comment)
+async function insertComment(comment,podcastId)
 {
+    const sentimentResponse = await axios.get("http://127.0.0.1:8000/growth-predict/"+podcastId+"/"+comment.comment);
+    //const sentiment = await sentimentResponse.json();
+    console.log(sentimentResponse.data);
+    comment.sentiment = sentimentResponse.data;
+    console.log(comment);
     //save new comment in comment collection
     Comment.create(comment,((err,doc)=>{
         if(err)
@@ -38,6 +44,7 @@ export default async (req, res) => {
                //create new comment object
                let comment = new Comment(req.body);
                console.log(comment);
+               //insertComment(comment,req.query.pid)
 
                //push comment object in podcast comment array
                Podcast.findOneAndUpdate({_id:req.query.pid},{$push:{comments: comment._id}},((err,doc)=>{
