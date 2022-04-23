@@ -14,6 +14,9 @@ const CommentSchema = new mongoose.Schema({
     timestamp:{
         type: Date, 
         default: Date.now
+    },
+    sentiment:{
+        type: String
     }
 
 });

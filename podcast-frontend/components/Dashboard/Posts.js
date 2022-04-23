@@ -23,6 +23,7 @@ function Posts() {
 
             })
             const podcasts = res.data.data;
+            
             console.log(podcasts)
             dispatch(
                 {
