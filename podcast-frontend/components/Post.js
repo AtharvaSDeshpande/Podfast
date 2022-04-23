@@ -191,6 +191,8 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         loadComments().then(()=>{
             setCommentsModalOpen(true);
         });
+
+        setCommentInput = "";
         
                
     }
@@ -202,7 +204,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         console.log(commentInput);
         const res = await axios("../api/podcast/comments/" + id, {
             method: "PUT",
-            params:{
+            data:{
                 userID:user._id,
                 comment:commentInput,
                 timestamp:new Date().toISOString()
