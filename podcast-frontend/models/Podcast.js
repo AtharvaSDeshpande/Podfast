@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const like = require("./LikeSchema");
+const comments = require("./Comment");
 // import like from "./LikeSchema";
 
 const PodcastSchema = new mongoose.Schema({

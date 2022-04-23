@@ -72,15 +72,17 @@ export default async (req, res) => {
         //get requeest for getting all the comments for a specific podcast
         case 'GET':
             console.log("get");
-            Podcast.findById(req.query.pid).populate("comments").exec((err,doc)=>{
+            console.log(req.query.pid);
+            Podcast.findById(req.query.pid).populate({path:"comments",populate:{path:"userID"}}).exec((err,doc)=>{
                 if(err)
                 {
+                    console.log(err);
                     res.status(400).send(err);
                 }
                 else
                 {
                     console.log(doc);
-                    res.status(200).send({success:true})
+                    res.status(200).send({success:true,data:doc})
                 }
                 
             });
