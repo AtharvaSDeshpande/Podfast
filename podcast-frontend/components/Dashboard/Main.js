@@ -1,6 +1,7 @@
 import React from 'react'
 import { useStateValue } from '../../redux/StateProvider';
 import Archived from './Archived';
+import Growth from './Growth';
 import Posts from './Posts';
 import Upload from './Upload';
 
@@ -12,7 +13,7 @@ function Main() {
         case 1:
             return <Upload/>
         case 2:
-            return <div>GROWTH</div>
+            return <Growth user={user}></Growth>
         case 3:
             return <Archived/>
                 
