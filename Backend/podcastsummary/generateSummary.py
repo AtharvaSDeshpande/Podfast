@@ -1,4 +1,7 @@
 from importlib.metadata import metadata
+from pickle import FALSE
+
+from numpy import False_
 from utils import *
 from bson.objectid import ObjectId
 
@@ -36,6 +39,9 @@ firebase_admin.initialize_app(cred, {
 bucket = storage.bucket()
 
 import pyrebase
+
+import smtplib
+from .creds import *;
 
 firebaseConfig = {
   "apiKey": "AIzaSyA46HvUuygrOyTzQuNR_VjXxl3asKPbdsQ",
@@ -137,12 +143,43 @@ def uploadSumm(id):
 
    
     return True
+
+
+def sendMail(id,getpodcast,uploadstatus):
+    receiver_address = (getpodcast['email'])
+    print (sender_address)
+    
+    if(uploadstatus == True):
+        subject = "Podcast uploaded successfully" 
+    else:
+        subject = "Podcast not uploaded, please check again"         
+
+    
+    body = "Hello from PodFast!\n\nThank you for using PodFast!!\n\n Your Podcast Title : " + getpodcast['title'] + "\n" + getpodcast['img'] + "\n" + "Upload at : " + getpodcast['createdAt'] + "\n" +"\n\n\nWith regards,\n\tDeveloper"
+    
+    # Endpoint for the SMTP Gmail server (Don't change this!)
+    smtp_server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+    
+    # Login with your Gmail account using SMTP
+    smtp_server.login(sender_address, account_password)
+    
+    # Let's combine the subject and the body onto a single message
+    message = f"Subject: {subject}\n\n{body}"
+    
+    # We'll be sending this message in the above format (Subject:...\n\nBody)
+    smtp_server.sendmail(sender_address, receiver_address, message)
+    
+    # Close our endpoint
+    smtp_server.close()
+
+
+
 def summary(id):
     print(id)
     db = demo()
     
     podcastCollection = db["podcasts"]
-    getpodcast = podcastCollection.find_one({'_id': ObjectId(id)},{"url": 1})
+    getpodcast = podcastCollection.find_one({'_id': ObjectId(id)})
     print((getpodcast['url']))    
     audiourl = getpodcast['url']
     filename = 'audio/speech.wav'
@@ -263,7 +300,10 @@ def summary(id):
     auddsumm += AudioSegment.from_wav("audio/split/chunk"+ str(length -1) + ".wav")
     auddsumm.export("summary/" + id + '.wav', format="wav")
 
-    uploadSumm(id)
+    if(uploadSumm(id)):
+        sendMail(id,getpodcast,True)
+    else:
+        sendMail(id,getpodcast,False)
 
     dir = 'audio/split'
     for f in os.listdir(dir):
