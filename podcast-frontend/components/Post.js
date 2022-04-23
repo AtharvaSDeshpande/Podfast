@@ -192,7 +192,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             setCommentsModalOpen(true);
         });
 
-        setCommentInput = "";
+        setCommentInput("");
         
                
     }
@@ -200,8 +200,9 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         setCommentsModalOpen(false);
     }
 
-    const postComment =async () =>{
+    const postComment =async (e) =>{
         console.log(commentInput);
+        e.preventDefault();
         const res = await axios("../api/podcast/comments/" + id, {
             method: "PUT",
             data:{
@@ -305,7 +306,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 open={commentsModalOpen}
                 onClose={handleCommentsModalClose}
             >
-                <div style={modalStyle} className={`${classes.paper} border-0 p-1`}>
+                <form style={modalStyle} className={`${classes.paper} border-0 p-1`}>
                     <p className="font-bold">Comments</p>
                     <div>
                         {commentsData?.map((comment)=>(
@@ -315,7 +316,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                         ))}
                     </div>
                     <hr />
-                </div>
+                </form>
             </Modal>
 
 
