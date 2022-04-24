@@ -11,7 +11,7 @@ export default async (req, res) => {
     try
     {
     const trends = await client.get('https://api.twitter.com/1.1/trends/place.json',{
-        id: 1//2295412
+        id: 2295412
     })
 res.status(200).json({data: trends})
 }

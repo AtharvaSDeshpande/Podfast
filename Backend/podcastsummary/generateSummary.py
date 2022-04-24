@@ -118,7 +118,38 @@ def extract_sentences(text, summary_length=100, clean_sentences=False, language=
 
     return summary
 
-def uploadSumm(id):
+def filter_for_tags(tagged, tags=['NN', 'JJ', 'NNP']):
+    """Apply syntactic filters based on POS tags."""
+    return [item for item in tagged if item[1] in tags]
+
+
+def normalize(tagged):
+    """Return a list of tuples with the first item's periods removed."""
+    return [(item[0].replace('.', ''), item[1]) for item in tagged]
+
+def unique_everseen(iterable, key=None):
+    """List unique elements in order of appearance.
+
+    Examples:
+        unique_everseen('AAAABBBCCDAABBB') --> A B C D
+        unique_everseen('ABBCcAD', str.lower) --> A B C D
+    """
+    seen = set()
+    seen_add = seen.add
+    if key is None:
+        for element in [x for x in iterable if x not in seen]:
+            seen_add(element)
+            yield element
+    else:
+        for element in iterable:
+            k = key(element)
+            if k not in seen:
+                seen_add(k)
+                yield element
+
+
+
+def uploadSumm(id,keywords,description):
 
 
    
@@ -130,7 +161,12 @@ def uploadSumm(id):
     
     podcastCollection = db["podcasts"]
 
-    updatePodcast = podcastCollection.find_one_and_update({'_id': ObjectId(id)},{"$set": {"summaryUrl": accessToken}})
+    updatePodcast = podcastCollection.find_one_and_update({
+        '_id': ObjectId(id)}, {"$set": {
+        "summaryUrl": accessToken,
+        "description": description,
+        "isOnline": True,
+    },"$push" : {"tags" : {"$each": keywords}},})
 
 
     # print(accessToken)
@@ -162,7 +198,7 @@ def sendMail(id,getpodcast,uploadstatus):
         subject = "Podcast not uploaded, please check again"         
 
     
-    body = "Hello from PodFast!\n\nThank you for using PodFast!!\n\n Your Podcast Title : " + getpodcast['title'] + "\n" + getpodcast['img'] + "\n"  + "\n" +"\n\n\nWith regards,\n\tDeveloper"
+    body = "Hello " +  creator['name'] + "!\n\nThank you for using PodFast!!\n\n Your Podcast Title : " + getpodcast['title'] + "\n" + getpodcast['img'] + "\n"  + "\n" +"\n\n\nWith regards,\nPodFast Admin"
     
     # Endpoint for the SMTP Gmail server (Don't change this!)
     smtp_server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
@@ -179,6 +215,72 @@ def sendMail(id,getpodcast,uploadstatus):
     # Close our endpoint
     smtp_server.close()
 
+def extract_key_phrases(text):
+    """Return a set of key phrases.
+
+    :param text: A string.
+    """
+    # tokenize the text using nltk
+    word_tokens = nltk.word_tokenize(text)
+
+    # assign POS tags to the words in the text
+    tagged = nltk.pos_tag(word_tokens)
+    textlist = [x[0] for x in tagged]
+
+    tagged = filter_for_tags(tagged)
+    tagged = normalize(tagged)
+
+    unique_word_set = unique_everseen([x[0] for x in tagged])
+    word_set_list = list(unique_word_set)
+
+    # this will be used to determine adjacent words in order to construct
+    # keyphrases with two words
+
+    graph = build_graph(word_set_list)
+
+    # pageRank - initial value of 1.0, error tolerance of 0,0001,
+    calculated_page_rank = nx.pagerank(graph, weight='weight')
+
+    # most important words in ascending order of importance
+    keyphrases = sorted(calculated_page_rank, key=calculated_page_rank.get,
+                        reverse=True)
+
+    # the number of keyphrases returned will be relative to the size of the
+    # text (a third of the number of vertices)
+    one_third = len(word_set_list) // 3
+    keyphrases = keyphrases[0:one_third + 1]
+
+    # take keyphrases with multiple words into consideration as done in the
+    # paper - if two words are adjacent in the text and are selected as
+    # keywords, join them together
+    modified_key_phrases = set([])
+    # keeps track of individual keywords that have been joined to form a
+    # keyphrase
+    dealt_with = set([])
+    i = 0
+    j = 1
+    while j < len(textlist):
+        first = textlist[i]
+        second = textlist[j]
+        if first in keyphrases and second in keyphrases:
+            keyphrase = first + ' ' + second
+            modified_key_phrases.add(keyphrase)
+            dealt_with.add(first)
+            dealt_with.add(second)
+        else:
+            if first in keyphrases and first not in dealt_with:
+                modified_key_phrases.add(first)
+
+            # if this is the last word in the text, and it is a keyword, it
+            # definitely has no chance of being a keyphrase at this point
+            if j == len(textlist) - 1 and second in keyphrases and \
+                    second not in dealt_with:
+                modified_key_phrases.add(second)
+
+        i = i + 1
+        j = j + 1
+
+    return modified_key_phrases
 
 
 def summary(id):
@@ -293,21 +395,24 @@ def summary(id):
         text = text + sentences[i] +' $  '+ str(i) + " . "
     # print (text)
     sentences = extract_sentences(text, summary_length=500, clean_sentences=True).split('. ')
+    keywords = extract_key_phrases(text)
 
     sum = ''
     for i in range(0,len(sentences)):
         print(sentences[i])
         sentences[i] = sentences[i].replace('.',' ')
 
+    description = ""
     auddsumm = AudioSegment.from_wav("audio/split/chunk0.wav")
     for i in range (0,len(sentences)):
         arr = sentences[i].split('$')
+        description += arr[0]
         temp = AudioSegment.from_wav("audio/split/chunk" + str(int(arr[1])) + ".wav")
         auddsumm += temp
     auddsumm += AudioSegment.from_wav("audio/split/chunk"+ str(length -1) + ".wav")
     auddsumm.export("summary/" + id + '.wav', format="wav")
 
-    if(uploadSumm(id)):
+    if(uploadSumm(id,list(keywords),description)):
         sendMail(id,getpodcast,True)
     else:
         sendMail(id,getpodcast,False)
