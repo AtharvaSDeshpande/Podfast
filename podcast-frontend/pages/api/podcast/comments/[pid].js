@@ -55,9 +55,11 @@ export default async (req, res) => {
                    }
                    else
                    {
-                        insertComment(comment);
-                        res.status(200).send("succesfully added your comment: "+doc);
-                        res.end();
+                        insertComment(comment).then(()=>{
+                            res.status(200).send("succesfully added your comment: "+doc);
+                            res.end();
+                        });
+                        
                    }
                }));
 
