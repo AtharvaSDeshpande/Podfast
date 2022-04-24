@@ -6,7 +6,7 @@ import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor,categories = null }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
     const a = []
@@ -251,8 +251,10 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
 
-                    <div className="ml-5 h-20 flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-                        <p className="font-bold capitalize">{title}</p>
+                    <div className="ml-5 h-[120px] flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+                        <p className="font-bold capitalize">{title}</p>    
+                        <p className="font-bold capitalize text-[#646363] mb-2">{categories}</p>
+                        
                         <p className="  ">{summary}</p>
                     </div>
 
