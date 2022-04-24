@@ -6,7 +6,10 @@ import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import InputEmoji from "react-input-emoji";
+
 function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor,categories = null }) {
+
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
     const a = []
@@ -188,6 +191,9 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     const classes = useStyles();
     const [commentsModalOpen, setCommentsModalOpen] = useState(false);
     const [commentsData,setComments] = useState([]);
+
+    const [text, setText] = useState("");
+
     const handleCommentsModalOpen = () => {
         loadComments().then(()=>{
             
@@ -295,11 +301,18 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 </div>
 
                 <div className="flex items-center p-4">
-                    <InsertEmoticon className="h-7" />
-                    <input type="text"
+                    {/* <InputEmoji className="h-7" /> */}
+                    {/* <InputEmoji
+                        value={text}
+                        onChange={setText}
+                        cleanOnEnter
+                        onEnter={handleOnEnter}
+                        placeholder="Type a message"
+                        /> */}
+                    <InputEmoji type="text"
                         placeholder="Add a comment..."
                         value={commentInput}
-                        onChange={(e)=>{setCommentInput(e.target.value)}}
+                        onChange={setCommentInput}
                         className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
                     <button onClick={postComment} className="font-semibold text-blue-600">Post</button>
                 </div>
