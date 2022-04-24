@@ -26,7 +26,8 @@ function Player() {
     useEffect(() => {
         const seconds = Math?.floor(audioPlayer?.current?.duration);
         setDuration(seconds);
-        progressBar?.current?.max = seconds;
+        if (progressBar?.current)
+            progressBar?.current.max = seconds;
     }, [audioPlayer?.current?.loadedmetadata, audioPlayer?.current?.readyState]);
 
     const calculateTime = (secs) => {
@@ -42,7 +43,7 @@ function Player() {
         setIsPlaying(!prevValue);
         if (!prevValue) {
             audioPlayer?.current?.play();
-            animationRef?.current = requestAnimationFrame(whilePlaying)
+            animationRef.current = requestAnimationFrame(whilePlaying)
         } else {
             audioPlayer?.current?.pause();
             cancelAnimationFrame(animationRef?.current);
@@ -50,13 +51,14 @@ function Player() {
     }
 
     const whilePlaying = () => {
-        progressBar?.current?.value = audioPlayer?.current?.currentTime;
+        if (progressBar?.current)
+            progressBar?.current.value = audioPlayer?.current?.currentTime;
         changePlayerCurrentTime();
-        animationRef?.current = requestAnimationFrame(whilePlaying);
+        animationRef.current = requestAnimationFrame(whilePlaying);
     }
 
     const changeRange = () => {
-        audioPlayer?.current?.currentTime = progressBar?.current?.value;
+        audioPlayer?.current.currentTime = progressBar?.current?.value;
         changePlayerCurrentTime();
     }
 
@@ -68,7 +70,7 @@ function Player() {
         setCurrentTime(progressBar?.current?.value);
     };
     const changeAudioToPlayhead = () => {
-        audioPlayer?.current?.currentTime = progressBar?.current?.value;
+        audioPlayer?.current.currentTime = progressBar?.current?.value;
         setCurrentTime(progressBar?.current?.value);
         progressBar?.current?.style?.setProperty(
             '--seek-before-width',
@@ -77,7 +79,7 @@ function Player() {
     };
 
     const timeTravel = (newTime) => {
-        progressBar?.current?.value = newTime;
+        progressBar?.current.value = newTime;
         updateCurrentTime();
         changeAudioToPlayhead();
     };
@@ -98,7 +100,7 @@ function Player() {
         {
             setIsPlaying(true);
             audioPlayer?.current?.play();
-            animationRef?.current = requestAnimationFrame(whilePlaying)
+            animationRef.current = requestAnimationFrame(whilePlaying)
         }
     },[podcast])
     // const url = "https://firebasestorage.googleapis.com/v0/b/instagram-a0c6d.appspot.com/o/Podcast1.wav?alt=media&token=2e628242-28a8-4366-a07d-b06779d3f3f3"
