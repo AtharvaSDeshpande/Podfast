@@ -180,6 +180,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         const res = await axios("../api/podcast/comments/" + id, {
             method: "GET",
         })
+        
         setComments(res.data.data.comments);
         console.log(res.data.data.comments);
     }
@@ -189,8 +190,11 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     const [commentsData,setComments] = useState([]);
     const handleCommentsModalOpen = () => {
         loadComments().then(()=>{
+            
             setCommentsModalOpen(true);
         });
+        
+        
         
                
     }
@@ -198,16 +202,18 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
         setCommentsModalOpen(false);
     }
 
-    const postComment =async () =>{
+    const postComment =async (e) =>{
         console.log(commentInput);
+        e.preventDefault();
         const res = await axios("../api/podcast/comments/" + id, {
             method: "PUT",
-            params:{
+            data:{
                 userID:user._id,
                 comment:commentInput,
-                timestamp:new Date().toISOString()
+                timestamp:new Date()
             }
         })
+        setCommentInput("");
 
         console.log(res.data);
 
@@ -305,17 +311,29 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 open={commentsModalOpen}
                 onClose={handleCommentsModalClose}
             >
-                <div style={modalStyle} className={`${classes.paper} border-0 p-1`}>
-                    <p className="font-bold">Comments</p>
-                    <div>
+                <form style={modalStyle} className={`${classes.paper} border-0 p-1`}>
+                    <div className = "overflow-y-scroll">
                         {commentsData?.map((comment)=>(
                             <p className="px-4 mt-4 truncate">
                             <span className="font-semibold mr-1 text-sm">{comment.userID.name}</span>{comment.comment}
+                            <p className="text-sm">{new Date(comment.timestamp).toDateString()+" at "+new Date(comment.timestamp).toTimeString().split("G")[0]}</p>
                             </p>
                         ))}
                     </div>
                     <hr />
-                </div>
+
+                    <div className="flex items-center p-4">
+                    <InsertEmoticon className="h-7" />
+                    <input type="text"
+                        placeholder="Add a comment..."
+                        value={commentInput}
+                        onChange={(e)=>{setCommentInput(e.target.value)}}
+                        className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
+                    <button onClick={postComment} className="font-semibold text-blue-600">Post</button>
+                    </div>
+                </form>
+
+                
             </Modal>
 
 

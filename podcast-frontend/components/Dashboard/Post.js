@@ -123,7 +123,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 <div className="flex space-x-4">
                     <FavoriteBorderOutlined className="btn" />
                     <Comment className="btn" />
-
+                    <Comment className="btn"  />
 
                 </div>
                 <BookmarkBorderOutlined className="btn" />
