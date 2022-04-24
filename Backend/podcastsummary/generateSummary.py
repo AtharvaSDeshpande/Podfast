@@ -146,7 +146,14 @@ def uploadSumm(id):
 
 
 def sendMail(id,getpodcast,uploadstatus):
-    receiver_address = (getpodcast['email'])
+
+    db = demo()
+    
+    userCollection = db["users"]
+    creator = userCollection.find_one({'_id': getpodcast['creatorID']})
+    
+    
+    receiver_address = (creator['email'])
     print (sender_address)
     
     if(uploadstatus == True):
@@ -155,7 +162,7 @@ def sendMail(id,getpodcast,uploadstatus):
         subject = "Podcast not uploaded, please check again"         
 
     
-    body = "Hello from PodFast!\n\nThank you for using PodFast!!\n\n Your Podcast Title : " + getpodcast['title'] + "\n" + getpodcast['img'] + "\n" + "Upload at : " + getpodcast['createdAt'] + "\n" +"\n\n\nWith regards,\n\tDeveloper"
+    body = "Hello from PodFast!\n\nThank you for using PodFast!!\n\n Your Podcast Title : " + getpodcast['title'] + "\n" + getpodcast['img'] + "\n"  + "\n" +"\n\n\nWith regards,\n\tDeveloper"
     
     # Endpoint for the SMTP Gmail server (Don't change this!)
     smtp_server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
