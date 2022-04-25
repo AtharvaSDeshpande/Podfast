@@ -165,7 +165,7 @@ def uploadSumm(id,keywords,description):
     updatePodcast = podcastCollection.find_one_and_update({
         '_id': ObjectId(id)}, {"$set": {
         "summaryUrl": accessToken,
-        "description": description,
+        "textSummary": description,
         "isOnline": True,
     },"$push" : {"tags" : {"$each": keywords}},})
 
