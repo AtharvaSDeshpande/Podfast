@@ -1,5 +1,5 @@
-import { Avatar, Button, Tooltip } from "@material-ui/core";
-import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, SaveSharp, Send } from "@material-ui/icons";
+import { Avatar, Button, makeStyles, Modal, Tooltip } from "@material-ui/core";
+import { Bookmark, BookmarkBorder, BookmarkBorderOutlined, Comment, ExposureNeg1, Favorite, FavoriteBorder, FavoriteBorderOutlined, InsertEmoticon, PlayArrow, PlayCircleFilled, PlusOne, SaveSharp, Send } from "@material-ui/icons";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { actionTypes } from "../../redux/reducer";
@@ -69,6 +69,54 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
     }
+    const getModalStyle = () => {
+        const top = 50;
+        const left = 50;
+
+        return {
+            top: `${top}%`,
+            left: `${left}%`,
+            transform: `translate(-${top}%, -${left}%)`,
+        };
+    }
+    const useStyles = makeStyles((theme) => ({
+        paper: {
+            position: 'absolute',
+            width: '50%',
+            backgroundColor: theme.palette.background.paper,
+            border: '2px solid #000',
+            boxShadow: theme.shadows[5],
+
+        },
+
+
+    }));
+
+    const [modalStyle] = useState(getModalStyle);
+    const classes = useStyles();
+    const [commentsModalOpen, setCommentsModalOpen] = useState(false);
+    const [commentsData, setComments] = useState([]);
+    const handleCommentsModalOpen = () => {
+        loadComments().then(() => {
+
+            setCommentsModalOpen(true);
+        });
+
+
+
+    }
+    const handleCommentsModalClose = () => {
+        setCommentsModalOpen(false);
+    }
+    const loadComments = async () => {
+        //console.log(id);
+        const res = await axios("../api/podcast/comments/" + id, {
+            method: "GET",
+        })
+
+        setComments(res.data.data.comments);
+        console.log(res.data.data.comments);
+    }
     return (
         <div className="bg-gradient-to-r from-black to-[#013374] text-white m-3  my-7 border rounded-sm p-3 w-[50%]">
             <div className="flex flex-col items-center p-5 md:flex-row">
@@ -122,8 +170,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             <div className="flex justify-between px-4 pt-4">
                 <div className="flex space-x-4">
                     <FavoriteBorderOutlined className="btn" />
-                    <Comment className="btn" />
-                    <Comment className="btn"  />
+                    <Comment className="btn" onClick={handleCommentsModalOpen} />
 
                 </div>
                 <BookmarkBorderOutlined className="btn" />
@@ -145,6 +192,54 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             </div>
 
 
+            <Modal
+                open={commentsModalOpen}
+                onClose={handleCommentsModalClose}
+            >
+                <div style={modalStyle} className={`${classes.paper} border-0 p-1 h-[200px] overflow-y-scroll`}>
+                    <div className="">
+                        {commentsData?.map((comment) => (
+                            <p className="px-4 mt-4 ">
+                                <div className="flex items-center">
+                                    <div>{comment.sentiment=="NEGATIVE"?(
+                                        <ExposureNeg1 className="text-[red]"/>
+                                    ):(
+                                        <PlusOne className="text-[green]"/>
+
+                                        
+
+                                    )}</div>
+                                    <div className="m-1 capitalize"><Avatar style = {{backgroundColor: comment.userID.color}}>{comment.userID.name[0]}</Avatar></div>
+                                    <div className="w-full">
+                                        <div className="flex justify-between ">
+                                            <span className="font-semibold mr-3 text-sm">{comment.userID.name}</span>
+                                            <p className="text-sm text-[gray]">{new Date(comment.timestamp).toDateString() + " at " + new Date(comment.timestamp).toTimeString().split("G")[0]}</p>
+
+                                        </div>
+                                       <p>{comment.comment}</p>
+
+                                    </div>
+
+
+                                </div>
+                            </p>
+                        ))}
+                    </div>
+                    {/* <hr /> */}
+
+                    {/* <div className="flex items-center ">                        
+                        <InputEmoji type="text"
+                            placeholder="Add a comment..."
+                            value={commentInput}
+                            cleanOnEnter
+                            onChange={setCommentInput}
+                            onEnter={postComment}
+                            className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
+                    </div> */}
+                </div>
+
+
+            </Modal>
 
 
 
