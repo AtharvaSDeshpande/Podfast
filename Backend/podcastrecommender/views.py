@@ -10,18 +10,18 @@ from django.http import HttpResponse
 
 def DemoView(request,id):
     # print ("hello"+ id)
-    result = {}
+    result = []
     result = rec(id)
     data = request.GET
-    keys = result.keys()
-    print (keys)
-    result = []
-    for i in keys:
-        result.append({
-            "id": i
+    # keys = result.keys()
+    # print (keys)
+    result1 = []
+    for i in result:
+        result1.append({
+            "id": i.id
         })
-    response = json.dumps(result)
-    print (response)
+    response = json.dumps(result1)
+    # print (response)
     
     return HttpResponse(response)
 

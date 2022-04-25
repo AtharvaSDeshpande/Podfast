@@ -1,5 +1,6 @@
 # import sys
 # sys.path.append("/home/shruti/cWork/college/BE PROJECT/Git2/Podfast/Backend/podcastrecommender/management")
+from re import I
 from .generateSummary import *
 from django.shortcuts import render
 from . import views
@@ -25,6 +26,7 @@ def SummaryView(request,id):
     # print(url)
     result = summary(id)
     # result = uploadSumm(id)
+    # result = sendMail(id)
     data = request.GET
     response = json.dumps(result)
     print (response)

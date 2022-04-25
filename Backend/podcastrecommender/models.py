@@ -42,3 +42,6 @@ class Podcast(models.Model):
     #audio
     audio = models.CharField(max_length=1000, null=True)
 
+    #tag
+    tags = models.CharField(max_length=1000, null=True)
+

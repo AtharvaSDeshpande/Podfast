@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 var ObjectId = require('mongoose').Types.ObjectId;
+const user = require("./User");
 
 const CommentSchema = new mongoose.Schema({
 
