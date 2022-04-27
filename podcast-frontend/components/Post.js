@@ -7,8 +7,9 @@ import { useStateValue } from "../redux/StateProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import InputEmoji from "react-input-emoji";
+import { useRouter } from "next/router";
 
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor, categories = null }) {
+function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor, categories = null,creatorID }) {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
@@ -177,7 +178,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
     }));
-
+    const router = useRouter();
     const loadComments = async () => {
         //console.log(id);
         const res = await axios("../api/podcast/comments/" + id, {
@@ -233,6 +234,9 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div className="w-full">
                     <div className=" flex justify-between items-center p-5">
+                        <div className="flex items-center cursor-pointer" onClick={()=>{
+                            router.push('/creator/'+ creatorID)
+                        }}>
                         <Tooltip className=" capitalize" title={name}>
                             <Avatar
                                 alt=""
@@ -243,6 +247,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
                         </Tooltip>
                         <p className="flex-1 font-bold ">{username}</p>
+                        </div>
                         <div>
                             {summlink != null ? (
                                 <Tooltip title="Play Summary">
@@ -265,7 +270,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
 
-                    <div className="ml-5 h-[120px] flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+                    <div className="ml-5 h-[120px] flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-500">
                         <p className="font-bold capitalize">{title}</p>
                         <p className="font-bold capitalize text-[#646363] mb-2">{categories}</p>
 

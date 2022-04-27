@@ -151,7 +151,7 @@ function Search({ }) {
 
           </>) : (<>
             {searchPodcasts.map(podcast => (
-              <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+              <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} creatorID = {podcast?.creatorID._id}/>
 
             ))}</>)}
         </div> : value == 1 ? (<div>
@@ -167,7 +167,7 @@ function Search({ }) {
 
             </>) : (<>
               {searchOnTagsPodcasts.map(podcast => (
-                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} creatorID = {podcast?.creatorID._id}/>
 
               ))}</>)}
           </div>
@@ -180,7 +180,7 @@ function Search({ }) {
 
         ))} */}
         {recommendedpodcasts.map(podcast => (
-          <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+          <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} creatorID = {podcast?.creatorID._id}/>
 
         ))}
       </div>}

@@ -27,7 +27,7 @@ export default function ProfilePage() {
             </Head>
             <Header />
 
-            <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+            <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-white">
                 <Profile />
             </main>
 

@@ -45,7 +45,7 @@ export default function Home() {
       </Head>
       <Header />
 
-      <main onScroll={handleScroll} className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+      <main onScroll={handleScroll} className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-white">
         <Feed />
       </main>
 

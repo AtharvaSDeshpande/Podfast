@@ -33,7 +33,7 @@ export default function saved() {
       </Head>
       <Header />
 
-      <main className="md:col-span-2 flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+      <main className="md:col-span-2 flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-white">
         <Saved  />
       </main>
 

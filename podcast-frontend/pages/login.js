@@ -23,7 +23,7 @@ export default function Login() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         
-        <main className="flex-1 grid place-content-center items-center  w-full   overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+        <main className="flex-1 grid place-content-center items-center  w-full   overflow-y-scroll scrollbar-thin scrollbar-thumb-white">
           <Signin/>
         </main>
   
