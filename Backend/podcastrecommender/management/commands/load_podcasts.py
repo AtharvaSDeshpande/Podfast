@@ -27,6 +27,7 @@ class Command(BaseCommand):
             audio_length = row["audio_length"]
             image = row["image"]
             audio = row["audio"]
+            tag = row["tags"]
             # Populate Podcast object for each row
             podcast = Podcast(uuid=uuid,
                             categories=categories,
@@ -36,7 +37,8 @@ class Command(BaseCommand):
                             description_x=description_x,
                             audio_length=audio_length,
                             image=image,
-                            audio=audio)
+                            audio=audio,
+                            tags = tag)
             # Save podcast object
             podcast.save()
             print(f"Podcast: {uuid}, {title_x} saved...")
