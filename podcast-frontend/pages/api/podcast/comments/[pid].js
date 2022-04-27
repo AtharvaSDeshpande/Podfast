@@ -7,9 +7,9 @@ var ObjectId = require('mongoose').Types.ObjectId;
 
 //connecting to database
 dbConnect();
-async function insertComment(comment,podcastId)
+async function insertComment(comment)
 {
-    const sentimentResponse = await axios.get("http://127.0.0.1:8000/growth-predict/"+podcastId+"/"+comment.comment);
+    const sentimentResponse = await axios.get("http://127.0.0.1:8000/growth-predict/"+comment._id);
     //const sentiment = await sentimentResponse.json();
     console.log(sentimentResponse.data);
     comment.sentiment = sentimentResponse.data;
@@ -55,9 +55,11 @@ export default async (req, res) => {
                    }
                    else
                    {
-                        insertComment(comment);
-                        res.status(200).send("succesfully added your comment: "+doc);
-                        res.end();
+                        insertComment(comment).then(()=>{
+                            res.status(200).send("succesfully added your comment: "+doc);
+                            res.end();
+                        });
+                        
                    }
                }));
 
