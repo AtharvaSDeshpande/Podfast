@@ -6,6 +6,7 @@ import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import InputEmoji from "react-input-emoji";
 function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor,categories = null }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();

@@ -10,7 +10,7 @@ import pandas as pd
 
 # Create your views here.
 def home(request,commentId):
-    print("hello")
+    # print("hello")
     print(commentId)
     #get comment from database using commentId
     db = demo()
@@ -22,4 +22,5 @@ def home(request,commentId):
     sentiment = data_manager.get_result()
     result = json.dumps(sentiment)
     print(sentiment)
+    collection.find_one_and_update({"_id":ObjectId(commentId)},{"$set":{"sentiment":sentiment}})
     return HttpResponse(result)
