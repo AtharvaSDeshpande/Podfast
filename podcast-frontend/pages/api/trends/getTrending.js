@@ -24,7 +24,7 @@ export default async (req, res) => {
     const tags = trends[0].trends.map(trend=>{
         // console.log(trend)
         
-        return {$regex: ".*" +  trend.name.toLowerCase() + ".*"}
+        return trend.name;
     })
     console.log(tags)
    
