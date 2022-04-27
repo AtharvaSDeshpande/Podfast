@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { useStateValue } from '../../redux/StateProvider';
 import * as Yup from 'yup';
 import axios from 'axios';
+import Tag from '../Tag';
 
 
 function Upload() {
@@ -44,6 +45,7 @@ function Upload() {
             img: '',
             url: '',
             tags: '',
+            categories: ''
         },
 
         validationSchema: Yup.object({
@@ -51,7 +53,7 @@ function Upload() {
             title: Yup.string().required('Required'),
             creators: Yup.string().required('Required'),
             tags: Yup.string().required('Required'),
-            
+            categories: Yup.string().required("Required"),
             url: Yup.string().required('Required'),
 
 
@@ -64,10 +66,11 @@ function Upload() {
                 
                 title: values.title.toLowerCase(),
                 creatorID: values.creatorID,
-                creatorNames: values.creators.split(","),
+                creatorNames: values.creators.split("|"),
                 img: values?.img,
                 url: values.url,
                 tags: values.tags.split(" "),
+                categories: values.categories,
                 _id: ""
             }
             upload(finalValues);
@@ -79,6 +82,7 @@ function Upload() {
                     img: '',
                     url: '',
                     tags: '',
+                    categories: ''
 
 
                 }
@@ -121,19 +125,48 @@ const runBackendServer = async(id) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.creators}
-                        placeholder="Enter Creator names seperated by ',' " />
+                        placeholder="Enter Creator names seperated by '|' " />
                     {formik.touched.creators && formik.errors.creators ? (<p className="text-sm text-red-700 mr-2 text-right">{formik.errors.creators}</p>) : null}
 
                 </div>
 
                 <div className='flex flex-col text-left mt-3' >
                     <label className='ml-2 mr-2 text-white'>Tags:</label>
+                    <div className='ml-2 flex flex-wrap justify-start w-[300px]'>
+                        {formik.values.tags?.split(" ").map(tag => (
+                            <Tag name = {tag}/>
+                        ))}
+                        
+                        {/* <Tag name = {"Hello"}/>
+                        <Tag name = {"Hello"}/>
+                        <Tag name = {"Hello"}/> */}
+                    </div>
+                    
                     <input className='m-2 w-[300px]' type="text" id="tags"
                        onChange={formik.handleChange}
                        onBlur={formik.handleBlur}
                        value={formik.values.tags}
                         
                         placeholder='Enter space seperated tags' />
+                </div>
+                <div className='flex flex-col text-left mt-3' >
+                    <label className='ml-2 mr-2 text-white'>Categories:</label>
+                    <div className='ml-2 flex flex-wrap justify-start w-[300px]'>
+                        {formik.values.categories?.split("|").map(tag => (
+                            <Tag name = {tag}/>
+                        ))}
+                        
+                        {/* <Tag name = {"Hello"}/>
+                        <Tag name = {"Hello"}/>
+                        <Tag name = {"Hello"}/> */}
+                    </div>
+                    
+                    <input className='m-2 w-[300px]' type="text" id="categories"
+                       onChange={formik.handleChange}
+                       onBlur={formik.handleBlur}
+                       value={formik.values.categories}
+                        
+                        placeholder="Enter categories seperated by '|'" />
                 </div>
                 <div className='flex flex-col text-left mt-3' >
                     <label className='ml-2 mr-2 text-white'>Podcast:</label>
