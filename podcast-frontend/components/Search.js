@@ -7,8 +7,8 @@ import { useStateValue } from '../redux/StateProvider';
 import Creator from './Creator';
 import Post from './Post';
 
-function Search({}) {
-  const [{user,recommendedpodcasts},dispatch] = useStateValue()
+function Search({ }) {
+  const [{ user, recommendedpodcasts }, dispatch] = useStateValue()
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState(false);
   const handleSearch = (e) => {
@@ -27,16 +27,17 @@ function Search({}) {
 
   const [searchPodcasts, setSearchPodcasts] = useState([]);
   const [searchAuthors, setSearchAuthors] = useState([]);
+  const [searchOnTagsPodcasts, setSearchOnTagsPodcasts] = useState([]);
 
   const getSearchPodcasts = async () => {
     try {
-      
+
       const res = await axios('../api/podcast/search', {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        data: { title: search.toLowerCase()  }
+        data: { title: search.toLowerCase() }
 
       })
       const podcasts = res.data.data;
@@ -48,35 +49,51 @@ function Search({}) {
         headers: {
           "Content-Type": "application/json"
         },
-        data: { title: search.toLowerCase()  }
+        data: { title: search.toLowerCase() }
 
       })
       const users = userres.data.data;
       console.log(users)
       setSearchAuthors(users)
-    } catch (error) {
+
+      const tagsres = await axios('../api/podcast/searchOnTags', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: { title: search.toLowerCase()  }
+
+      })
+      const podcastsOnTags = tagsres.data.data;
+      console.log(podcastsOnTags)
+      setSearchOnTagsPodcasts(podcastsOnTags)
+
+
+    } 
+    catch (error) {
       console.log(error)
     }
+
   }
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
-  
-  useEffect(async() => {
-    let url = 'http://localhost:8000/'+user?._id;
+
+  useEffect(async () => {
+    let url = 'http://localhost:8000/' + user?._id;
     const djangores = await axios.get(url)
     console.log(djangores.data)
-    const ids = djangores.data.map(pod=>{
+    const ids = djangores.data.map(pod => {
       return pod.id
     })
     console.log(ids)
-    const res  = await axios("../api/podcast/getRecomendedPodcasts/",{
+    const res = await axios("../api/podcast/getRecomendedPodcasts/", {
       method: "POST",
       headers: {
-          "Content-Type": "application/json"
+        "Content-Type": "application/json"
       },
-      data: {ids: ids}
+      data: { ids: ids }
     })
     console.log(res.data.data)
     dispatch({
@@ -124,24 +141,38 @@ function Search({}) {
           >
             <Tab label="Podcasts" className='text-white' />
             <Tab className='text-white' label="Creators" />
+            <Tab className='text-white' label="Tags" />
 
           </Tabs>
         </div>
         {value == 0 ? <div>
-          {searchPodcasts.length == 0?(<>
-          <p className='text-neutral-300'>No Results Found</p>
-            
-          </>):(<>
-          {searchPodcasts.map(podcast => (
-            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+          {searchPodcasts.length == 0 ? (<>
+            <p className='text-neutral-300'>No Results Found</p>
 
-          ))}</>)}
-        </div> : <div>
-        {searchAuthors.map(creator => (
-          <Creator id = {creator._id} name={creator.name} email = {creator.email} color = {creator?.color}/>
-        ))}
+          </>) : (<>
+            {searchPodcasts.map(podcast => (
+              <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} categories={podcast?.categories}/>
 
-        </div>}
+            ))}</>)}
+        </div> : value == 1 ? (<div>
+
+          {searchAuthors.map(creator => (
+            <Creator id={creator._id} name={creator.name} email={creator.email} color={creator?.color} />
+          ))}
+
+        </div>) : (
+          <div>
+            {searchOnTagsPodcasts.length == 0 ? (<>
+              <p className='text-neutral-300'>No Results Found</p>
+
+            </>) : (<>
+              {searchOnTagsPodcasts.map(podcast => (
+                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} categories={podcast?.categories} />
+
+              ))}</>)}
+          </div>
+
+        )}
       </div> : <div className='mt-5 col-span-2'>
         <p className='text-white '>Recommendations for you</p>
         {/* {recommendedPodcast.map(podcast => (
@@ -149,9 +180,9 @@ function Search({}) {
 
         ))} */}
         {recommendedpodcasts.map(podcast => (
-            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} />
+          <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} categories={podcast?.categories} />
 
-          ))}
+        ))}
       </div>}
     </div>
   )

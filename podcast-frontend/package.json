@@ -23,9 +23,11 @@
     "react": "^17.0.2",
     "react-chartjs-2": "^4.1.0",
     "react-dom": "^17.0.2",
+    "react-input-emoji": "^4.1.0",
     "recoil": "^0.5.2",
     "stringify": "^5.2.0",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "twitter": "^1.7.1",
     "urlencoded-body-parser": "^3.0.0",
     "uuid": "^8.3.2",
     "yup": "^0.32.11"

@@ -6,6 +6,7 @@ import { actionTypes } from "../redux/reducer";
 import { useStateValue } from "../redux/StateProvider";
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import InputEmoji from "react-input-emoji";
 function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor,categories = null }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
@@ -15,7 +16,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID === id);
 
     const [isSaved, setIsSaved] = useState(((getsavedPodcasts?.findIndex(save => save.userID === user._id)) != -1))
-    const [commentInput,setCommentInput] = useState("");
+    const [commentInput, setCommentInput] = useState("");
 
     const updateSaveState = () => {
         const getsavedPodcasts = savedpodcasts.filter(save => save.podcastID._id === id);
@@ -175,41 +176,52 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
     }));
 
-    const loadComments = async()=>{
+    const loadComments = async () => {
         //console.log(id);
         const res = await axios("../api/podcast/comments/" + id, {
             method: "GET",
         })
+
         setComments(res.data.data.comments);
         console.log(res.data.data.comments);
     }
     const [modalStyle] = useState(getModalStyle);
     const classes = useStyles();
     const [commentsModalOpen, setCommentsModalOpen] = useState(false);
-    const [commentsData,setComments] = useState([]);
+    const [commentsData, setComments] = useState([]);
+
+    const [text, setText] = useState("");
+
     const handleCommentsModalOpen = () => {
-        loadComments().then(()=>{
+        loadComments().then(() => {
+
             setCommentsModalOpen(true);
         });
-        
-               
+
+
+
     }
     const handleCommentsModalClose = () => {
         setCommentsModalOpen(false);
     }
 
-    const postComment =async () =>{
+    const postComment = async (e) => {
         console.log(commentInput);
-        const res = await axios("../api/podcast/comments/" + id, {
-            method: "PUT",
-            params:{
-                userID:user._id,
-                comment:commentInput,
-                timestamp:new Date().toISOString()
-            }
-        })
+        if (commentInput != "")
+        {
+            const res = await axios("../api/podcast/comments/" + id, {
+                method: "PUT",
+                data: {
+                    userID: user._id,
+                    comment: commentInput,
+                    timestamp: new Date()
+                }
+            })
+            setCommentInput("");
+            console.log(res.data);
 
-        console.log(res.data);
+        }
+        
 
     }
 
@@ -224,7 +236,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                                 alt=""
 
                                 className={`h-10 w-10  uppercase  m-2`}
-                                style = {{backgroundColor: `${creatorColor}`}}
+                                style={{ backgroundColor: `${creatorColor}` }}
                             >{username[0]}</Avatar>
 
                         </Tooltip>
@@ -252,9 +264,9 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
 
                     <div className="ml-5 h-[120px] flex-1 overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
-                        <p className="font-bold capitalize">{title}</p>    
+                        <p className="font-bold capitalize">{title}</p>
                         <p className="font-bold capitalize text-[#646363] mb-2">{categories}</p>
-                        
+
                         <p className="  ">{summary}</p>
                     </div>
 
@@ -288,14 +300,25 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                     {/* <p>{summary}</p> */}
                 </div>
 
-                <div className="flex items-center p-4">
-                    <InsertEmoticon className="h-7" />
-                    <input type="text"
+                <div className="flex items-center p-4 ">
+                    {/* <InputEmoji className="h-7" /> */}
+                    {/* <InputEmoji
+                        value={text}
+                        onChange={setText}
+                        cleanOnEnter
+                        onEnter={handleOnEnter}
+                        placeholder="Type a message"
+                        /> */}
+                    <InputEmoji type="text"
                         placeholder="Add a comment..."
                         value={commentInput}
-                        onChange={(e)=>{setCommentInput(e.target.value)}}
+                        cleanOnEnter
+                        onChange={setCommentInput}
+                        onEnter={postComment}
+                        theme="dark"
+                        borderColor="#ff0000"
                         className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
-                    <button onClick={postComment} className="font-semibold text-blue-600">Post</button>
+                    {/* <button type="submit" onClick={postComment} className="font-semibold text-blue-600">Post</button> */}
                 </div>
             </>) : null}
 
@@ -305,17 +328,41 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 open={commentsModalOpen}
                 onClose={handleCommentsModalClose}
             >
-                <div style={modalStyle} className={`${classes.paper} border-0 p-1`}>
-                    <p className="font-bold">Comments</p>
-                    <div>
-                        {commentsData?.map((comment)=>(
-                            <p className="px-4 mt-4 truncate">
-                            <span className="font-semibold mr-1 text-sm">{comment.userID.name}</span>{comment.comment}
+                <div style={modalStyle} className={`${classes.paper} border-0 p-1 h-[200px] overflow-y-scroll`}>
+                    <div className="">
+                        {commentsData?.map((comment) => (
+                            <p className="px-4 mt-4 ">
+                                <div className="flex">
+                                    <div className="m-1 capitalize"><Avatar style = {{backgroundColor: comment.userID.color}}>{comment.userID.name[0]}</Avatar></div>
+                                    <div className="w-full">
+                                        <div className="flex justify-between">
+                                            <span className="font-semibold mr-3 text-sm">{comment.userID.name}</span>
+                                            <p className="text-sm text-[gray]">{new Date(comment.timestamp).toDateString() + " at " + new Date(comment.timestamp).toTimeString().split("G")[0]}</p>
+
+                                        </div>
+                                       <p>{comment.comment}</p>
+
+                                    </div>
+
+
+                                </div>
                             </p>
                         ))}
                     </div>
-                    <hr />
+                    {/* <hr /> */}
+
+                    {/* <div className="flex items-center ">                        
+                        <InputEmoji type="text"
+                            placeholder="Add a comment..."
+                            value={commentInput}
+                            cleanOnEnter
+                            onChange={setCommentInput}
+                            onEnter={postComment}
+                            className="border-none rounded-full  bg-auto mx-2 flex-1 focus:ring-0 outline-none items-center text-black" />
+                    </div> */}
                 </div>
+
+
             </Modal>
 
 

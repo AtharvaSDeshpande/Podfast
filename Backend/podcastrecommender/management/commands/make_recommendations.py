@@ -54,9 +54,9 @@ def loadData(id1) :
         podcast1 = MyPodcast(str(r['viewedpodcasts'][0]['_id']),r['viewedpodcasts'][0]['categories'],r['viewedpodcasts'][0]['title'],r['viewedpodcasts'][0]['description'],0)
         viewPodsObjs.append(podcast1)
         # print(podcast1.category)    
-    for x in viewPodsObjs:
-        print (x.id  + str(x.maxsimilarity) + x.category + x.title) 
-    print(len(viewPodsObjs))        
+    # for x in viewPodsObjs:
+    #     print (x.id  + str(x.maxsimilarity) + x.category + x.title) 
+    # print(len(viewPodsObjs))        
 
     collection_podcast = db["podcasts"]
     allpodcasts = collection_podcast.find({},{'categories':1 , 'title':1 , 'description' : 1})
@@ -135,9 +135,9 @@ def rec(id1) -> dict:
             reclist.append(tempPodcast)
 
     # reclist = sorted(reclist, key=lambda x: x.maxsimilarity,reverse=True)
-    for x in reclist:
-        print (x.id  + str(x.maxsimilarity) + x.category + x.title)
-    print(len(reclist))
+    # for x in reclist:
+    #     print (x.id  + str(x.maxsimilarity) + x.category + x.title)
+    # print(len(reclist))
 
     # print (viewPodsObjs[6].title)
     # print (allpodsObjs[1].title)
