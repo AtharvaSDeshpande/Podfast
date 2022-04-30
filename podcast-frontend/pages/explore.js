@@ -59,7 +59,7 @@ export default function Explore({props1}) {
 
       {/* <Button className = "bg-[red]" onClick = {handleSubmit}></Button> */}
       
-      <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-black">
+      <main className="flex-1  w-full  bg-gradient-to-b from-[#160129] to-[#131316] overflow-y-scroll scrollbar-thin scrollbar-thumb-white">
         <Search recommendedPodcast = {props1}/>
       </main>
 

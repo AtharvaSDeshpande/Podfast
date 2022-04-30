@@ -1,7 +1,7 @@
 import { Mongoose } from "mongoose";
-import dbConnect from "../../../db/dbconnect";
-import Podcast from "../../../models/Podcast";
-import User from "../../../models/User";
+import dbConnect from "../../../../db/dbconnect";
+import Podcast from "../../../../models/Podcast";
+import User from "../../../../models/User";
 
 dbConnect();
 
@@ -10,10 +10,11 @@ export default async (req, res) => {
     const { method } = req
     
     switch (method) {
-        case 'POST':
+        case 'GET':
             try {
-
-                const podcast = await Podcast.find({isArchived: false,isDeleted: false, creatorID: {"$in": subscriptions}}).sort({createdAt: "desc"}).limit(20).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
+                const uid = req.query.uid;
+                const user = await User.findById(uid).exec();
+                const podcast = await Podcast.find({isArchived: false,isDeleted: false, creatorID: {"$in": user.subscriptions}}).sort({createdAt: "desc"}).limit(20).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);

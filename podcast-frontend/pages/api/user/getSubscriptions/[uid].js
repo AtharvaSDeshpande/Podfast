@@ -1,6 +1,6 @@
 import { Mongoose } from "mongoose";
-import dbConnect from "../../../db/dbconnect";
-import User from "../../../models/User";
+import dbConnect from "../../../../db/dbconnect";
+import User from "../../../../models/User";
 
 
 
@@ -13,7 +13,7 @@ export default async (req, res) => {
     switch (method) {
         case 'GET':
             try {
-                User.findById(req.query.uid,{"salt": 0, "_password": 0}).exec((err,result)=> {
+                User.findById(req.query.uid,{"salt": 0, "_password": 0}).populate({path: "subscriptions",model: "User"}).exec((err,result)=> {
                     if (err)
                     {
                         res.status(400).json({success: false, message: "No User Found"});

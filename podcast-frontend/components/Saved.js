@@ -47,6 +47,7 @@ function Saved() {
                       creators = {podcast.podcastID.creatorNames.join(", ")} 
                       likes = {podcast.podcastID.likes}
                       views = {podcast.podcastID.views}
+                      creatorID = {podcast?.creatorID._id}
                 />
             ))}
 

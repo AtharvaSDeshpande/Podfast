@@ -1,19 +1,19 @@
 import { Mongoose } from "mongoose";
-import dbConnect from "../../../db/dbconnect";
-import Podcast from "../../../models/Podcast";
-import User from "../../../models/User";
+import dbConnect from "../../../../db/dbconnect";
+import Podcast from "../../../../models/Podcast";
+import User from "../../../../models/User";
 
 dbConnect();
 
 
 export default async (req, res) => {
     const { method } = req
-    
-    switch (method) {
-        case 'POST':
-            try {
 
-                const podcast = await Podcast.find({isArchived: false,isDeleted: false, creatorID: {"$in": subscriptions}}).sort({createdAt: "desc"}).limit(20).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
+    switch (method) {
+        case 'GET':
+            try {
+                console.log(req.query.pid)
+                const podcast = await Podcast.find({creatorID: req.query.pid,isArchived: false}).sort({createdAt: "desc"}).populate({path: "creatorID"}).populate({path:"likes" }).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);
@@ -22,10 +22,9 @@ export default async (req, res) => {
                     else
                     res.status(200).json({ success: true,
                         data: op});
+                    console.log(op);
                     
                 });
-
-                console.log(podcast);
                 
                 
             }
