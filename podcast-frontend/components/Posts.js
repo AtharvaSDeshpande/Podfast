@@ -30,14 +30,14 @@ function Posts() {
             })
             console.log(podcasts)
             // if (fetchedPodcasts.length != 0) {
-                // alert("if")
-                // setFetchedPodcasts(oldArray => [...oldArray, podcasts]);
+            // alert("if")
+            // setFetchedPodcasts(oldArray => [...oldArray, podcasts]);
 
-                console.log(fetchedPodcasts)
-                dispatch({
-                    type: actionTypes.SET_PODCASTS,
-                    podcasts: fetchedPodcasts
-                })
+            console.log(fetchedPodcasts)
+            dispatch({
+                type: actionTypes.SET_PODCASTS,
+                podcasts: fetchedPodcasts
+            })
             // }
             // else{
             //     alert("else")
@@ -68,7 +68,22 @@ function Posts() {
     return (
         <div>
             {podcasts?.map((podcast) => (
-                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} creatorColor = {podcast.creatorID.color} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} likes={podcast.likes} views={podcast.views} categories = {podcast?.categories} creatorID = {podcast?.creatorID._id}/>
+                <Post
+                    choice = "posts"
+                    id={podcast._id}
+                    img={podcast.img}
+                    username={podcast.creatorID.email.split("@")[0]} 
+                    name={podcast.creatorID.name} 
+                    creatorColor={podcast.creatorID.color} 
+                    caption={podcast?.description} 
+                    link={podcast.url} 
+                    summlink={podcast.summaryUrl} 
+                    title={podcast.title} 
+                    creators={podcast.creatorNames.join(", ")} 
+                    likes={podcast.likes} 
+                    views={podcast.views} 
+                    categories={podcast?.categories} 
+                    creatorID={podcast?.creatorID._id} />
             ))}
 
         </div>

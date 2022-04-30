@@ -8,7 +8,7 @@ import Creator from './Creator';
 import Post from './Post';
 
 function Search({ }) {
-  const [{ user, recommendedpodcasts }, dispatch] = useStateValue()
+  const [{ user, recommendedpodcasts,searchedpodcasts,searchedontagspodcasts }, dispatch] = useStateValue()
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState(false);
   const handleSearch = (e) => {
@@ -25,9 +25,9 @@ function Search({ }) {
   }
   const [value, setValue] = useState(0);
 
-  const [searchPodcasts, setSearchPodcasts] = useState([]);
+  // const [searchPodcasts, setSearchPodcasts] = useState([]);
   const [searchAuthors, setSearchAuthors] = useState([]);
-  const [searchOnTagsPodcasts, setSearchOnTagsPodcasts] = useState([]);
+  // const [searchOnTagsPodcasts, setSearchOnTagsPodcasts] = useState([]);
 
   const getSearchPodcasts = async () => {
     try {
@@ -42,7 +42,11 @@ function Search({ }) {
       })
       const podcasts = res.data.data;
       console.log(podcasts)
-      setSearchPodcasts(podcasts)
+      dispatch({
+        type: actionTypes.SET_SEARCHPODCASTS,
+        searchedpodcasts: podcasts
+      })
+      
 
       const userres = await axios('../api/user/search', {
         method: "POST",
@@ -66,7 +70,11 @@ function Search({ }) {
       })
       const podcastsOnTags = tagsres.data.data;
       console.log(podcastsOnTags)
-      setSearchOnTagsPodcasts(podcastsOnTags)
+      dispatch({
+        type: actionTypes.SET_SEARCHONTAGSPODCASTS,
+        searchedontagspodcasts: podcastsOnTags
+      })
+     
 
 
     } 
@@ -79,7 +87,7 @@ function Search({ }) {
     setValue(newValue)
   }
 
-
+  const [recommIds,setRecommIds] = useState();
   useEffect(async () => {
     let url = 'http://localhost:8000/' + user?._id;
     const djangores = await axios.get(url)
@@ -88,6 +96,7 @@ function Search({ }) {
       return pod.id
     })
     console.log(ids)
+    setRecommIds(ids);
     const res = await axios("../api/podcast/getRecomendedPodcasts/", {
       method: "POST",
       headers: {
@@ -146,12 +155,27 @@ function Search({ }) {
           </Tabs>
         </div>
         {value == 0 ? <div>
-          {searchPodcasts.length == 0 ? (<>
+          {searchedpodcasts.length == 0 ? (<>
             <p className='text-neutral-300'>No Results Found</p>
 
           </>) : (<>
-            {searchPodcasts.map(podcast => (
-              <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} categories={podcast?.categories} creatorID = {podcast?.creatorID._id}/>
+            {searchedpodcasts.map(podcast => (
+              <Post 
+                choice = "searched"
+                id={podcast._id} 
+                img={podcast.img} 
+                username={podcast.creatorID.email.split("@")[0]} 
+                name={podcast.creatorID.name} 
+                caption={podcast?.description} 
+                link={podcast.url} 
+                summlink={podcast.summaryUrl} 
+                title={podcast.title} 
+                creators={podcast.creatorNames.join(", ")} 
+                likes={podcast.likes} 
+                views={podcast.views}
+                categories={podcast?.categories} 
+                creatorID = {podcast?.creatorID._id}
+                otherData = {search}/>
 
             ))}</>)}
         </div> : value == 1 ? (<div>
@@ -162,12 +186,27 @@ function Search({ }) {
 
         </div>) : (
           <div>
-            {searchOnTagsPodcasts.length == 0 ? (<>
+            {searchedontagspodcasts.length == 0 ? (<>
               <p className='text-neutral-300'>No Results Found</p>
 
             </>) : (<>
-              {searchOnTagsPodcasts.map(podcast => (
-                <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} creatorID = {podcast?.creatorID._id}/>
+              {searchedontagspodcasts.map(podcast => (
+                <Post
+                  choice = "searchedOnTags" 
+                  id={podcast._id} 
+                  img={podcast.img} 
+                  username={podcast.creatorID.email.split("@")[0]} 
+                  name={podcast.creatorID.name} 
+                  caption={podcast?.description} 
+                  link={podcast.url} 
+                  summlink={podcast.summaryUrl} 
+                  title={podcast.title} 
+                  creators={podcast.creatorNames.join(", ")}
+                  likes={podcast.likes} 
+                  views={podcast.views}
+                  categories = {podcast?.categories} 
+                  creatorID = {podcast?.creatorID._id}
+                  otherData={search}/>
 
               ))}</>)}
           </div>
@@ -180,7 +219,22 @@ function Search({ }) {
 
         ))} */}
         {recommendedpodcasts.map(podcast => (
-          <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} categories={podcast?.categories} creatorID = {podcast?.creatorID._id}/>
+          <Post 
+            choice = "recommended"
+            id={podcast._id} 
+            img={podcast.img} 
+            username={podcast.creatorID.email.split("@")[0]} 
+            name={podcast.creatorID.name} 
+            caption={podcast?.description} 
+            link={podcast.url} 
+            summlink={podcast.summaryUrl} 
+            title={podcast.title} 
+            creators={podcast.creatorNames.join(", ")}
+            likes={podcast.likes} 
+            views={podcast.views} 
+            categories={podcast?.categories} 
+            creatorID = {podcast?.creatorID._id}
+            otherData= {recommIds}/>
 
         ))}
       </div>}

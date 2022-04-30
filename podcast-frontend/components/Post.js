@@ -9,7 +9,7 @@ import Modal from '@material-ui/core/Modal';
 import InputEmoji from "react-input-emoji";
 import { useRouter } from "next/router";
 
-function Post({ id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor, categories = null,creatorID }) {
+function Post({ choice, id, username, name, title, img, userImg, caption: summary, link, summlink, creators, likes, views, creatorColor, categories = null, creatorID ,otherData = null}) {
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [{ user, savedpodcasts, podcast }, dispatch] = useStateValue();
@@ -36,6 +36,162 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
     const [saveIsDisabled, setSaveIsDisabled] = useState(false);
 
     // alert (isLiked)
+
+    const updateReducer = async (button) => {
+        switch (choice) {
+            case "posts": {
+                try {
+
+                    const res = await axios('../api/podcast/getSubscribedPodcasts/' + user._id, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                    })
+                    const podcasts = res.data.data;
+                    if (button == "like") {
+                        const like = !isLiked;
+                        setIsLiked(like);
+                    }
+                    dispatch({
+                        type: actionTypes.SET_PODCASTS,
+                        podcasts: podcasts
+                    })
+                    // console.log(posts)
+                } catch (error) {
+                    console.log(error)
+                }
+                break;
+            }
+            case "searched": {
+                try {
+
+                    const res = await axios('../api/podcast/search', {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json"
+                      },
+                      data: { title: otherData.toLowerCase() }
+              
+                    })
+                    const podcasts = res.data.data;
+                    // console.log(podcasts)
+                    if (button == "like")
+                    {
+                        const like = !isLiked;
+                        setIsLiked(like);
+                    }
+                    dispatch({
+                      type: actionTypes.SET_SEARCHPODCASTS,
+                      searchedpodcasts: podcasts
+                    })
+                    // console.log(posts)
+                } catch (error) {
+                    console.log(error)
+                }
+                break;
+            }
+            case "searchedOnTags": {
+                try {
+                    const tagsres = await axios('../api/podcast/searchOnTags', {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        data: { title: otherData.toLowerCase()  }
+                
+                      })
+                      const podcastsOnTags = tagsres.data.data;
+                      
+                      
+                    // console.log(podcasts)
+                    if (button == "like")
+                    {
+                        const like = !isLiked;
+                        setIsLiked(like);
+                    }
+                    dispatch({
+                        type: actionTypes.SET_SEARCHONTAGSPODCASTS,
+                        searchedontagspodcasts: podcastsOnTags
+                      })
+                    // console.log(posts)
+                } catch (error) {
+                    console.log(error)
+                }
+                break;
+            }
+            case "recommended": {
+                try {
+
+                    const res = await axios("../api/podcast/getRecomendedPodcasts/", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        data: { ids: otherData }
+                      })
+                    //   console.log(res.data.data)
+                    if (button == "like") {
+                        const like = !isLiked;
+                        setIsLiked(like);
+                    }
+                    dispatch({
+                        type: actionTypes.SET_RECOMMENDEPODCASTS,
+                        recommendedpodcasts: res.data.data
+                      })
+                    // console.log(posts)
+                } catch (error) {
+                    console.log(error)
+                }
+                break;
+            }
+            case "creatorProfile": {
+                try {
+
+                    const res = await axios('../api/podcast/creator/' + otherData)
+       
+       
+                    //   console.log(res.data.data)
+                    if (button == "like") {
+                        const like = !isLiked;
+                        setIsLiked(like);
+                    }
+                    dispatch({
+                        type: actionTypes.SET_CREATORSPODCASTS,
+                        creatorspodcasts: res.data.data
+                    })
+                    // console.log(posts)
+                } catch (error) {
+                    console.log(error)
+                }
+                break;
+            }
+            case "saved": {
+                try {
+                    
+                    const res = await axios("../api/podcast/getSavedPodcasts/" + otherData,{
+                        method: "GET",
+                      })
+                      
+                      
+                    //   console.log(res.data.data)
+                    if (button == "like") {
+                        const like = !isLiked;
+                        setIsLiked(like);
+                    }
+                    dispatch({
+                        type: actionTypes.SET_SAVEDPODCASTS,
+                        savedpodcasts: res.data.data,
+                      })
+                    // console.log(posts)
+                } catch (error) {
+                    console.log(error)
+                }
+                break;
+            }
+        }
+
+    }
 
     const handleSave = async (e) => {
         // console.log(e);
@@ -84,33 +240,8 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 data: { podcastID: id, userID: user._id }
 
             })
-            // const likes = res?.data?.data?.likes
-            // console.log(likes);
-            try {
 
-                const res = await axios('../api/podcast/podcasts', {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-
-                })
-                const podcasts = res.data.data;
-                const like = !isLiked;
-                setIsLiked(like);
-                dispatch({
-                    type: actionTypes.SET_PODCASTS,
-                    podcasts: podcasts
-                })
-                // console.log(posts)
-
-
-            } catch (error) {
-
-
-                console.log(error)
-            }
+            updateReducer("like")
         } catch (err) {
             console.log(err)
         }
@@ -132,26 +263,8 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 data: { podcastID: id, userID: user._id }
 
             })
-            // const likes = res?.data?.data?.likes
-            // console.log(likes);
-            try {
 
-                const res = await axios('../api/podcast/podcasts', {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-
-
-                })
-                const podcasts = res.data.data;
-                dispatch({
-                    type: actionTypes.SET_PODCASTS,
-                    podcasts: podcasts
-                })
-            } catch (error) {
-                console.log(error)
-            }
+            updateReducer("view")
         } catch (err) {
             console.log(err)
         }
@@ -210,8 +323,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
 
     const postComment = async (e) => {
         console.log(commentInput);
-        if (commentInput != "")
-        {
+        if (commentInput != "") {
             const res = await axios("../api/podcast/comments/" + id, {
                 method: "PUT",
                 data: {
@@ -224,7 +336,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             console.log(res.data);
 
         }
-        
+
 
     }
 
@@ -234,19 +346,19 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 <img src={img} className=" h-[180px] w-[180px] object-cover border  mr-3" alt="" />
                 <div className="w-full">
                     <div className=" flex justify-between items-center p-5">
-                        <div className="flex items-center cursor-pointer" onClick={()=>{
-                            router.push('/creator/'+ creatorID)
+                        <div className="flex items-center cursor-pointer" onClick={() => {
+                            router.push('/creator/' + creatorID)
                         }}>
-                        <Tooltip className=" capitalize" title={name}>
-                            <Avatar
-                                alt=""
+                            <Tooltip className=" capitalize" title={name}>
+                                <Avatar
+                                    alt=""
 
-                                className={`h-10 w-10  uppercase  m-2`}
-                                style={{ backgroundColor: `${creatorColor}` }}
-                            >{username[0]}</Avatar>
+                                    className={`h-10 w-10  uppercase  m-2`}
+                                    style={{ backgroundColor: `${creatorColor}` }}
+                                >{name[0]}</Avatar>
 
-                        </Tooltip>
-                        <p className="flex-1 font-bold ">{username}</p>
+                            </Tooltip>
+                            <p className="flex-1 font-bold ">{username}</p>
                         </div>
                         <div>
                             {summlink != null ? (
@@ -290,7 +402,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                             {isLiked ? (<Favorite className="btn text-[#f3027a]" />) : (<FavoriteBorderOutlined className="btn" />)}
                         </button>
                         <Comment className="btn" onClick={handleCommentsModalOpen} />
-                        <Send className="btn -rotate-90" />
+                        {/* <Send className="btn -rotate-90" /> */}
 
 
                     </div>
@@ -340,14 +452,14 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                         {commentsData?.map((comment) => (
                             <p className="px-4 mt-4 ">
                                 <div className="flex">
-                                    <div className="m-1 capitalize"><Avatar style = {{backgroundColor: comment.userID.color}}>{comment.userID.name[0]}</Avatar></div>
+                                    <div className="m-1 capitalize"><Avatar style={{ backgroundColor: comment.userID.color }}>{comment.userID.name[0]}</Avatar></div>
                                     <div className="w-full">
                                         <div className="flex justify-between">
                                             <span className="font-semibold mr-3 text-sm">{comment.userID.name}</span>
                                             <p className="text-sm text-[gray]">{new Date(comment.timestamp).toDateString() + " at " + new Date(comment.timestamp).toTimeString().split("G")[0]}</p>
 
                                         </div>
-                                       <p>{comment.comment}</p>
+                                        <p>{comment.comment}</p>
 
                                     </div>
 
