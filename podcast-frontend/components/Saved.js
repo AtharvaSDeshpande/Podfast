@@ -36,7 +36,9 @@ function Saved() {
         {/* Posts */}
         <div>
             {savedpodcasts?.map((podcast) => (
-                <Post id={podcast.podcastID._id} 
+                <Post 
+                      choice = "saved"
+                      id={podcast.podcastID._id} 
                       img= {podcast.podcastID.img} 
                       username= {podcast.podcastID?.creatorID?.email?.split("@")[0]} 
                       name = {podcast.podcastID.creatorID.name}  
@@ -47,7 +49,9 @@ function Saved() {
                       creators = {podcast.podcastID.creatorNames.join(", ")} 
                       likes = {podcast.podcastID.likes}
                       views = {podcast.podcastID.views}
-                      creatorID = {podcast?.creatorID._id}
+                      creatorID = {podcast?.podcastID?.creatorID._id}
+                      categories = {podcast?.podcastID?.categories}
+                      otherData = {user._id}
                 />
             ))}
 
