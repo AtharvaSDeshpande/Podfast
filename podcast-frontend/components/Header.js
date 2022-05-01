@@ -130,11 +130,11 @@ function Header() {
                     </div> */}
 
                     {/* <AddCircleOutline className="navButton" onClick={() => { setOpen(true) }} /> */}
-                    <div onClick = {()=>navigate("/trending")}>
+                    {/* <div onClick = {()=>navigate("/trending")}>
                         <Tooltip title="Trending">
                             <div className="navButton"><Whatshot /></div>
                         </Tooltip>
-                    </div>
+                    </div> */}
                     <div onClick = {()=>navigate("/saved")} >
                     <Tooltip title="Saved">
                         <div className="navButton"><BookmarkBorderOutlined /></div>
@@ -206,12 +206,12 @@ function Header() {
                     </ListItemIcon>
                     <ListItemText primary="Direct" />
                 </StyledMenuItem> */}
-                <StyledMenuItem onClick = {()=>navigate("/trending")}>
+                {/* <StyledMenuItem onClick = {()=>navigate("/trending")}>
                     <ListItemIcon>
                         <Whatshot fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="Trending" />
-                </StyledMenuItem>
+                </StyledMenuItem> */}
                 <StyledMenuItem onClick = {()=>navigate("/saved")}>
                     <ListItemIcon>
                         <BookmarkBorderOutlined fontSize="small" />

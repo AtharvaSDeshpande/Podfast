@@ -8,8 +8,9 @@ import Post from './Post';
 
 function CreatorProfile({ id }) {
     const [{ user, creatorspodcasts}, dispatch] = useStateValue();
-    const [subscribed,setSubscribed] = useState(false);
     const [creator, setCreator] = useState();
+    const [subscribed,setSubscribed] = useState(creator?.subscribers?.findIndex(id => {id == user._id}));
+
     const getUser = async (id) => {
         const res = await axios("../api/user/" + id);
         setCreator(res.data.data)
@@ -25,10 +26,10 @@ function CreatorProfile({ id }) {
     useEffect(() => {
         if (id)
         {
-            getUser(id).then(()=>{
+            getUser(id)//.then(()=>{
                 // console.log(creator.subscribers.findIndex(id => {id == user._id}))
-                setSubscribed(creator?.subscribers?.findIndex(id => {id == user._id}))
-            });
+            setSubscribed(creator?.subscribers?.findIndex(id => {id == user._id}))
+            // });
             getPodcasts(id);
         }
     }, [id])
@@ -104,7 +105,23 @@ function CreatorProfile({ id }) {
                 </div>
                 <div>
                         {creatorspodcasts?.map((podcast) => (
-                            <Post id={podcast._id} img={podcast.img} username={podcast.creatorID.email.split("@")[0]} name={podcast.creatorID.name} creatorColor={podcast.creatorID.color} caption={podcast?.description} link={podcast.url} summlink={podcast.summaryUrl} title={podcast.title} creators={podcast.creatorNames.join(", ")} likes={podcast.likes} views={podcast.views} categories={podcast?.categories} />
+                            <Post 
+                            choice = "creatorProfile"
+                            id={podcast._id} 
+                            img={podcast.img} 
+                            username={podcast.creatorID.email.split("@")[0]} 
+                            name={podcast.creatorID.name} 
+                            creatorColor={podcast.creatorID.color} 
+                            caption={podcast?.description} 
+                            link={podcast.url} 
+                            summlink={podcast.summaryUrl} 
+                            title={podcast.title} 
+                            creators={podcast.creatorNames.join(", ")} 
+                            likes={podcast.likes} 
+                            views={podcast.views} 
+                            categories={podcast?.categories} 
+                            creatorID={podcast?.creatorID._id}
+                            otherData={id}/>
                         ))}
 
                     </div>

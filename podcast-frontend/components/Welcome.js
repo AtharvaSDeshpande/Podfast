@@ -15,7 +15,7 @@ function Welcome() {
             </Head>
 
             <div className="pt-24">
-                  <Signupusers/>
+                  {/* <Signupusers/> */}
                   <div className="container px-5  flex flex-wrap flex-col md:flex-row items-center">
                         {/*Left Col*/}
                         <div className="flex flex-col w-full md:w-3/5 justify-center items-start text-center md:text-left">
