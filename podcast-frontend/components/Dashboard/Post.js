@@ -187,7 +187,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
             <div className="flex">
                 <Button type="submit" variant="contained" color="secondary" className="m-1 w-full">Update</Button>
                 <Button type="submit" variant="contained" color="secondary" className="m-1 w-full" onClick={archive}>{isArchived ? (<p>Restore</p>) : (<p>Archive</p>)}</Button>
-                <Button type="submit" variant="contained" color="secondary" className="m-1 w-full">Delete</Button>
+                {/* <Button type="submit" variant="contained" color="secondary" className="m-1 w-full">Delete</Button> */}
 
             </div>
 
@@ -196,7 +196,7 @@ function Post({ id, username, name, title, img, userImg, caption: summary, link,
                 open={commentsModalOpen}
                 onClose={handleCommentsModalClose}
             >
-                <div style={modalStyle} className={`${classes.paper} border-0 p-1 h-[200px] overflow-y-scroll`}>
+                <div style={modalStyle} className={`${classes.paper} border-0 p-1 h-[200px] overflow-y-scroll scrollbar-thin scrollbar-thumb-slate-400``}>
                     <div className="">
                         {commentsData?.map((comment) => (
                             <p className="px-4 mt-4 ">
