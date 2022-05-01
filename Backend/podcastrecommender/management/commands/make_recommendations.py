@@ -6,8 +6,8 @@ sys.path.append("/home/shruti/cWork/college/BE PROJECT/Git2/Podfast/Backend/podc
 from utils import *
 from bson.objectid import ObjectId
 
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
+# from sklearn.feature_extraction.text import TfidfVectorizer
+# from sklearn.metrics.pairwise import linear_kernel
 
 import nltk
 import editdistance
@@ -16,8 +16,8 @@ import itertools
 import networkx as nx
 import os
 import pandas as pd
-import matplotlib.pyplot as plt
-from wordcloud import WordCloud
+# import matplotlib.pyplot as plt
+# from wordcloud import WordCloud
 
 class MyPodcast : 
     id =""
