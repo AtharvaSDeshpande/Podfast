@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {
     Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, BarElement,
 } from 'chart.js';
-
+import { Whatshot } from "@material-ui/icons";
 ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -128,15 +128,15 @@ function Growth() {
             <br></br>
             <br></br>
 
-            <div class="relative max-w-7xl mx-auto">
-                    <div class="absolute -inset-1 bg-gradient-to-r from-yellow-600 to-red-600 rounded-lg blur opacity-18"></div>
+            <div class="relative max-w-7xl mx-auto items-center">
+                    <div class="absolute -inset-1 bg-gradient-to-r from-[#aa0808] to-[yellow] rounded-lg blur opacity-18"></div>
             
                     <div class="relative px-7 py-6 bg-black ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
-                    <svg class="w-8 h-8 text-purple-600" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 6.75C6.75 5.64543 7.64543 4.75 8.75 4.75H15.25C16.3546 4.75 17.25 5.64543 17.25 6.75V19.25L12 14.75L6.75 19.25V6.75Z"></path>
-                    </svg>
+                    <div className = "flex items-center">
+                    <Whatshot className = "text-indigo-400 mr-1" ></Whatshot>
                     <div class="space-y-2">
                         <p class="text-slate-2000 text-indigo-400">Trending Tags this week</p>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -144,15 +144,15 @@ function Growth() {
             <br></br>
             <br></br>
 
-            <div className="grid grid-cols-5 gap-3 relative max-w-7xl mx-auto">
+            <div className="grid grid-cols-4 gap-3 relative max-w-7xl mx-auto">
                 {tags?.map((tag) => (
                 <div className=" flex flex-wrap w-fit relative mx-2">
                     <div className="w-fit mx-auto">
                         <div className="relative group">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
-                            <div className="relative px-7 py-6 bg-white ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-[#7df4ff] to-[#e1e1ff] rounded-lg opacity-25 group-hover:opacity-100 group-hover:blur transition duration-1000 group-hover:duration-200"></div>
+                            <div className="relative px-7 py-6 bg-gradient-to-r from-[#5f2c82] to-[#49a09d] ring-1 ring-gray-900/5 rounded-lg leading-none flex items-top justify-start space-x-6">
                                 <div className="space-y-2">
-                                    <p className="block text-indigo-400 group-hover:text-slate-800 transition duration-200">{tag}</p>
+                                    <p className="block text-[white] group-hover:text-[#d399f5] transition duration-200">{tag}</p>
                                 </div>
                             </div>
                         </div>
