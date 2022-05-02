@@ -75,7 +75,7 @@ function Posts() {
                     username={podcast.creatorID.email.split("@")[0]} 
                     name={podcast.creatorID.name} 
                     creatorColor={podcast.creatorID.color} 
-                    caption={podcast?.description} 
+                    caption={podcast?.textSummary || podcast?.description} 
                     link={podcast.url} 
                     summlink={podcast.summaryUrl} 
                     title={podcast.title} 
