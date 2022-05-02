@@ -412,11 +412,11 @@ def summary(id):
         auddsumm += temp
     auddsumm += AudioSegment.from_wav("audio/split/chunk"+ str(length -1) + ".wav")
     auddsumm.export("summary/" + id + '.wav', format="wav")
-
-    if(uploadSumm(id,list(keywords),description)):
-        sendMail(id,getpodcast,True)
-    else:
-        sendMail(id,getpodcast,False)
+    uploadSumm(id,list(keywords),description)
+    # if():
+    #     sendMail(id,getpodcast,True)
+    # else:
+    #     sendMail(id,getpodcast,False)
 
     dir = 'audio/split'
     for f in os.listdir(dir):
