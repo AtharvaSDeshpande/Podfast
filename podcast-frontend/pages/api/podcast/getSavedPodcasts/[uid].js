@@ -14,7 +14,7 @@ export default async (req, res) => {
             const uid = req.query.uid
             console.log(uid);
             
-            SaveSchema.find({ userID: uid }).populate({ path: "podcastID",isArchived: {$ne: true},populate:{path: "creatorID"}}).exec((err, op) => {
+            SaveSchema.find({ userID: uid }).populate({ path: "podcastID",isArchived: {$ne: true},populate: {path: "creatorID likes"}}).exec((err, op) => {
                 if (err) {
                     console.log(err)
                     res.status(400).json({ success: false, message: JSON.stringify(err) });

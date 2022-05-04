@@ -13,7 +13,7 @@ export default async (req, res) => {
         case 'POST':
             try {
                
-                const podcast = await Podcast.find({title: {$regex: '.*' + req.body.title + '.*'} }).sort({title: "asc",createdAt: "desc"}).populate({path: "creatorID"}).exec((err,op)=>{
+                const podcast = await Podcast.find({title: {$regex: '.*' + req.body.title + '.*'} }).sort({title: "asc",createdAt: "desc"}).populate({path: "creatorID"}).populate({path: "likes"}).exec((err,op)=>{
                     if (err)
                     {
                         console.log(err);
