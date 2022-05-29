@@ -1,1 +1,0 @@
-## Transcripts will get auto generated in this folder
