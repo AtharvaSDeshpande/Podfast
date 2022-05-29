@@ -1,7 +1,7 @@
 import pymongo
 from django.conf import settings
 def demo():
-    connect_string = 'mongodb+srv://atharvasd14:6IoJbs4HD0uj7JiE@podfast.prsoq.mongodb.net/PodFastDatabase?retryWrites=true&w=majority'
+    connect_string = '' #ADD YOUR CONNECTION STRING HERE
 
     my_client = pymongo.MongoClient(connect_string)
 

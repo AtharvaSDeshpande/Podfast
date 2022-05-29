@@ -96,7 +96,7 @@ DATABASES = {
         'NAME': 'PodFastDatabase',
         'ENFORCE_SCHEMA': False,
         'CLIENT': {
-            'host':'mongodb+srv://atharvasd14:6IoJbs4HD0uj7JiE@podfast.prsoq.mongodb.net/PodFastDatabase?retryWrites=true&w=majority'
+            'host':'' #ADD YOUR CONNECTION STRING HERE
         }  
     }
 }
